@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "DB_Connection.js",
+  "scripts": {
+    "start": "node DB_Connection.js",
+    "devStart": "nodemon DB_Connection.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.20"
+  }
+}
