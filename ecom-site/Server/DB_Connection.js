@@ -18,13 +18,14 @@ db.getConnection((err, connection) => {
   connection.release();
 });
 
-app.get("/", (err, res) => {
-  const sqlInsert =
-    "INSERT INTO myproducts (productName, productDesc, productPrice) VALUES ('Iphone', 'cool and slick', '4.99');";
-  db.query(sqlInsert, (err, result) => {
-    res.send("Hello World!");
-    console.log(err);
-  });
+app.post("/api/insert", (req, res) => {
+  const sqlInert =
+    "INSERT INTO myproducts (productName, productDesc, productPrice) VALUES (?,?)";
+  db.query(
+    sqlInert,
+    [productName, productDesc, productPrice],
+    (err, result) => {}
+  );
 });
 
 app.listen(3001, () => {
