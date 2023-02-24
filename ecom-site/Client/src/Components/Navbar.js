@@ -29,29 +29,17 @@ function Navbar() {
         >
           <ul className="navbar-nav">
             <li className="nav-item">
-              <NavLink
-                className="nav-link"
-                activeClassName="active"
-                to="/products"
-              >
+              <NavLink className="nav-link" to="/products">
                 Products
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink
-                className="nav-link"
-                activeClassName="active"
-                to="/about"
-              >
+              <NavLink className="nav-link" to="/about">
                 About Us
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink
-                className="nav-link"
-                activeClassName="active"
-                to="/contact"
-              >
+              <NavLink className="nav-link" to="/contact">
                 Contact Us
               </NavLink>
             </li>
