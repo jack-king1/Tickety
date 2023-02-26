@@ -41,6 +41,15 @@ app.post("/api/insert", (req, res) => {
   );
 });
 
+app.post("/api/delete", (req, res) => {
+  const sqlInert = "DELETE FROM myproducts WHERE productName = ?";
+  db.query(
+    sqlInert,
+    [productName, productDesc, productPrice],
+    (err, result) => {}
+  );
+});
+
 app.listen(3001, () => {
   console.log("running on port 3001!");
 });
