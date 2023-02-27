@@ -7,7 +7,7 @@ const mysql = require("mysql");
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "password",
+  password: "nYs378AA",
   database: "ecomdb",
 });
 
@@ -32,19 +32,25 @@ app.get("/api/get", (req, res) => {
 });
 
 app.post("/api/insert", (req, res) => {
-  const sqlInert =
-    "INSERT INTO myproducts (productName, productDesc, productPrice) VALUES (?,?)";
+  const productName = req.body.productName;
+  const productDesc = req.body.productDesc;
+  const productPrice = req.body.productPrice;
+
+  const sqlInsert =
+    "INSERT INTO myproducts (productName, productDesc, productPrice) VALUES (?,?,?)";
   db.query(
-    sqlInert,
+    sqlInsert,
     [productName, productDesc, productPrice],
-    (err, result) => {}
+    (err, result) => {
+      console.log(err);
+    }
   );
 });
 
 app.post("/api/delete", (req, res) => {
-  const sqlInert = "DELETE FROM myproducts WHERE productName = ?";
+  const sqlInsert = "DELETE FROM myproducts WHERE productName = ?";
   db.query(
-    sqlInert,
+    sqlInsert,
     [productName, productDesc, productPrice],
     (err, result) => {}
   );
