@@ -48,12 +48,11 @@ app.post("/api/insert", (req, res) => {
 });
 
 app.post("/api/delete", (req, res) => {
-  const sqlInsert = "DELETE FROM myproducts WHERE productName = ?";
-  db.query(
-    sqlInsert,
-    [productName, productDesc, productPrice],
-    (err, result) => {}
-  );
+  const productName = req.body.productName;
+  const sqlDelete = "DELETE FROM myproducts WHERE productName = ?";
+  db.query(sqlDelete, productName, (err, result) => {
+    console.log(err);
+  });
 });
 
 app.listen(3001, () => {

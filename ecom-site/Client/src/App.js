@@ -6,6 +6,7 @@ import Products from "./Components/Products";
 import About from "./Components/About";
 import Contact from "./Components/Contact";
 import Home from "./Components/Home";
+import Admin from "./Components/Admin";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/admin" element={<Admin />} />
           </Routes>
         </div>
       </BrowserRouter>
