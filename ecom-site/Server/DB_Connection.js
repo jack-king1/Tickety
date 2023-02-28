@@ -4,6 +4,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const mysql = require("mysql");
 
+//password is password on windows.
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
