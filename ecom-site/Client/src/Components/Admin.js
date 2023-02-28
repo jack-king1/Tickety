@@ -78,6 +78,14 @@ function Admin() {
         </form>
         <button onClick={removeProductFromDB}>Click to delete entry</button>
       </div>
+      <div className="mt-4">
+        <form action="/store-image" method="POST" enctype="multipart/form-data">
+          <label>Store Image</label>
+          <br></br>
+          <input type="file" name="image" multiple />
+          <button type="submit">Upload</button>
+        </form>
+      </div>
     </div>
   );
 }
