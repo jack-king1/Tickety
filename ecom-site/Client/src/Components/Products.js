@@ -12,16 +12,26 @@ function Products() {
   };
 
   return (
-    <div>
-      <button onClick={debugCLick}>CLick Me</button>
-      {productList.map((val) => {
-        return (
-          <h1>
-            Product: {val.productName} | Product Description: {val.productDesc}{" "}
-            | Product Price: {val.productPrice}
-          </h1>
-        );
-      })}
+    <div className="container">
+      <div>
+        <button onClick={debugCLick}>CLick Me</button>
+        {productList.map((val) => {
+          return (
+            <div className="border border-primary container mt-3">
+              <div className="row">
+                <div id="previewImg" className="col-2">
+                  IMG
+                </div>
+                <div id="productInfo" className="col-10">
+                  <h1>{val.productName}</h1>
+                  <h4>{val.productDesc}</h4>
+                  <h3>£{val.productPrice}</h3>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

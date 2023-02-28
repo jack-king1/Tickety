@@ -24,6 +24,7 @@ db.getConnection((err, connection) => {
   connection.release();
 });
 
+// myproducts
 app.get("/api/get", (req, res) => {
   const sqlSelect = "SELECT * FROM myproducts";
   db.query(sqlSelect, (err, result) => {
