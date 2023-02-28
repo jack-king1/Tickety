@@ -3,6 +3,7 @@ const app = express();
 const bodyparser = require("body-parser");
 const cors = require("cors");
 const mysql = require("mysql");
+const multer = require("multer");
 
 //password is password on windows.
 const db = mysql.createPool({
@@ -15,7 +16,7 @@ const db = mysql.createPool({
 app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
-
+app.use(express.static("./public"));
 db.getConnection((err, connection) => {
   if (err) {
     console.error("Error connecting to MySQL database: " + err.stack);
