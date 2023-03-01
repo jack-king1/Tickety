@@ -34,6 +34,14 @@ app.get("/api/get", (req, res) => {
   });
 });
 
+app.get("/api/getproduct", (req, res) => {
+  const productName = req.body.productName;
+  const sqlSelect = "SELECT * FROM myproducts WHERE productName = ?";
+  db.query(sqlSelect, [productName], (err, result) => {
+    res.send(result);
+  });
+});
+
 app.post("/api/insert", (req, res) => {
   const productName = req.body.productName;
   const productDesc = req.body.productDesc;
@@ -57,6 +65,9 @@ app.post("/api/delete", (req, res) => {
     console.log(err);
   });
 });
+
+//Images
+app.post("/api/insertimage", (req, res) => {});
 
 app.listen(3001, () => {
   console.log("running on port 3001!");

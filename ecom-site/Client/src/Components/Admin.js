@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Axios from "axios";
 
 function Admin() {
@@ -7,9 +7,43 @@ function Admin() {
   const [productPrice, setProductPrice] = useState("test");
   const [itemDelete, setItemDelete] = useState("");
   const [productList, setProductList] = useState([]);
+  const [uploadImages, setUploadImages] = useState([]);
+  const [tempProduct, setTempProduct] = useState();
+
+  //do something when upload images variable changes
+  useEffect(() => {
+    // Update the document title using the browser API.
+    if (uploadImages.length > 0) {
+      alert("New images addedd successfully!");
+    }
+  }, [uploadImages]);
 
   const addProductToDB = () => {
     Axios.post("http://localhost:3001/api/insert", {
+      productName: productName,
+      productDesc: productDesc,
+      productPrice: productPrice,
+    }).then(() => {
+      alert("successful insert");
+      // initial data has been inserted above...
+      // now retrieve productID for inserting images.
+      Axios.get("http://localhost:3001/api/getproduct", {
+        params: { productName: productName },
+      }).then((response) => {
+        console.log(response);
+        setTempProduct(response.data);
+        //loop here?
+      });
+
+      //Now we have the product data we want, loop through each image
+      //and store them in the mysql database as blob data.
+
+      //after we can remove the temporary reference to the images since they are in the database.
+    });
+  };
+
+  const addImagesToDB = () => {
+    Axios.post("http://localhost:3001/api/insertimage", {
       productName: productName,
       productDesc: productDesc,
       productPrice: productPrice,
@@ -79,12 +113,34 @@ function Admin() {
         <button onClick={removeProductFromDB}>Click to delete entry</button>
       </div>
       <div className="mt-4">
-        <form action="/store-image" method="POST" enctype="multipart/form-data">
+        <form action="/store-image" method="POST" encType="multipart/form-data">
           <label>Store Image</label>
           <br></br>
-          <input type="file" name="image" multiple />
+          <input
+            type="file"
+            name="image"
+            onChange={(e) => {
+              console.log(e.target.files);
+              const fileListAsArray = Array.from(e.target.files);
+              setUploadImages(fileListAsArray);
+              //setUploadImages();
+            }}
+            multiple
+          />
           <button type="submit">Upload</button>
         </form>
+        <div className="d-flex">
+          {uploadImages.map((val, key) => {
+            console.log(uploadImages);
+            return (
+              <img
+                alt="not found"
+                width={"250px"}
+                src={URL.createObjectURL(val)}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
