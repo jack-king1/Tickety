@@ -67,7 +67,23 @@ app.post("/api/delete", (req, res) => {
 });
 
 //Images
-app.post("/api/insertimage", (req, res) => {});
+app.post("/api/insertimage", (req, res) => {
+  const imageName = req.body.imageName;
+  const imageData = req.body.productImage;
+  const fk_productID = req.body.productID;
+
+  console.log(imageData);
+
+  const sqlInsertImage =
+    "INSERT INTO productimages (imageName, imageBlob, customerID) VALUES (?,?,?)";
+  db.query(
+    sqlInsertImage,
+    [imageName, imageData, fk_productID],
+    (err, result) => {
+      console.log(err);
+    }
+  );
+});
 
 app.listen(3001, () => {
   console.log("running on port 3001!");

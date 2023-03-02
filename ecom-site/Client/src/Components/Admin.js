@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Axios from "axios";
+var fs = require("fs");
 
 function Admin() {
   const [productName, setProductName] = useState("test");
@@ -8,6 +9,7 @@ function Admin() {
   const [itemDelete, setItemDelete] = useState("");
   const [productList, setProductList] = useState([]);
   const [uploadImages, setUploadImages] = useState([]);
+  const [imageBlobData, setImageBlobData] = useState([]);
   const [tempProduct, setTempProduct] = useState();
 
   //do something when upload images variable changes
@@ -34,7 +36,6 @@ function Admin() {
         setTempProduct(response.data);
         //loop here?
       });
-
       //Now we have the product data we want, loop through each image
       //and store them in the mysql database as blob data.
 
@@ -66,6 +67,45 @@ function Admin() {
       setProductList(response.data);
     });
   };
+
+  const ConvertImageToBlob = () => {
+    if (uploadImages.length > 0) {
+      let tempBlobData = [];
+      setImageBlobData([]);
+      uploadImages.map((val, key) => {
+        let blob = val.tempBlobData.push(val);
+      });
+    } else {
+      console.log("no images to convert!");
+    }
+  };
+
+  async function encodeImageFileAsURL() {
+    return new Promise((resolve) => {
+      var file = uploadImages[0];
+      console.log(file);
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = function () {
+        console.log("RESULT", reader.result);
+        resolve(reader.result);
+      };
+    });
+  }
+
+  async function DebugImageBlob() {
+    if (uploadImages.length > 0) {
+      let blobImage;
+      blobImage = await encodeImageFileAsURL();
+      console.log("@above axios.pos: ", blobImage);
+      Axios.post("http://localhost:3001/api/insertimage", {
+        imageName: "testImage",
+        productImage: blobImage,
+        productID: 1,
+      });
+    }
+  }
+
   return (
     <div className="container">
       Admin CRUD page
@@ -120,7 +160,6 @@ function Admin() {
             type="file"
             name="image"
             onChange={(e) => {
-              console.log(e.target.files);
               const fileListAsArray = Array.from(e.target.files);
               setUploadImages(fileListAsArray);
               //setUploadImages();
@@ -131,7 +170,6 @@ function Admin() {
         </form>
         <div className="d-flex">
           {uploadImages.map((val, key) => {
-            console.log(uploadImages);
             return (
               <img
                 alt="not found"
@@ -141,6 +179,9 @@ function Admin() {
             );
           })}
         </div>
+        <button type="submit" onClick={DebugImageBlob}>
+          Upload Single Image Test
+        </button>
       </div>
     </div>
   );
