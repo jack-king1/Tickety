@@ -85,6 +85,14 @@ app.post("/api/insertimage", (req, res) => {
   );
 });
 
+app.get("/api/getproductimage", (req, res) => {
+  const pID = req.query.productID;
+  const sqlSelect = "SELECT * FROM productimages WHERE productID = ?";
+  db.query(sqlSelect, [pID], (err, result) => {
+    res.send(result);
+  });
+});
+
 app.listen(3001, () => {
   console.log("running on port 3001!");
 });

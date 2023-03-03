@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Axios from "axios";
+import { Buffer } from "buffer";
 var fs = require("fs");
 
 function Admin() {
@@ -10,6 +11,7 @@ function Admin() {
   const [productList, setProductList] = useState([]);
   const [uploadImages, setUploadImages] = useState([]);
   const [imageBlobData, setImageBlobData] = useState([]);
+  const [asciiImageData, setAsciiImageData] = useState([]);
   const [tempProduct, setTempProduct] = useState();
 
   //do something when upload images variable changes
@@ -106,6 +108,32 @@ function Admin() {
     }
   }
 
+  const ConvertBlobToImages = async (blobs) => {
+    const convertedImages = [];
+    return new Promise((resolve) => {
+      blobs.map((val, key) => {
+        //Convert images to images.
+        convertedImages.push(
+          Buffer.from(val.imageBlob, "base64").toString("ascii")
+        );
+      });
+      resolve(convertedImages);
+    });
+  };
+
+  async function debugGetImageFromDB() {
+    const tempImages = [];
+    const params = new URLSearchParams([["productID", 1]]);
+    Axios.get("http://localhost:3001/api/getproductimage", {
+      params,
+    }).then(async (response) => {
+      console.log(response.data);
+      const imagesFromDB = await ConvertBlobToImages(response.data);
+      console.log(imagesFromDB);
+      setAsciiImageData(imagesFromDB);
+    });
+  }
+
   return (
     <div className="container">
       Admin CRUD page
@@ -182,6 +210,14 @@ function Admin() {
         <button type="submit" onClick={DebugImageBlob}>
           Upload Single Image Test
         </button>
+        <button type="submit" onClick={debugGetImageFromDB}>
+          Get Images From DB
+        </button>
+        <div className="d-flex">
+          {asciiImageData.map((val, key) => {
+            return <img alt="not found" width={"250px"} src={val} />;
+          })}
+        </div>
       </div>
     </div>
   );
