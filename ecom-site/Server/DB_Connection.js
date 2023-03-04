@@ -70,7 +70,7 @@ app.post("/api/delete", (req, res) => {
 
 app.get("/api/getlastid", (req, res) => {
   const sqlQuery =
-    "SELECT * FROM ecomdb.myproducts ORDER BY productID DESC LIMIT 1";
+    "SELECT * FROM ecomdb.myproducts ORDER BY productID = ? DESC LIMIT 1";
   db.query(sqlQuery, (err, result) => {
     res.send(result);
     console.log(err);
@@ -100,6 +100,15 @@ app.post("/api/insertimage", (req, res) => {
 app.get("/api/getproductimage", (req, res) => {
   const pID = req.query.productID;
   const sqlSelect = "SELECT * FROM productimages WHERE productID = ?";
+  db.query(sqlSelect, [pID], (err, result) => {
+    res.send(result);
+    console.log(err);
+  });
+});
+
+app.get("/api/getproductimagesingle", (req, res) => {
+  const pID = req.query.productID;
+  const sqlSelect = "SELECT * FROM productimages WHERE productID = ? LIMIT 1";
   db.query(sqlSelect, [pID], (err, result) => {
     res.send(result);
     console.log(err);

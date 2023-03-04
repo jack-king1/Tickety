@@ -95,7 +95,7 @@ function Admin() {
           productImage: blobImage,
           productID: lastRowProductData.productID,
         }).then((response) => {
-          console.log("image uploaded to db...", response);
+          console.log("image uploaded to db...");
         });
       })
     );
