@@ -4,6 +4,7 @@ const bodyparser = require("body-parser");
 const cors = require("cors");
 const mysql = require("mysql");
 const multer = require("multer");
+const { response } = require("express");
 
 //password is password on windows.
 const db = mysql.createPool({
@@ -53,6 +54,7 @@ app.post("/api/insert", (req, res) => {
     sqlInsert,
     [productName, productDesc, productPrice],
     (err, result) => {
+      res.send(result);
       console.log(err);
     }
   );
@@ -66,6 +68,15 @@ app.post("/api/delete", (req, res) => {
   });
 });
 
+app.get("/api/getlastid", (req, res) => {
+  const sqlQuery =
+    "SELECT * FROM ecomdb.myproducts ORDER BY productID DESC LIMIT 1";
+  db.query(sqlQuery, (err, result) => {
+    res.send(result);
+    console.log(err);
+  });
+});
+
 //Images
 app.post("/api/insertimage", (req, res) => {
   const imageName = req.body.imageName;
@@ -75,12 +86,13 @@ app.post("/api/insertimage", (req, res) => {
   console.log(imageData);
 
   const sqlInsertImage =
-    "INSERT INTO productimages (imageName, imageBlob, customerID) VALUES (?,?,?)";
+    "INSERT INTO productimages (imageName, imageBlob, productID) VALUES (?,?,?)";
   db.query(
     sqlInsertImage,
     [imageName, imageData, fk_productID],
     (err, result) => {
       console.log(err);
+      res.send(result);
     }
   );
 });
@@ -90,6 +102,7 @@ app.get("/api/getproductimage", (req, res) => {
   const sqlSelect = "SELECT * FROM productimages WHERE productID = ?";
   db.query(sqlSelect, [pID], (err, result) => {
     res.send(result);
+    console.log(err);
   });
 });
 

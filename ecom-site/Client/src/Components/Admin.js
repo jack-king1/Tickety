@@ -13,6 +13,9 @@ function Admin() {
   const [imageBlobData, setImageBlobData] = useState([]);
   const [asciiImageData, setAsciiImageData] = useState([]);
   const [tempProduct, setTempProduct] = useState();
+  const [lastIDData, setLastIDData] = useState({});
+
+  let lastRowProductData;
 
   //do something when upload images variable changes
   useEffect(() => {
@@ -22,26 +25,14 @@ function Admin() {
     }
   }, [uploadImages]);
 
-  const addProductToDB = () => {
-    Axios.post("http://localhost:3001/api/insert", {
+  const sendProductPostRequest = async () => {
+    await Axios.post("http://localhost:3001/api/insert/", {
       productName: productName,
       productDesc: productDesc,
       productPrice: productPrice,
-    }).then(() => {
-      alert("successful insert");
-      // initial data has been inserted above...
-      // now retrieve productID for inserting images.
-      Axios.get("http://localhost:3001/api/getproduct", {
-        params: { productName: productName },
-      }).then((response) => {
-        console.log(response);
-        setTempProduct(response.data);
-        //loop here?
-      });
-      //Now we have the product data we want, loop through each image
-      //and store them in the mysql database as blob data.
-
-      //after we can remove the temporary reference to the images since they are in the database.
+    }).then((response) => {
+      console.log("Insert Success!", response);
+      return "success!";
     });
   };
 
@@ -50,8 +41,6 @@ function Admin() {
       productName: productName,
       productDesc: productDesc,
       productPrice: productPrice,
-    }).then(() => {
-      alert("successful insert");
     });
   };
 
@@ -82,30 +71,34 @@ function Admin() {
     }
   };
 
-  async function encodeImageFileAsURL() {
+  async function encodeImageFileAsURL(imgToEncode) {
     return new Promise((resolve) => {
-      var file = uploadImages[0];
-      console.log(file);
+      var file = imgToEncode;
+      //console.log(file);
       var reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend = function () {
-        console.log("RESULT", reader.result);
+        //console.log("RESULT", reader.result);
         resolve(reader.result);
       };
     });
   }
 
-  async function DebugImageBlob() {
-    if (uploadImages.length > 0) {
-      let blobImage;
-      blobImage = await encodeImageFileAsURL();
-      console.log("@above axios.pos: ", blobImage);
-      Axios.post("http://localhost:3001/api/insertimage", {
-        imageName: "testImage",
-        productImage: blobImage,
-        productID: 1,
-      });
-    }
+  async function InsertImagesToDB() {
+    return Promise.all(
+      uploadImages.map(async (val) => {
+        let blobImage;
+        let tempName = lastRowProductData.productName;
+        blobImage = await encodeImageFileAsURL(val);
+        await Axios.post("http://localhost:3001/api/insertimage", {
+          imageName: tempName,
+          productImage: blobImage,
+          productID: lastRowProductData.productID,
+        }).then((response) => {
+          console.log("image uploaded to db...", response);
+        });
+      })
+    );
   }
 
   const ConvertBlobToImages = async (blobs) => {
@@ -134,6 +127,38 @@ function Admin() {
     });
   }
 
+  //get the last productID of the last row inserted into product database.
+  //this will return the entire row so can use for other columns.
+  async function GetLastID() {
+    await Axios.get("http://localhost:3001/api/getlastid").then((response) => {
+      console.log("LastID: ", response);
+      let tempObj = {
+        productName: response.data[0].productName,
+        productID: response.data[0].productID,
+      };
+      lastRowProductData = tempObj;
+      console.log("Saved Data:", lastRowProductData);
+      return "success!";
+    });
+  }
+
+  //this function will handle everything from uploading product and images.
+  //And call the appropriate functions.
+  async function UploadProductToDB() {
+    //maybe start a loading bar here to tell user that its doing something.
+    await sendProductPostRequest();
+    console.log("Add Product Info To DB - Complete!");
+    //get last ID
+    await GetLastID();
+    console.log("Retrieve data for last product - Complete!");
+    console.log("Last ID Data: ", lastRowProductData);
+    //insert images to db
+    await InsertImagesToDB(lastRowProductData);
+    console.log("Add Product Images Info To DB - Complete!");
+
+    console.log("Product Added!");
+  }
+
   return (
     <div className="container">
       Admin CRUD page
@@ -158,10 +183,9 @@ function Admin() {
               onChange={(e) => setProductPrice(e.target.value)}
             />
           </form>
-          <button onClick={addProductToDB}>Add New Product</button>
         </div>
 
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <button onClick={debugCLick}>Display All Products</button>
           {productList.map((val) => {
             return (
@@ -171,7 +195,7 @@ function Admin() {
               </h1>
             );
           })}
-        </div>
+        </div> */}
       </div>
       <div className="mt-4">
         <form>
@@ -194,7 +218,6 @@ function Admin() {
             }}
             multiple
           />
-          <button type="submit">Upload</button>
         </form>
         <div className="d-flex">
           {uploadImages.map((val, key) => {
@@ -207,17 +230,14 @@ function Admin() {
             );
           })}
         </div>
-        <button type="submit" onClick={DebugImageBlob}>
-          Upload Single Image Test
-        </button>
-        <button type="submit" onClick={debugGetImageFromDB}>
-          Get Images From DB
-        </button>
         <div className="d-flex">
           {asciiImageData.map((val, key) => {
             return <img alt="not found" width={"250px"} src={val} />;
           })}
         </div>
+        <button type="submit" onClick={UploadProductToDB}>
+          Create New Product
+        </button>
       </div>
     </div>
   );
