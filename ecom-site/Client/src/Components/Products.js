@@ -46,7 +46,6 @@ function Products() {
         finalPairList.push({ val, objImg });
       })
     ).then(() => {
-      console.log("final pair objs", finalPairList[0].objImg.productImage);
       setProductObjectData(finalPairList);
       return "Success!";
     });
@@ -136,9 +135,10 @@ function Products() {
               <div className="row">
                 <div id="previewImg" className="col-2">
                   <img
+                    className="img-fluid"
                     alt="not found"
                     width={"250px"}
-                    src={URL.createObjectURL(val.objImg.productImage)}
+                    src={val.objImg.productImage}
                   />
                 </div>
                 <div id="productInfo" className="col-7">
