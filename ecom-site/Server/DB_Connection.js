@@ -82,7 +82,7 @@ app.post("/api/insertimage", (req, res) => {
   const imageData = req.body.productImage;
   const fk_productID = req.body.productID;
 
-  console.log(imageData);
+  //console.log(imageData);
 
   const sqlInsertImage =
     "INSERT INTO productimages (imageName, imageBlob, productID) VALUES (?,?,?)";

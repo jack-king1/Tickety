@@ -223,6 +223,7 @@ function Admin() {
           {uploadImages.map((val, key) => {
             return (
               <img
+                key={key}
                 alt="not found"
                 width={"250px"}
                 src={URL.createObjectURL(val)}

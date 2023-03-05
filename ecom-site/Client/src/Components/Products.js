@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import { Buffer } from "buffer";
 
 function Products() {
   const [productList, setProductList] = useState([]);
@@ -12,15 +13,44 @@ function Products() {
   useEffect(() => {
     if (!initProducts) {
       GetProductsList();
-      console.log("i fire once");
       setInitProducts(true);
     }
   }, []);
 
   //when the product list is set, retrieve the images.
   useEffect(() => {
-    CreateProductImageList();
+    if (productList.length > 0) {
+      CreateProductImageList();
+      console.log("i fire once");
+    }
   }, [productList]);
+
+  useEffect(() => {
+    if (productImagesList.length > 0) {
+      //now convert blob data into id/base64 pair.
+      CreateImageProductPairList();
+    }
+  }, [productImagesList]);
+
+  const CreateImageProductPairList = async () => {
+    //convert blob data to base64
+    let imgProdIDPairs = await CreateImageProductIDPairs();
+    let finalPairList = [];
+
+    return Promise.all(
+      //need to check if product list is > 0
+      productList.map(async (val) => {
+        console.log("val:", val);
+        let productID = val.productID;
+        let objImg = imgProdIDPairs.find((o) => o.productID == productID);
+        finalPairList.push({ val, objImg });
+      })
+    ).then(() => {
+      console.log("final pair objs", finalPairList[0].objImg.productImage);
+      setProductObjectData(finalPairList);
+      return "Success!";
+    });
+  };
 
   const CreateProductImageList = async () => {
     let tempImages = [];
@@ -31,11 +61,14 @@ function Products() {
         await Axios.get("http://localhost:3001/api/getproductimagesingle", {
           params,
         }).then((response) => {
-          console.log("Image Returned: ", response);
+          tempImages.push(response.data[0]);
+          console.log("Image Returned: ", response.data[0]);
         });
       })
     ).then(() => {
-      return;
+      setProductImagesList(tempImages);
+      console.log("Succes!", tempImages);
+      return "Success!";
     });
   };
 
@@ -48,6 +81,24 @@ function Products() {
       .then(() => {
         return "Success!";
       });
+  };
+
+  //this function is creating an array of base64 images so we dont have to do each one
+  //with a seperate function call. and linking them togethor in a single obj with productID as the key.
+  const CreateImageProductIDPairs = async () => {
+    const tempPairObj = [];
+    return new Promise((resolve) => {
+      productImagesList.map(async (val, key) => {
+        //Convert images to images.
+        let tempImgData = Buffer.from(val.imageBlob, "base64").toString(
+          "ascii"
+        );
+        let tempID = val.productID;
+        tempPairObj.push({ productID: tempID, productImage: tempImgData });
+      });
+      //console.log("temp pair", tempPairObj);
+      resolve(tempPairObj);
+    });
   };
 
   const ConvertBlobToImages = async (blobs) => {
@@ -79,17 +130,21 @@ function Products() {
   return (
     <div className="container">
       <div>
-        {productList.map((val, key) => {
+        {productObjectData.map((val, key) => {
           return (
             <div key={key} className="border border-primary container mt-3">
               <div className="row">
                 <div id="previewImg" className="col-2">
-                  img
+                  <img
+                    alt="not found"
+                    width={"250px"}
+                    src={URL.createObjectURL(val.objImg.productImage)}
+                  />
                 </div>
                 <div id="productInfo" className="col-7">
-                  <h1>{val.productName}</h1>
-                  <h4>{val.productDesc}</h4>
-                  <h3 className="font-weight-bold">£{val.productPrice}</h3>
+                  <h1>{val.val.productName}</h1>
+                  <h4>{val.val.productDesc}</h4>
+                  <h3 className="font-weight-bold">£{val.val.productPrice}</h3>
                 </div>
                 <div className="col-3">
                   <button type="button" className="btn btn-success">
