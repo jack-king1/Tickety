@@ -69,8 +69,7 @@ app.post("/api/delete", (req, res) => {
 });
 
 app.get("/api/getlastid", (req, res) => {
-  const sqlQuery =
-    "SELECT * FROM ecomdb.myproducts ORDER BY productID = ? DESC LIMIT 1";
+  const sqlQuery = "SELECT * FROM myproducts ORDER BY productID DESC LIMIT 1";
   db.query(sqlQuery, (err, result) => {
     res.send(result);
     console.log(err);
