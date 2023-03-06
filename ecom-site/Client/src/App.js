@@ -7,6 +7,7 @@ import About from "./Components/About";
 import Contact from "./Components/Contact";
 import Home from "./Components/Home";
 import Admin from "./Components/Admin";
+import ProductPage from "./Components/ProductPage";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/productpage" element={<ProductPage />} />
           </Routes>
         </div>
       </BrowserRouter>
