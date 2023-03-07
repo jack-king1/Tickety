@@ -7,10 +7,11 @@ const multer = require("multer");
 const { response } = require("express");
 
 //password is password on windows.
+//password is nYs378AA on linux.
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "nYs378AA",
+  password: "password",
   database: "ecomdb",
 });
 
