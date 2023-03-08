@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Buffer } from "buffer";
+import { Link } from "react-router-dom";
 
 function Products() {
   const [productList, setProductList] = useState([]);
@@ -10,6 +11,11 @@ function Products() {
   //{productData: Object, productImage: string}
 
   const [initProducts, setInitProducts] = useState(false);
+
+  const newTo = {
+    pathname: "/productpage",
+    param1: "Par1",
+  };
   useEffect(() => {
     if (!initProducts) {
       GetProductsList();
@@ -142,6 +148,7 @@ function Products() {
                   />
                 </div>
                 <div id="productInfo" className="col-7">
+                  <h1>{val.val.productID}</h1>
                   <h1>{val.val.productName}</h1>
                   <h4>{val.val.productDesc}</h4>
                   <h3 className="font-weight-bold">£{val.val.productPrice}</h3>
@@ -149,7 +156,12 @@ function Products() {
                 <div className="col-3">
                   <button type="button" className="btn btn-success">
                     Add To Cart
-                  </button>
+                  </button>{" "}
+                  <Link to={`/productpage/${val.val.productID}`}>
+                    <button type="button" className="btn btn-success">
+                      View Product
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
