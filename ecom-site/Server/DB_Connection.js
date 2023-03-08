@@ -44,6 +44,14 @@ app.get("/api/getproduct", (req, res) => {
   });
 });
 
+app.get("/api/getproductwithid", (req, res) => {
+  const productID = req.query.productID;
+  const sqlSelect = "SELECT * FROM myproducts WHERE productID = ?";
+  db.query(sqlSelect, [productID], (err, result) => {
+    res.send(result);
+  });
+});
+
 app.post("/api/insert", (req, res) => {
   const productName = req.body.productName;
   const productDesc = req.body.productDesc;

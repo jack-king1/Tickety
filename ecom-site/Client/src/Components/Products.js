@@ -12,10 +12,6 @@ function Products() {
 
   const [initProducts, setInitProducts] = useState(false);
 
-  const newTo = {
-    pathname: "/productpage",
-    param1: "Par1",
-  };
   useEffect(() => {
     if (!initProducts) {
       GetProductsList();
@@ -27,7 +23,7 @@ function Products() {
   useEffect(() => {
     if (productList.length > 0) {
       CreateProductImageList();
-      console.log("i fire once");
+      //console.log("i fire once");
     }
   }, [productList]);
 
@@ -46,7 +42,7 @@ function Products() {
     return Promise.all(
       //need to check if product list is > 0
       productList.map(async (val) => {
-        console.log("val:", val);
+        //console.log("val:", val);
         let productID = val.productID;
         let objImg = imgProdIDPairs.find((o) => o.productID == productID);
         finalPairList.push({ val, objImg });
@@ -67,12 +63,12 @@ function Products() {
           params,
         }).then((response) => {
           tempImages.push(response.data[0]);
-          console.log("Image Returned: ", response.data[0]);
+          //console.log("Image Returned: ", response.data[0]);
         });
       })
     ).then(() => {
       setProductImagesList(tempImages);
-      console.log("Succes!", tempImages);
+      //console.log("Succes!", tempImages);
       return "Success!";
     });
   };
@@ -156,7 +152,7 @@ function Products() {
                 <div className="col-3">
                   <button type="button" className="btn btn-success">
                     Add To Cart
-                  </button>{" "}
+                  </button>
                   <Link to={`/productpage/${val.val.productID}`}>
                     <button type="button" className="btn btn-success">
                       View Product
