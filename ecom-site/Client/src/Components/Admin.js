@@ -172,10 +172,19 @@ function Admin() {
             />
             <br />
             <label>Product Description:</label>
-            <input
+            {/* <input
               type="text"
               onChange={(e) => setProductDesc(e.target.value)}
-            />
+            /> */}
+
+            <textarea
+              onChange={(e) => setProductDesc(e.target.value)}
+              type="text"
+              id="multiliner"
+              name="multiliner"
+            >
+              desc
+            </textarea>
             <br />
             <label>Product Price:</label>
             <input

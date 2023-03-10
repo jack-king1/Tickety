@@ -85,6 +85,14 @@ app.get("/api/getlastid", (req, res) => {
   });
 });
 
+app.get("/api/getproductreviews", (req, res) => {
+  const productID = req.query.productID;
+  const sqlSelect = "SELECT * FROM productreviews WHERE productID = ?";
+  db.query(sqlSelect, [productID], (err, result) => {
+    res.send(result);
+  });
+});
+
 //Images
 app.post("/api/insertimage", (req, res) => {
   const imageName = req.body.imageName;
