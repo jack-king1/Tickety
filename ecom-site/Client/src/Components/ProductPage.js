@@ -163,6 +163,46 @@ function ProductPage() {
     return reviewStars;
   };
 
+  const GetStars = (reviewRating) => {
+    let reviewStars = [];
+    for (let i = 0; i < 5; i++) {
+      if (reviewRating > i) {
+        //Half star check
+        if (reviewRating > i && reviewRating < i + 1) {
+          reviewStars.push(
+            <span className="material-icons-outlined text-warning">
+              star_half
+            </span>
+          );
+        } else {
+          reviewStars.push(
+            <span className="material-icons-outlined text-warning">star</span>
+          );
+        }
+      } else {
+        reviewStars.push(
+          <span className="material-icons-outlined mt-0">star_border</span>
+        );
+      }
+    }
+    return reviewStars;
+  };
+
+  const ReviewAverage = () => {
+    let reviewTotalScore = 0;
+    let reviewAverage = 0;
+
+    //Calculate review average
+    if (productReviews.length > 0) {
+      for (let i = 0; i < productReviews.length; i++) {
+        reviewTotalScore += productReviews[i].reviewRating;
+      }
+
+      reviewAverage = reviewTotalScore / productReviews.length;
+    }
+    return reviewAverage;
+  };
+
   return (
     <div>
       <div className="container">
@@ -198,8 +238,24 @@ function ProductPage() {
             <p className="pt-5 display-6">{GetProductDesc()}</p>
           </div>
           <div>
-            <h2>Reviews</h2>
-            <div className="">{productReviews.map((val, key) => {})}</div>
+            <div className="d-flex align-items-center">
+              <h2 className="mb-4 me-2">Reviews - {ReviewStarsStyle()}</h2>
+              <h6 className="mb-4">{ReviewAverage()}</h6>
+            </div>
+
+            <div className="row">
+              {productReviews.map((val, key) => {
+                return (
+                  <div className="mb-4 col-4">
+                    <p className="mb-0 font-weight-bold">Jack King</p>
+                    <div className="d-flex">
+                      <div className="pe-4">{val.reviewText}</div>
+                    </div>
+                    <div className="mb-0">{GetStars(val.reviewRating)}</div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
