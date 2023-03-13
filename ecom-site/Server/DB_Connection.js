@@ -5,6 +5,7 @@ const cors = require("cors");
 const mysql = require("mysql");
 const multer = require("multer");
 const { response } = require("express");
+const session = require("express-session");
 
 //password is password on windows.
 //password is nYs378AA on linux.
@@ -19,6 +20,19 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(express.static("./public"));
+app.use(
+  session({
+    secret: "secret",
+    resave: true,
+    saveUninitialized: true,
+  })
+);
+
+db.get("/", (req, res) => {
+  // Render login template
+  response.sendFile(path.join(__dirname + "/login.html"));
+});
+
 db.getConnection((err, connection) => {
   if (err) {
     console.error("Error connecting to MySQL database: " + err.stack);
