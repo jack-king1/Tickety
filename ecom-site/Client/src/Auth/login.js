@@ -1,64 +1,163 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Route, useParams, useMatch } from "react-router-dom";
+import Axios from "axios";
+import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
 
 function Login() {
-  return (
-    <div>
-      <div className="container w-50">
-        <div className="p-2 mt-4 bg-primary d-flex justify-content-center ">
-          <span className="align-self-center material-icons-round text-white me-2 text-lg fs-2">
-            person
-          </span>
-          <h3 className=" text-white rounded text-center">
-            Please Register/Login
-          </h3>
-        </div>
+  const [loginOption, setLoginOption] = useState(true);
 
-        <form>
-          <div className="form-group">
-            <div className="d-flex">
-              <div className="me-4 w-50">
-                <label>First Name</label>
-                <input
-                  type="name"
-                  className="form-control"
-                  placeholder="First name"
-                />
-              </div>
-              <div className="w-50">
-                <label>Last Name</label>
-                <input
-                  type="name"
-                  className="form-control"
-                  placeholder="Last name"
-                />
-              </div>
+  //react hooks for onchange data.
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  //submit data to server
+  const SubmitUserDetails = () => {
+    //do date checks here.
+    if (username !== "" && email !== "" && password !== "") {
+      console.log("Ready to submit data.");
+      Axios.post("http://localhost:3001/api/createuser", {
+        username: username,
+        firstname: firstName,
+        lastname: lastName,
+        password: password,
+        email: email,
+      }).then((response) => {
+        console.log("Register Success!", response);
+      });
+    }
+  };
+  //Register User
+  //check if username/email already exists on datachange
+
+  //Login User
+
+  //Form Selection
+  const LoginForm = () => {
+    return (
+      <form>
+        <div className="form-group">
+          <label>Username</label>
+          <input
+            type="name"
+            className="form-control"
+            placeholder="Enter username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={SubmitUserDetails()}
+          className="btn btn-outline-success w-100 mt-3"
+        >
+          Login
+        </button>
+      </form>
+    );
+  };
+
+  const RegisterForm = () => {
+    return (
+      <form>
+        <div className="form-group">
+          <label>Username</label>
+          <input
+            type="name"
+            className="form-control"
+            placeholder="Enter username"
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <div className="form-group">
+          <div className="d-flex">
+            <div className="me-4 w-50">
+              <label>First Name</label>
+              <input
+                type="name"
+                className="form-control"
+                placeholder="First name"
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+            <div className="w-50">
+              <label>Last Name</label>
+              <input
+                type="name"
+                className="form-control"
+                placeholder="Last name"
+                onChange={(e) => setLastName(e.target.value)}
+              />
             </div>
           </div>
-          <div className="form-group">
-            <label>Email address</label>
-            <input
-              type="email"
-              className="form-control"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
-            />
-            <small id="emailHelp" className="form-text text-muted">
-              We'll never share your email with anyone else.
-            </small>
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Password"
-            />
-          </div>
-          <button type="submit" className="btn btn-success w-100 mt-3">
-            Submit
+        </div>
+        <div className="form-group">
+          <label>Email address</label>
+          <input
+            type="email"
+            className="form-control"
+            aria-describedby="emailHelp"
+            placeholder="Enter email"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <small id="emailHelp" className="form-text text-muted">
+            We'll never share your email with anyone else.
+          </small>
+        </div>
+        <div className="form-group">
+          <label>Password</label>
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Password"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <button
+          type="button"
+          onClick={SubmitUserDetails()}
+          className="btn btn-outline-success w-100 mt-3"
+        >
+          Register
+        </button>
+      </form>
+    );
+  };
+
+  return (
+    <div>
+      <div className="container w-50 mt-3">
+        <div className="d-flex text-center">
+          <button
+            type="button"
+            className="btn btn-primary btn-lg btn-block w-50"
+            disabled={loginOption}
+            onClick={() => setLoginOption(true)}
+          >
+            Login
           </button>
-        </form>
+          <button
+            type="button"
+            className="btn btn-outline-warning btn-lg btn-block w-50"
+            disabled={!loginOption}
+            onClick={() => setLoginOption(false)}
+          >
+            Register
+          </button>
+        </div>
+
+        {loginOption ? LoginForm() : RegisterForm()}
       </div>
     </div>
   );

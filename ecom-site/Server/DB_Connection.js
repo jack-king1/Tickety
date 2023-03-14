@@ -143,3 +143,27 @@ app.get("/api/getproductimagesingle", (req, res) => {
 app.listen(3001, () => {
   console.log("running on port 3001!");
 });
+
+//User registraion/login
+
+app.post("/api/createuser", (req, res) => {
+  const username = req.body.username;
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
+  const email = req.body.email;
+  const password = req.body.password;
+  console.log(username, firstname, lastname, email, password);
+
+  //console.log(imageData);
+
+  const sqlInsertNewUser =
+    "INSERT INTO accounts (username, password, email, firstname, lastname) VALUES (?,?,?,?,?)";
+  db.query(
+    sqlInsertNewUser,
+    [username, password, email, firstname, lastname],
+    (err, result) => {
+      console.log(err);
+      res.send(result);
+    }
+  );
+});
