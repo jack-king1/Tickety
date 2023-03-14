@@ -28,11 +28,6 @@ app.use(
   })
 );
 
-db.get("/", (req, res) => {
-  // Render login template
-  response.sendFile(path.join(__dirname + "/login.html"));
-});
-
 db.getConnection((err, connection) => {
   if (err) {
     console.error("Error connecting to MySQL database: " + err.stack);

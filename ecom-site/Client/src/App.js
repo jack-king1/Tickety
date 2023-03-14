@@ -8,6 +8,7 @@ import Contact from "./Components/Contact";
 import Home from "./Components/Home";
 import Admin from "./Components/Admin";
 import ProductPage from "./Components/ProductPage";
+import Login from "./Auth/Login";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path="/admin" element={<Admin />} />
             {/*<Route path="/productpage" element={<ProductPage />} /> */}
             <Route path="/productpage/:productID" element={<ProductPage />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </div>
       </BrowserRouter>
