@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "jquery/dist/jquery.min.js";
@@ -6,6 +6,29 @@ import "popper.js/dist/popper.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
 
 function Navbar() {
+  const [loginText, setLoginText] = useState();
+
+  useEffect(() => {
+    LoadData();
+  }, []);
+
+  const LoadData = () => {
+    setLoginText(localStorage.getItem("username"));
+    SetMenuLoginText();
+  };
+
+  const SetMenuLoginText = () => {
+    console.log("Login Text: ", loginText);
+    if (
+      localStorage.getItem("username") == null ||
+      localStorage.getItem("username") == undefined
+    ) {
+      setLoginText("Login");
+    } else {
+      setLoginText("logout");
+    }
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
@@ -44,8 +67,12 @@ function Navbar() {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/login">
-                Login
+              <NavLink
+                onClick={() => SetMenuLoginText()}
+                className="nav-link"
+                to="/login"
+              >
+                {loginText}
               </NavLink>
             </li>
           </ul>

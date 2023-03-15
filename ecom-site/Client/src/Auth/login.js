@@ -32,7 +32,27 @@ function Login() {
     }
   };
 
-  const Logoutuser = () => {};
+  const LogoutForm = () => {
+    return (
+      <div>
+        <button
+          className="btn btn-danger btn-large w-100 p-4 btn-block"
+          onClick={() => Logoutuser()}
+        >
+          Logout
+        </button>
+      </div>
+    );
+  };
+
+  const Logoutuser = () => {
+    setUsername("");
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    localStorage.clear();
+    window.location.reload();
+  };
 
   const LoginUser = () => {
     let params = new URLSearchParams([
@@ -45,6 +65,7 @@ function Login() {
       if (response.data.length > 0) {
         console.log("User login attempt: ", response.data);
         SetSessionData(response.data[0]);
+        window.location.reload();
       } else {
         console.log("login failed.");
       }
@@ -166,10 +187,26 @@ function Login() {
     );
   };
 
+  const CheckUserExists = () => {
+    let loggedIn = false;
+    if (
+      localStorage.getItem("username") !== null ||
+      localStorage.getItem("username")
+    ) {
+      loggedIn = true;
+    }
+    return loggedIn;
+  };
+
   return (
     <div>
       <div className="container w-50 mt-3">
-        <div className="d-flex text-center">
+        <div
+          className={
+            "d-flex text-center " + (CheckUserExists() ? "d-none" : "")
+          }
+          data-toggle
+        >
           <button
             type="button"
             className={
@@ -194,7 +231,12 @@ function Login() {
           </button>
         </div>
 
-        {loginOption ? LoginForm() : RegisterForm()}
+        {localStorage.getItem("username") === null ||
+        localStorage.getItem("username") === undefined
+          ? loginOption
+            ? LoginForm()
+            : RegisterForm()
+          : LogoutForm()}
       </div>
     </div>
   );
