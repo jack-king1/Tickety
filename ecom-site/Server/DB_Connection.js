@@ -167,3 +167,14 @@ app.post("/api/createuser", (req, res) => {
     }
   );
 });
+
+app.get("/api/getuserlogin", (req, res) => {
+  const username = req.query.username;
+  const password = req.query.password;
+  const sqlSelect =
+    "SELECT * FROM accounts WHERE username = ? AND password = ?";
+  db.query(sqlSelect, [username, password], (err, result) => {
+    res.send(result);
+    console.log(err);
+  });
+});

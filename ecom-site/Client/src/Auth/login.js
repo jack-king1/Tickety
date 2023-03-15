@@ -3,6 +3,7 @@ import { Route, useParams, useMatch } from "react-router-dom";
 import Axios from "axios";
 import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
+import UserProfile from "./UserProfile";
 
 function Login() {
   const [loginOption, setLoginOption] = useState(true);
@@ -30,41 +31,61 @@ function Login() {
       });
     }
   };
+
+  const LoginUser = () => {
+    let params = new URLSearchParams([
+      ["username", username],
+      ["password", password],
+    ]);
+    Axios.get("http://localhost:3001/api/getuserlogin", {
+      params,
+    }).then((response) => {
+      if (response.data.length > 0) {
+        console.log("User login attempt: ", response.data);
+      } else {
+        console.log("login failed.");
+      }
+    });
+  };
+
   //Register User
   //check if username/email already exists on datachange
 
   //Login User
 
   //Form Selection
+  const GetFormStyling = () => {};
   const LoginForm = () => {
     return (
-      <form>
-        <div className="form-group">
-          <label>Username</label>
-          <input
-            type="name"
-            className="form-control"
-            placeholder="Enter username"
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-        <div className="form-group">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Password"
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+      <div>
+        <form>
+          <div className="form-group">
+            <label>Username</label>
+            <input
+              type="name"
+              className="form-control"
+              placeholder="Enter username"
+              onChange={(e) => setUsername(e.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              className="form-control"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        </form>
         <button
           type="button"
-          onClick={SubmitUserDetails()}
+          onClick={() => LoginUser()}
           className="btn btn-outline-success w-100 mt-3"
         >
           Login
         </button>
-      </form>
+      </div>
     );
   };
 
@@ -141,7 +162,10 @@ function Login() {
         <div className="d-flex text-center">
           <button
             type="button"
-            className="btn btn-primary btn-lg btn-block w-50"
+            className={
+              "btn btn-lg btn-block w-50 " +
+              (!loginOption ? "btn-primary" : "btn-outline-primary")
+            }
             disabled={loginOption}
             onClick={() => setLoginOption(true)}
           >
@@ -149,7 +173,10 @@ function Login() {
           </button>
           <button
             type="button"
-            className="btn btn-outline-warning btn-lg btn-block w-50"
+            className={
+              "btn btn-lg btn-block w-50 " +
+              (loginOption ? "btn-warning" : "btn-outline-warning")
+            }
             disabled={!loginOption}
             onClick={() => setLoginOption(false)}
           >
