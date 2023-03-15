@@ -32,6 +32,8 @@ function Login() {
     }
   };
 
+  const Logoutuser = () => {};
+
   const LoginUser = () => {
     let params = new URLSearchParams([
       ["username", username],
@@ -42,10 +44,18 @@ function Login() {
     }).then((response) => {
       if (response.data.length > 0) {
         console.log("User login attempt: ", response.data);
+        SetSessionData(response.data[0]);
       } else {
         console.log("login failed.");
       }
     });
+  };
+
+  const SetSessionData = (data) => {
+    localStorage.setItem("username", data.username);
+    localStorage.setItem("firstname", data.firstname);
+    localStorage.setItem("lastname", data.lastname);
+    localStorage.setItem("email", data.email);
   };
 
   //Register User
@@ -147,7 +157,7 @@ function Login() {
         </div>
         <button
           type="button"
-          onClick={SubmitUserDetails()}
+          onClick={() => SubmitUserDetails()}
           className="btn btn-outline-success w-100 mt-3"
         >
           Register
