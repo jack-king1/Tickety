@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "jquery/dist/jquery.min.js";
 import "popper.js/dist/popper.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
+import "material-icons/iconfont/material-icons.css";
+import Cart from "./Cart";
 
 function Navbar() {
   const [loginText, setLoginText] = useState();
@@ -31,93 +33,73 @@ function Navbar() {
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-      <div className="container-fluid">
-        <Link className="navbar-brand " to="/">
-          <h1 className="text-xl text-light">Tickety</h1>
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div
-          className="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/products">
-                Products
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/about">
-                About Us
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/contact">
-                Contact Us
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink
-                onClick={() => SetMenuLoginText()}
-                className="nav-link"
-                to="/login"
-              >
-                {loginText}
-              </NavLink>
-            </li>
-          </ul>
+      <div className="row w-100">
+        <div className="col-4 my-auto">
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div
+            className="collapse navbar-collapse justify-content-middle"
+            id="navbarNav"
+          >
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/products">
+                  Products
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/about">
+                  About Us
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/contact">
+                  Contact Us
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  onClick={() => SetMenuLoginText()}
+                  className="nav-link"
+                  to="/login"
+                >
+                  {loginText}
+                </NavLink>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="col-4">
+          <Link className="navbar-brand justify-content-center d-flex" to="/">
+            <img className="w-25" src={require("../Images/logo-white.png")} />
+          </Link>
+        </div>
+        <div className="col-4 d-flex justify-content-end">
+          <div className="my-auto d-flex">
+            <NavLink className="nav-link me-3" to="/search">
+              <span className="material-icons fs-2 text-white ">search</span>
+            </NavLink>
+            <NavLink className="nav-link me-3" to="/login">
+              <span className="material-icons fs-2 text-white">person</span>
+            </NavLink>
+            <NavLink className="nav-link" to="/cart">
+              <span className="material-icons fs-2 text-white">
+                shopping_bag
+              </span>
+            </NavLink>
+          </div>
         </div>
       </div>
     </nav>
-    // <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-    //   <div className="container">
-    //     <div className="d-flex justify-content-between w-100">
-    //       <Link className="navbar-brand mr-auto" to="/">
-    //         Ecommerce Site
-    //       </Link>
-    //       <button
-    //         className="navbar-toggler"
-    //         type="button"
-    //         data-toggle="collapse"
-    //         data-target="#navbarNav"
-    //         aria-controls="navbarNav"
-    //         aria-expanded="false"
-    //         aria-label="Toggle navigation"
-    //       >
-    //         <span className="navbar-toggler-icon"></span>
-    //       </button>
-    //       <div className="collapse navbar-collapse" id="navbarNav">
-    //         <ul className="navbar-nav">
-    //           <li className="nav-item">
-    //             <NavLink className="nav-link" to="/products">
-    //               Products
-    //             </NavLink>
-    //           </li>
-    //           <li className="nav-item">
-    //             <NavLink className="nav-link" to="/about">
-    //               About Us
-    //             </NavLink>
-    //           </li>
-    //           <li className="nav-item">
-    //             <NavLink className="nav-link" to="/contact">
-    //               Contact Us
-    //             </NavLink>
-    //           </li>
-    //         </ul>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </nav>
   );
 }
 
