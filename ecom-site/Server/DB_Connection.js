@@ -12,7 +12,7 @@ const session = require("express-session");
 const db = mysql.createPool({
   host: "localhost",
   user: "root",
-  password: "password",
+  password: "nYs378AA",
   database: "ecomdb",
 });
 

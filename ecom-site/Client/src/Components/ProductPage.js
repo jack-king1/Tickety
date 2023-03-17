@@ -54,38 +54,32 @@ function ProductPage() {
   const HandleAddToCart = () => {
     let currentCartData = JSON.parse(localStorage.getItem("cart"));
     let cartValues = [];
+    let finalCartValues = [];
 
     if (currentCartData !== null && currentCartData !== undefined) {
       for (let i = 0; i < currentCartData.length; i++) {
         cartValues.push(currentCartData[i]);
       }
-      cartValues.push({ productID: productID, quantity: 1 });
+
+      if (cartValues.some((e) => e.productID === productID)) {
+        for (let i = 0; i < cartValues.length; i++) {
+          if (cartValues[i].productID == productID) {
+            cartValues[i].quantity++;
+          }
+        }
+      }
       localStorage.setItem("cart", JSON.stringify(cartValues));
     } else if (
       currentCartData == null ||
       currentCartData == undefined ||
       currentCartData == []
     ) {
+      //create a new entry
       cartValues.push({ productID: productID, quantity: 1 });
       localStorage.setItem("cart", JSON.stringify(cartValues));
     }
     console.log(JSON.parse(localStorage.getItem("cart")));
     //console.log(cartValues.includes(productID));
-
-    // if (localStorage.getItem("cart") == null) {
-    //   //create a new array with added proudct
-    //   let cartItems = [];
-    //   cartItems.push({ productID: productID, quantity: 1 });
-    //   localStorage.setItem("cart", JSON.stringify(cartItems));
-    // } else {
-    //   let cartItems = [{ productID: productID, quantity: 1 }];
-    //   let tempArray = JSON.parse(localStorage.getItem("cart"));
-
-    //   tempArray = [...tempArray, ...cartItems];
-    //   localStorage.setItem("cart", JSON.stringify(tempArray));
-    // }
-
-    // console.log("Final Cart: ", JSON.parse(localStorage.getItem("cart")));
   };
 
   const GetProductImages = async () => {
