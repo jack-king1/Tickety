@@ -67,6 +67,9 @@ function ProductPage() {
             cartValues[i].quantity++;
           }
         }
+      } else {
+        //products already in cart, but not this one, add it now...
+        cartValues.push({ productID: productID, quantity: 1 });
       }
       localStorage.setItem("cart", JSON.stringify(cartValues));
     } else if (
