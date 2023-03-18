@@ -22,13 +22,17 @@ function Cart() {
     //Get storage data and load product information from database.
     let localCartItems = await JSON.parse(localStorage.getItem("cart"));
 
-    //get product data based on cart items product ids.
-    let productData = await CreateProductCartList(localCartItems);
+    if (localCartItems.length > 0) {
+      //get product data based on cart items product ids.
+      let productData = await CreateProductCartList(localCartItems);
 
-    let imageData = await CreateImageCartList(localCartItems);
+      let imageData = await CreateImageCartList(localCartItems);
 
-    //now pair cart items with image based on product id
-    await CreateCartDataObjects(productData, localCartItems, imageData);
+      //now pair cart items with image based on product id
+      await CreateCartDataObjects(productData, localCartItems, imageData);
+    } else {
+      setCartProductData([]);
+    }
   };
 
   const CreateCartDataObjects = async (productData, localCartItems, images) => {
@@ -48,10 +52,6 @@ function Cart() {
       }
 
       for (let k = 0; k < productIDImagePairs.length; k++) {
-        console.log(
-          "productIDImageIDPAIRS:",
-          productIDImagePairs[k][0].productID
-        );
         if (productIDImagePairs[k][0].productID == cartObj.productID) {
           imageObj = productIDImagePairs[k][0];
         }
@@ -63,8 +63,8 @@ function Cart() {
         image: imageObj,
       });
     }
-    console.log(cartProductObjs);
     setCartProductData(cartProductObjs);
+    console.log("Finished Loading Data...");
   };
 
   //this function is creating an array of base64 images so we dont have to do each one
@@ -105,21 +105,25 @@ function Cart() {
 
   const CreateProductCartList = async (items) => {
     let tempProducts = [];
-    return Promise.all(
-      //need to check if product list is > 0
-      items.map(async (val) => {
-        let params = new URLSearchParams([["productID", val.productID]]);
-        await Axios.get("http://localhost:3001/api/getproductwithid", {
-          params,
-        }).then((response) => {
-          tempProducts.push(response.data);
-          //console.log("Image Returned: ", response.data[0]);
-        });
-      })
-    ).then(() => {
-      console.log("Cart products: ", tempProducts);
-      return tempProducts;
-    });
+    if (items == null) {
+      return;
+    }
+    if (items.length > 0) {
+      return Promise.all(
+        //need to check if product list is > 0
+        items.map(async (val) => {
+          let params = new URLSearchParams([["productID", val.productID]]);
+          await Axios.get("http://localhost:3001/api/getproductwithid", {
+            params,
+          }).then((response) => {
+            tempProducts.push(response.data);
+            //console.log("Image Returned: ", response.data[0]);
+          });
+        })
+      ).then(() => {
+        return tempProducts;
+      });
+    }
   };
 
   const GetCartTotalCost = () => {
@@ -132,6 +136,8 @@ function Cart() {
           cartProductData[i].cart.quantity;
       }
       setCartCost(cartTotal);
+    } else {
+      setCartCost(0);
     }
   };
 
@@ -143,9 +149,24 @@ function Cart() {
         cartTotal += cartProductData[i].cart.quantity;
       }
       setCartQty(cartTotal);
+    } else {
+      setCartQty(0);
     }
   };
-  //{val.data.productName}
+
+  const RemoveCartItem = async (productID) => {
+    let tempCart = await JSON.parse(localStorage.getItem("cart"));
+    for (let i = 0; i < tempCart.length; i++) {
+      if (tempCart[i].productID == productID) {
+        tempCart.splice(i, 1);
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(tempCart));
+    LoadData();
+    GetCartTotalCost();
+    GetCartTotalQty();
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -153,12 +174,14 @@ function Cart() {
           <div className="row">
             <div className="col-12">
               {cartProductData.map((val, key) => {
-                console.log("Val: ", val.data.productName);
                 return (
                   <div key={key}>
                     <div className="row">
                       <div className="col-1 my-auto align-items-center text-center">
-                        <button className="btn btn-danger btn-sm">
+                        <button
+                          onClick={() => RemoveCartItem(val.data.productID)}
+                          className="btn btn-danger btn-sm"
+                        >
                           <span className="material-icons-round">
                             delete_forever
                           </span>
@@ -190,7 +213,7 @@ function Cart() {
                       </div>
                       <div className="col-2 d-flex align-items-center justify-content-end">
                         <div>
-                          £{" "}
+                          £
                           {(val.data.productPrice * val.cart.quantity).toFixed(
                             2
                           )}
