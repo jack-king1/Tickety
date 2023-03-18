@@ -6,10 +6,17 @@ import "material-icons/iconfont/material-icons.css";
 
 function Cart() {
   const [cartProductData, setCartProductData] = useState([]);
+  const [cartQty, setCartQty] = useState(0);
+  const [cartCost, setCartCost] = useState(0);
 
   useEffect(() => {
     LoadData();
   }, []);
+
+  useEffect(() => {
+    GetCartTotalCost();
+    GetCartTotalQty();
+  }, [cartProductData]);
 
   const LoadData = async () => {
     //Get storage data and load product information from database.
@@ -40,9 +47,13 @@ function Cart() {
         }
       }
 
-      for (let k = 0; k < images.length; k++) {
-        if (images[k].productID == cartObj.productID) {
-          imageObj = images[k];
+      for (let k = 0; k < productIDImagePairs.length; k++) {
+        console.log(
+          "productIDImageIDPAIRS:",
+          productIDImagePairs[k][0].productID
+        );
+        if (productIDImagePairs[k][0].productID == cartObj.productID) {
+          imageObj = productIDImagePairs[k][0];
         }
       }
 
@@ -111,12 +122,102 @@ function Cart() {
     });
   };
 
+  const GetCartTotalCost = () => {
+    if (cartProductData.length > 0) {
+      let cartTotal = 0;
+
+      for (let i = 0; i < cartProductData.length; i++) {
+        cartTotal +=
+          cartProductData[i].data.productPrice.toFixed(2) *
+          cartProductData[i].cart.quantity;
+      }
+      setCartCost(cartTotal);
+    }
+  };
+
+  const GetCartTotalQty = () => {
+    if (cartProductData.length > 0) {
+      let cartTotal = 0;
+
+      for (let i = 0; i < cartProductData.length; i++) {
+        cartTotal += cartProductData[i].cart.quantity;
+      }
+      setCartQty(cartTotal);
+    }
+  };
+  //{val.data.productName}
   return (
-    <div>
-      {cartProductData.map((val, key) => {
-        console.log("Val: ", val.data.productName);
-        return <div key={key}>{val.data.productName}</div>;
-      })}
+    <div className="container">
+      <div className="row">
+        <div className="col-9">
+          <div className="row">
+            <div className="col-12">
+              {cartProductData.map((val, key) => {
+                console.log("Val: ", val.data.productName);
+                return (
+                  <div key={key}>
+                    <div className="row">
+                      <div className="col-1 my-auto align-items-center text-center">
+                        <button className="btn btn-danger btn-sm">
+                          <span className="material-icons-round">
+                            delete_forever
+                          </span>
+                        </button>
+                      </div>
+                      <div className="col-2">
+                        <img
+                          className="img-fluid w-100"
+                          alt="not found"
+                          width={"250px"}
+                          src={val.image.productImage}
+                        />
+                      </div>
+                      <div className="col-6 d-flex align-items-center">
+                        <div>{val.data.productName}</div>
+                      </div>
+                      <div className="col-1 d-flex align-items-center justify-content-end">
+                        <div>
+                          <div className="d-flex">
+                            <button className="btn btn-outline-secondary btn-sm">
+                              -
+                            </button>
+                            <p className="my-auto px-1">{val.cart.quantity}</p>
+                            <button className="btn btn-outline-secondary btn-sm">
+                              +
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-2 d-flex align-items-center justify-content-end">
+                        <div>
+                          £{" "}
+                          {(val.data.productPrice * val.cart.quantity).toFixed(
+                            2
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+              <hr className="bg-primary border-2 border-top border-primary" />
+              <div className="row">
+                <div className="col-8 d-flex justify-content-start">
+                  <h2>Total: </h2>
+                </div>
+                <div className="col-2 d-flex justify-content-end align-items-center">
+                  <p className="fw-bold">{cartQty}</p>
+                </div>
+                <div className="col-2 d-flex justify-content-end">
+                  <p className="fw-bold">£{cartCost.toFixed(2)} </p>
+                </div>
+              </div>
+              <hr className="bg-primary border-2 border-top border-primary" />
+            </div>
+          </div>
+        </div>
+        <div className="col-3">checkout?</div>
+      </div>
     </div>
   );
 }
