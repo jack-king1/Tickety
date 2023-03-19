@@ -167,6 +167,25 @@ function Cart() {
     GetCartTotalQty();
   };
 
+  const CartItemQty = async (productID, increaseQty) => {
+    let tempCart = await JSON.parse(localStorage.getItem("cart"));
+    for (let i = 0; i < tempCart.length; i++) {
+      if (tempCart[i].productID == productID) {
+        if (increaseQty == true) {
+          tempCart[i].quantity += 1;
+        } else {
+          if (tempCart[i].quantity - 1 >= 0) {
+            tempCart[i].quantity += -1;
+          }
+        }
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(tempCart));
+    LoadData();
+    GetCartTotalCost();
+    GetCartTotalQty();
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -201,11 +220,21 @@ function Cart() {
                       <div className="col-1 d-flex align-items-center justify-content-end">
                         <div>
                           <div className="d-flex">
-                            <button className="btn btn-outline-secondary btn-sm">
+                            <button
+                              onClick={() =>
+                                CartItemQty(val.cart.productID, false)
+                              }
+                              className="btn btn-outline-secondary btn-sm"
+                            >
                               -
                             </button>
                             <p className="my-auto px-1">{val.cart.quantity}</p>
-                            <button className="btn btn-outline-secondary btn-sm">
+                            <button
+                              onClick={() =>
+                                CartItemQty(val.cart.productID, true)
+                              }
+                              className="btn btn-outline-secondary btn-sm"
+                            >
                               +
                             </button>
                           </div>
