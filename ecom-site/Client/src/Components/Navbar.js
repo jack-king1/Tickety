@@ -34,7 +34,7 @@ function Navbar() {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="row w-100">
-        <div className="col-4 my-auto">
+        <div className="col-lg-5 col-md-5 col-sm-5 col-5 my-auto">
           <button
             className="navbar-toggler"
             type="button"
@@ -78,12 +78,15 @@ function Navbar() {
             </ul>
           </div>
         </div>
-        <div className="col-4">
-          <Link className="navbar-brand justify-content-center d-flex" to="/">
-            <img className="w-25" src={require("../Images/logo-white.png")} />
+        <div className="col-lg-2 col-md-3 col-sm-4 col-4">
+          <Link className="navbar-brand justify-content-left d-flex" to="/">
+            <img
+              className="img-fluid w-75"
+              src={require("../Images/logo-white.png")}
+            />
           </Link>
         </div>
-        <div className="col-4 d-flex justify-content-end">
+        <div className="col-lg-5 col-md-4 col-sm-3 col-3 d-flex justify-content-end">
           <div className="my-auto d-flex">
             <NavLink className="nav-link me-3" to="/search">
               <span className="material-icons fs-2 text-white ">search</span>

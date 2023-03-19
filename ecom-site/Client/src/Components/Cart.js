@@ -187,7 +187,7 @@ function Cart() {
   };
 
   return (
-    <div className="container">
+    <div className="container container-fluid">
       <div className="row">
         <div className="col-9">
           <div className="row">
