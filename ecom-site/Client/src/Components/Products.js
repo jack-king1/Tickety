@@ -134,8 +134,11 @@ function Products() {
       <div className="row justify-content-center">
         {productObjectData.map((val, key) => {
           return (
-            <div key={key} className="col-2 border border-secondary mt-3 me-3">
-              <div className="row m-1 text-center">
+            <div
+              key={key}
+              className="col-lg-2 col-md-2 col-sm-12 mt-3 me-lg-3 me-sm-0"
+            >
+              <div className="m-1 text-center border border-secondary h-100">
                 <div id="previewImg" className="">
                   <img
                     className="img-fluid w-75"
