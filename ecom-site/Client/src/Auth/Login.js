@@ -34,13 +34,15 @@ function Login() {
 
   const LogoutForm = () => {
     return (
-      <div>
-        <button
-          className="btn btn-danger btn-large w-100 p-4 btn-block"
-          onClick={() => Logoutuser()}
-        >
-          Logout
-        </button>
+      <div className="position-relative">
+        <div className="fixed-bottom">
+          <button
+            className="btn btn-danger btn-large w-100 p-4 btn-block border-0"
+            onClick={() => Logoutuser()}
+          >
+            Logout
+          </button>
+        </div>
       </div>
     );
   };
@@ -198,8 +200,30 @@ function Login() {
     return loggedIn;
   };
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const GetUsername = () => {
+    let username;
+    if (
+      localStorage.getItem("firstname") !== null ||
+      localStorage.getItem("firstname") !== undefined
+    ) {
+      username = localStorage.getItem("firstname");
+      if (username != null || username != undefined) {
+        username = capitalizeFirstLetter(username);
+      }
+    }
+    return username;
+  };
+
   return (
     <div>
+      <div className="text-center">
+        <h1>Welcome {GetUsername()}</h1>
+      </div>
+
       <div className="container w-50 mt-3">
         <div
           className={

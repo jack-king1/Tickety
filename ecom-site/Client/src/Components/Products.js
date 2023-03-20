@@ -130,31 +130,30 @@ function Products() {
 
   return (
     <div className="container">
-      <div>
+      <h1 className="text-center">Products</h1>
+      <div className="row justify-content-center">
         {productObjectData.map((val, key) => {
           return (
-            <div key={key} className="border border-primary container mt-3">
-              <div className="row">
-                <div id="previewImg" className="col-2">
+            <div key={key} className="col-2 border border-secondary mt-3 me-3">
+              <div className="row m-1 text-center">
+                <div id="previewImg" className="">
                   <img
-                    className="img-fluid"
+                    className="img-fluid w-75"
                     alt="not found"
                     width={"250px"}
                     src={val.objImg.productImage}
                   />
                 </div>
-                <div id="productInfo" className="col-7">
-                  <h1>{val.val.productID}</h1>
-                  <h1>{val.val.productName}</h1>
-                  <h4>{val.val.productDesc}</h4>
-                  <h3 className="font-weight-bold">£{val.val.productPrice}</h3>
-                </div>
-                <div className="col-3">
-                  <button type="button" className="btn btn-success">
-                    Add To Cart
-                  </button>
+                <div id="productInfo">
+                  <p>{val.val.productName}</p>
+                  <p className="fw-bold text-success">
+                    £{val.val.productPrice}
+                  </p>
                   <Link to={`/productpage/${val.val.productID}`}>
-                    <button type="button" className="btn btn-success">
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary btn-sm"
+                    >
                       View Product
                     </button>
                   </Link>
