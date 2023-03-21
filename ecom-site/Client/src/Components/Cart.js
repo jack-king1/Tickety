@@ -3,6 +3,7 @@ import { Route, useParams, useMatch } from "react-router-dom";
 import Axios from "axios";
 import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
+import StripeCart from "./StripeCart";
 
 function Cart() {
   const [cartProductData, setCartProductData] = useState([]);
@@ -270,6 +271,7 @@ function Cart() {
         </div>
         <div className="col-3">checkout?</div>
       </div>
+      <StripeCart props={cartProductData} />
     </div>
   );
 }
