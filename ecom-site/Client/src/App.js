@@ -10,6 +10,8 @@ import Admin from "./Components/Admin";
 import ProductPage from "./Components/ProductPage";
 import Login from "./Auth/Login";
 import Cart from "./Components/Cart";
+import Success from "./Components/Success";
+import Error from "./Components/Error";
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
             <Route path="/productpage/:productID" element={<ProductPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/order/success" element={<Success />} />
+            <Route path="/order/error" element={<Error />} />
           </Routes>
         </div>
       </BrowserRouter>

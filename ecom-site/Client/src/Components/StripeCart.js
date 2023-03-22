@@ -3,6 +3,7 @@ import getStripe from "../Lib/getStripe";
 export default function StripeCart(props) {
   let email = "";
   const CreateLineItemArray = async () => {
+    const stripe = await getStripe();
     let lineItems = [];
     for (let i = 0; i < props.props.length; i++) {
       //create new line item.
@@ -17,14 +18,15 @@ export default function StripeCart(props) {
   };
 
   async function handleCheckout() {
+    const stripe = await getStripe();
     let lineItems = await CreateLineItemArray();
 
-    const stripe = await getStripe();
     const { error } = await stripe.redirectToCheckout({
       lineItems,
       mode: "payment",
-      successUrl: `http://localhost:3000/products`,
-      cancelUrl: `http://localhost:3000/cart`,
+      successUrl: `http://localhost:3000/order/success`,
+      // other options...,
+      cancelUrl: `http://localhost:3000/error`,
     });
     console.log(props);
     console.warn(error.message);

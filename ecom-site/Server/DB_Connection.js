@@ -6,6 +6,9 @@ const mysql = require("mysql");
 const multer = require("multer");
 const { response } = require("express");
 const session = require("express-session");
+const stripe = require("stripe")(
+  "sk_test_51Mo9PbGTuZFzGPicZqCqfkYCBeuBVGHHDj3kgI44pZs3rQ7u3BekjJ1R9445RjuiU3P54jqp9B0687rSp3nOcFPS00zGwlCurU"
+);
 
 //password is password on windows.
 //password is nYs378AA on linux.
@@ -177,4 +180,14 @@ app.get("/api/getuserlogin", (req, res) => {
     res.send(result);
     console.log(err);
   });
+});
+
+//Stripe
+app.get("/order/success", async (req, res) => {
+  const session = await stripe.checkout.sessions.retrieve(req.query.session_id);
+  const customer = await stripe.customers.retrieve(session.customer);
+
+  res.send(
+    `<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`
+  );
 });
