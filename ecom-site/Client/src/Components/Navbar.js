@@ -6,6 +6,8 @@ import "popper.js/dist/popper.min.js";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "material-icons/iconfont/material-icons.css";
 import Cart from "./Cart";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../CSS/homepage.css";
 
 function Navbar() {
   const [loginText, setLoginText] = useState();
@@ -32,7 +34,7 @@ function Navbar() {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav className="navbar navbar-expand-lg navbar-dark navbar">
       <div className="row w-100">
         <div className="col-lg-5 col-md-5 col-sm-5 col-5 my-auto">
           <button
@@ -87,7 +89,7 @@ function Navbar() {
           <Link className="navbar-brand justify-content-left d-flex" to="/">
             <img
               className="img-fluid w-75"
-              src={require("../Images/logo-white.png")}
+              src={require("../Images/logo-white-orange.png")}
             />
           </Link>
         </div>

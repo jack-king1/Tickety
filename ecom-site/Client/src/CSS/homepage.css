@@ -4,5 +4,40 @@
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  height: 80vh;
+}
+
+.jumbotron-color {
+  color: white;
+  background-color: #15aabf;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100vh;
+}
+
+.navbar {
+  background-color: #15aabf;
+}
+
+.btn-primary {
+  background-color: #fab005 !important;
+  border-color: #fab005 !important;
+}
+
+.btn-primary:hover {
+  background-color: #ffe066 !important;
+  border-color: #ffe066 !important;
+}
+
+.accent-text {
+  color: #fab005;
+}
+
+.underline-text {
+  text-decoration: underline;
+}
+
+.homebackground-jumbo {
+  z-index: 10;
 }
