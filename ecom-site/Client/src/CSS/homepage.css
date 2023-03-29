@@ -16,6 +16,38 @@
   height: 100vh;
 }
 
+.jumbotron-white {
+  color: black;
+  background-color: white;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+}
+
+.bg-geometric-blue {
+  color: white;
+  background-image: url("../Images/background-blue.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  height: 80vh;
+}
+
+.bg-geometric-orange {
+  color: white;
+  background-image: url("../Images/background.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 80vh;
+}
+
+.round-img {
+  border-radius: 50%;
+  align-self: center;
+}
+
 .navbar {
   background-color: #15aabf;
 }
