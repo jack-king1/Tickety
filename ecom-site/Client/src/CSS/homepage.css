@@ -48,12 +48,24 @@
   align-self: center;
 }
 
+.background-review {
+  background-color: rgba(21, 170, 191, 1);
+}
+
+.bg-orange {
+  background-color: rgba(250, 176, 5, 1);
+}
+
+.bg-blue {
+  background-color: rgba(21, 170, 191, 1);
+}
+
 .navbar {
-  background-color: #15aabf;
+  background-color: rgb(21, 170, 191);
 }
 
 .btn-primary {
-  background-color: #fab005 !important;
+  background-color: rgb(250, 176, 5) !important;
   border-color: #fab005 !important;
 }
 
@@ -64,6 +76,10 @@
 
 .accent-text {
   color: #fab005;
+}
+
+.review-text {
+  font-size: 1.5rem;
 }
 
 .underline-text {

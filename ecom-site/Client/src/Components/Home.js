@@ -30,49 +30,144 @@ function Home() {
         </div>
       </div>
 
-      <div className="w-100">
-        <div className="container h-100">
-          <div className="text-center display-6 m-4 fw-bold">
-            <span className="accent-text fw-bold">
-              What Our Customers Have To Say!
-            </span>
-          </div>
+      <div className="w-100 py-4 background-review">
+        <div className="text-center display-4 fw-bold p-4">
+          {/* <span className="text-white fw-bold">What Our Customers Said!</span> */}
+        </div>
+        <div className="container h-100 p-4">
           <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-6 col-lg-3 justify-content-center d-flex flex-column">
+            <div className="col-12 col-sm-12 col-md-6 col-lg-4 justify-content-center d-flex flex-column">
               <img
                 className="img-fluid w-75 round-img"
                 src={require("../Images/reviewer-1.jpg")}
               />
-              <div className="text-black fw-bold text-center">Josh M.</div>
+              <div className="text-white fw-bold text-center">Josh M.</div>
+              <div className="text-center text-white fw-bold review-text pb-4 mb-4">
+                "Since using Tickety, having the ability to quickly edit and
+                print tickets on demand is so useful!"
+              </div>
             </div>
-            <div className="col-12 col-sm-12 col-md-6 col-lg-3 justify-content-center d-flex">
+            <div className="col-12 col-sm-12 col-md-6 col-lg-4 justify-content-center d-flex flex-column">
               <img
                 className="img-fluid w-75 round-img"
                 src={require("../Images/reviewer-2.jpg")}
               />
+              <div className="text-white fw-bold text-center">Samantha Z.</div>
+              <div className="text-center text-white fw-bold review-text pb-4 mb-4">
+                "Works great for our farm shop! The amount of time this service
+                saves us is so helpful!"
+              </div>
             </div>
-            <div className="col-12 col-sm-12 col-md-6 col-lg-3 justify-content-center d-flex">
+            <div className="col-12 col-sm-12 col-md-6 col-lg-4 justify-content-center d-flex flex-column">
               <img
                 className="img-fluid w-75 round-img"
                 src={require("../Images/reviewer-3.jpg")}
               />
-            </div>
-            <div className="col-12 col-sm-12 col-md-6 col-lg-3 justify-content-center d-flex">
-              <img
-                className="img-fluid w-75 round-img"
-                src={require("../Images/reviewer-4.jpg")}
-              />
+              <div className="text-white fw-bold text-center">Alex F.</div>
+              <div className="text-center text-white fw-bold review-text  pb-4 mb-4">
+                "Easy to clean, Easy to change,it's game changer for it's ease
+                of use! Definitely worth every penny!"
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="jumbotron w-100">
+      {/* <div className="jumbotron w-100">
         <div className="container h-100">
-          <div className="d-flex h-100 justify-content-center">
-            <div className="text-center w-75 my-auto">Hello</div>
-            <div className="text-center w-75 my-auto">User</div>
+          <div className="d-flex h-100 justify-content-center"></div>
+        </div>
+      </div> */}
+
+      <div className="bg-blue">
+        <div id="carouselExampleCaptions" className="carousel slide container">
+          <div class="carousel-indicators">
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="0"
+              class="active"
+              aria-current="true"
+              aria-label="Slide 1"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="1"
+              aria-label="Slide 2"
+            ></button>
+            <button
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide-to="2"
+              aria-label="Slide 3"
+            ></button>
           </div>
+          <div className="carousel-inner background-orange">
+            <div className="carousel-item active">
+              <img
+                src={require("../Images/printer-carousel.png")}
+                className="d-block w-100 mx-auto img-fluid"
+                alt="..."
+              />
+              <div className="carousel-caption d-none d-lg-block text-black">
+                <h5>Ticket Batch Printer</h5>
+                <p>
+                  Print hundreds at a time and watch your hard work become
+                  reality!
+                </p>
+              </div>
+            </div>
+            <div className="carousel-item">
+              <img
+                src={require("../Images/tickets-carousel.png")}
+                className="d-block w-100 mx-auto img-fluid"
+                alt="..."
+              />
+              <div className="carousel-caption d-none d-lg-block text-black">
+                <h5>Different Ticket Types</h5>
+                <p>
+                  Different colours and sizes to ensure you get that perfect
+                  display!
+                </p>
+              </div>
+            </div>
+            <div class="carousel-item">
+              <img
+                src={require("../Images/ticketstands-carousel.png")}
+                className="d-block w-100 mx-auto img-fluid"
+                alt="..."
+              />
+              <div class="carousel-caption d-none d-lg-block text-black">
+                <h5>Ticket Holders</h5>
+                <p>
+                  Place your display tickets above the products so they stand
+                  out easier!
+                </p>
+              </div>
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            data-bs-slide="next"
+          >
+            <span
+              className="carousel-control-next-icon"
+              aria-hidden="true"
+            ></span>
+            <span className="visually-hidden">Next</span>
+          </button>
         </div>
       </div>
     </div>

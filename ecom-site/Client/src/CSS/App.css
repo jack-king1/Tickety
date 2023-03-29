@@ -1,0 +1,9 @@
+html {
+  height: 100%;
+}
+
+.maxheight {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}

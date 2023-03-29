@@ -12,10 +12,12 @@ import Login from "./Auth/Login";
 import Cart from "./Components/Cart";
 import Success from "./Components/Success";
 import Error from "./Components/Error";
+import Footer from "./Components/Footer";
+import "./CSS/App.css";
 
 function App() {
   return (
-    <div className="">
+    <div id="body" className="">
       <BrowserRouter>
         <div>
           <Navbar />
@@ -32,6 +34,7 @@ function App() {
             <Route path="/order/success" element={<Success />} />
             <Route path="/order/error" element={<Error />} />
           </Routes>
+          <Footer />
         </div>
       </BrowserRouter>
     </div>
