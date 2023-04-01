@@ -89,3 +89,9 @@
 .homebackground-jumbo {
   z-index: 10;
 }
+
+.circle-image {
+  padding: 10px;
+  border-radius: 3rem;
+  box-shadow: 0 0.19989rem 0.59968rem rgba(10, 10, 10, 0.3);
+}

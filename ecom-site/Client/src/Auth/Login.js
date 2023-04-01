@@ -4,6 +4,7 @@ import Axios from "axios";
 import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
 import UserProfile from "./UserProfile";
+import "../CSS/App.css";
 
 function Login() {
   const [loginOption, setLoginOption] = useState(true);
@@ -34,7 +35,7 @@ function Login() {
 
   const LogoutForm = () => {
     return (
-      <div className="position-relative">
+      <div className="position-relative maxheight">
         <div className="fixed-bottom">
           <button
             className="btn btn-danger btn-large w-100 p-4 btn-block border-0"

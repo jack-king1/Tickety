@@ -3,10 +3,11 @@ import { Route, useParams, useMatch } from "react-router-dom";
 import Axios from "axios";
 import getStripe from "../Lib/getStripe";
 import { Link } from "react-router-dom";
+import "../CSS/App.css";
 
 function Success() {
   return (
-    <div className="container w-50">
+    <div className="container w-50 maxheight">
       <div>
         <div className="display-3 mx-auto my-auto text-center mt-5">
           Thank You For Your Order!

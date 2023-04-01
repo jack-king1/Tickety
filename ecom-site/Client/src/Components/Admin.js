@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Axios from "axios";
 import { Buffer } from "buffer";
+import "../CSS/App.css";
 var fs = require("fs");
 
 function Admin() {
@@ -160,7 +161,7 @@ function Admin() {
   }
 
   return (
-    <div className="container">
+    <div className="container maxheight">
       Admin CRUD page
       <div className="container">
         <div className="">

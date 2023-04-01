@@ -4,6 +4,7 @@ import Axios from "axios";
 import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
 import StripeCart from "./StripeCart";
+import "../CSS/App.css";
 
 function Cart() {
   const [cartProductData, setCartProductData] = useState([]);
@@ -188,7 +189,7 @@ function Cart() {
   };
 
   return (
-    <div className="container container-fluid">
+    <div className="container container-fluid maxheight">
       <div className="row">
         <div className="col-9">
           <div className="row">

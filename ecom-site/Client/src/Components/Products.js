@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Buffer } from "buffer";
 import { Link } from "react-router-dom";
+import "../CSS/App.css";
 
 function Products() {
   const [productList, setProductList] = useState([]);
@@ -129,42 +130,44 @@ function Products() {
   };
 
   return (
-    <div className="container">
-      <h1 className="text-center">Products</h1>
-      <div className="row justify-content-center">
-        {productObjectData.map((val, key) => {
-          return (
-            <div
-              key={key}
-              className="col-lg-2 col-md-2 col-sm-12 mt-3 me-lg-3 me-sm-0"
-            >
-              <div className="m-1 text-center border border-secondary h-100">
-                <div id="previewImg" className="">
-                  <img
-                    className="img-fluid w-75"
-                    alt="not found"
-                    width={"250px"}
-                    src={val.objImg.productImage}
-                  />
-                </div>
-                <div id="productInfo">
-                  <p>{val.val.productName}</p>
-                  <p className="fw-bold text-success">
-                    £{val.val.productPrice}
-                  </p>
-                  <Link to={`/productpage/${val.val.productID}`}>
-                    <button
-                      type="button"
-                      className="btn btn-outline-secondary btn-sm"
-                    >
-                      View Product
-                    </button>
-                  </Link>
+    <div className="maxheight">
+      <div className="container">
+        <h1 className="text-center">Products</h1>
+        <div className="row justify-content-center">
+          {productObjectData.map((val, key) => {
+            return (
+              <div
+                key={key}
+                className="col-lg-2 col-md-2 col-sm-12 mt-3 me-lg-3 me-sm-0"
+              >
+                <div className="m-1 text-center border border-secondary h-100">
+                  <div id="previewImg" className="">
+                    <img
+                      className="img-fluid w-75"
+                      alt="not found"
+                      width={"250px"}
+                      src={val.objImg.productImage}
+                    />
+                  </div>
+                  <div id="productInfo">
+                    <p>{val.val.productName}</p>
+                    <p className="fw-bold text-success">
+                      £{val.val.productPrice}
+                    </p>
+                    <Link to={`/productpage/${val.val.productID}`}>
+                      <button
+                        type="button"
+                        className="btn btn-outline-secondary btn-sm"
+                      >
+                        View Product
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

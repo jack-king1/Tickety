@@ -2,10 +2,15 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../CSS/homepage.css";
 import BgImage from "../Images/printer.png";
+import { ReactComponent as ClipboardSVG } from "../Images/icon-clipboard.svg";
+import { ReactComponent as EyeSVG } from "../Images/icon-eye.svg";
+import { ReactComponent as FoodsafeSVG } from "../Images/icon-food-safe.svg";
+import { ReactComponent as StopwatchSVG } from "../Images/icon-stop-watch.svg";
+import { ReactComponent as FacebookSVG } from "../Images/facebook.svg";
 
 function Home() {
   return (
-    <div className="">
+    <div className="background-review">
       <div className="jumbotron-color w-100">
         <div className="container h-100">
           <div className="d-flex flex-column-reverse flex-xl-row flex-md-row flex-lg-row flex-sm-column h-100 justify-content-center">
@@ -30,11 +35,29 @@ function Home() {
         </div>
       </div>
 
-      <div className="w-100 py-4 background-review">
-        <div className="text-center display-4 fw-bold p-4">
+      {/*Benefits */}
+      <div>
+        <div className="row container justify-content-center mx-auto">
+          <div className="col-12 col-sm-12 col-md-6 col-lg-6">
+            <div className="d-flex">
+              <div>
+                <ClipboardSVG className="circle-image" />
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-sm-12 col-md-6 col-lg-6">benefit 2</div>
+        </div>
+        <div className="row container justify-content-center mx-auto">
+          <div className="col-12 col-sm-12 col-md-6 col-lg-6">benefit 3</div>
+          <div className="col-12 col-sm-12 col-md-6 col-lg-6">benefit 4</div>
+        </div>
+      </div>
+
+      <div className="w-100 pb-4">
+        <div className="text-center display-4 fw-bold">
           {/* <span className="text-white fw-bold">What Our Customers Said!</span> */}
         </div>
-        <div className="container h-100 p-4">
+        <div className="container h-100">
           <div className="row justify-content-center">
             <div className="col-12 col-sm-12 col-md-6 col-lg-4 justify-content-center d-flex flex-column">
               <img
@@ -79,7 +102,7 @@ function Home() {
         </div>
       </div> */}
 
-      <div className="bg-blue">
+      <div className="pb-4">
         <div id="carouselExampleCaptions" className="carousel slide container">
           <div class="carousel-indicators">
             <button

@@ -3,6 +3,7 @@ import { Route, useParams, useMatch } from "react-router-dom";
 import Axios from "axios";
 import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
+import "../CSS/App.css";
 
 function ProductPage() {
   const { productID } = useParams();
@@ -239,7 +240,7 @@ function ProductPage() {
 
   return (
     <div>
-      <div className="container">
+      <div className="container maxheight">
         <div className="row">
           <div className="col-7">
             <img
