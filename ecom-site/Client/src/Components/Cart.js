@@ -5,6 +5,8 @@ import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
 import StripeCart from "./StripeCart";
 import "../CSS/App.css";
+import "../CSS/Cart.css";
+import "../CSS/homepage.css";
 
 function Cart() {
   const [cartProductData, setCartProductData] = useState([]);
@@ -191,37 +193,27 @@ function Cart() {
   return (
     <div className="container container-fluid maxheight">
       <div className="row">
-        <div className="col-9">
-          <div className="row">
+        <div className="col-12">
+          <div className="row ">
             <div className="col-12">
               {cartProductData.map((val, key) => {
                 return (
-                  <div key={key}>
-                    <div className="row">
-                      <div className="col-1 my-auto align-items-center text-center">
-                        <button
-                          onClick={() => RemoveCartItem(val.data.productID)}
-                          className="btn btn-danger btn-sm"
-                        >
-                          <span className="material-icons-round">
-                            delete_forever
-                          </span>
-                        </button>
-                      </div>
-                      <div className="col-2">
+                  <div key={key} className="border rounded-3 p-2 mt-4">
+                    <div className="row mb-2 container ">
+                      <div className="col-4">
                         <img
-                          className="img-fluid w-100"
+                          className="w-50 img-fluid"
                           alt="not found"
                           width={"250px"}
                           src={val.image.productImage}
                         />
                       </div>
-                      <div className="col-6 d-flex align-items-center">
+                      <div className="col-4 d-flex align-items-center">
                         <div>{val.data.productName}</div>
                       </div>
                       <div className="col-1 d-flex align-items-center justify-content-end">
                         <div>
-                          <div className="d-flex">
+                          <div className="d-flex  flex-xl-row flex-md-column flex-lg-row flex-sm-column flex-column-reverse">
                             <button
                               onClick={() =>
                                 CartItemQty(val.cart.productID, false)
@@ -250,6 +242,27 @@ function Cart() {
                           )}
                         </div>
                       </div>
+                      <div
+                        onClick={() => RemoveCartItem(val.data.productID)}
+                        className="col-12 col-sm-12 col-md-1 col-lg-1 col-xl-1 align-items-center text-center bg-danger hover-div rounded-5 my-2"
+                      >
+                        {/* <button
+                          onClick={() => RemoveCartItem(val.data.productID)}
+                          className="btn btn-danger btn-sm"
+                        >
+
+                          <span className="material-icons-round">
+                            delete_forever
+                          </span>
+                        </button> */}
+                        <div className="w-100 h-100 d-flex ">
+                          <div className="my-auto mx-auto">
+                            <span className="material-icons-round my-auto mx-auto text-white rounded h-100">
+                              delete_forever
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 );
@@ -270,7 +283,6 @@ function Cart() {
             </div>
           </div>
         </div>
-        <div className="col-3">checkout?</div>
       </div>
       <StripeCart props={cartProductData} />
     </div>

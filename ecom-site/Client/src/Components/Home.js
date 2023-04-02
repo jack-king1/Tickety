@@ -2,6 +2,7 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../CSS/homepage.css";
 import BgImage from "../Images/printer.png";
+import TicketExample from "../Images/ticket.png";
 import { ReactComponent as ClipboardSVG } from "../Images/icon-clipboard.svg";
 import { ReactComponent as EyeSVG } from "../Images/icon-eye.svg";
 import { ReactComponent as FoodsafeSVG } from "../Images/icon-food-safe.svg";
@@ -13,7 +14,7 @@ function Home() {
     <div className="background-review">
       <div className="jumbotron-color w-100">
         <div className="container h-100">
-          <div className="d-flex flex-column-reverse flex-xl-row flex-md-row flex-lg-row flex-sm-column h-100 justify-content-center">
+          <div className="d-flex flex-column-reverse flex-xl-row flex-md-column flex-lg-row flex-sm-column h-100 justify-content-center">
             <div className="text-end w-75 my-auto display-6 fw-bold">
               <span className="accent-text fw-bold">All-In-One Solution </span>
               To Your
@@ -34,43 +35,96 @@ function Home() {
           </div>
         </div>
       </div>
-
       {/*Benefits */}
-      <div>
-        <div className="row container justify-content-center mx-auto">
-          <div className="col-12 col-sm-12 col-md-6 col-lg-6">
-            <div className="d-flex">
-              <div>
-                <ClipboardSVG className="circle-image" />
+
+      <div className="mb-4 pb-4">
+        <div className="display-5 text-white pb-4 text-center fw-bold">
+          The Tickety Solution Is...
+        </div>
+        <div className="row container justify-content-center mx-auto mb-4">
+          <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+            <div className="d-flex mb-4">
+              <div className="circle-image p-4">
+                <ClipboardSVG className="" />
+              </div>
+              <div className="ps-4 ">
+                <div className="benefit-header text-white">Compliant</div>
+                <div className="benefit-body text-white">
+                  Display all mandatory information including nutrition and
+                  allergens.
+                </div>
               </div>
             </div>
           </div>
-          <div className="col-12 col-sm-12 col-md-6 col-lg-6">benefit 2</div>
+          <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+            <div className="d-flex">
+              <div className="circle-image p-4">
+                <EyeSVG className="" />
+              </div>
+
+              <div className="ps-4 ">
+                <div className="benefit-header text-white">Eye-catching</div>
+                <div className="benefit-body text-white">
+                  Produce professional-looking cards to transform your visual
+                  merchandising.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="row container justify-content-center mx-auto">
-          <div className="col-12 col-sm-12 col-md-6 col-lg-6">benefit 3</div>
-          <div className="col-12 col-sm-12 col-md-6 col-lg-6">benefit 4</div>
+        <div className="row container justify-content-center mx-auto mb-4">
+          <div className="col-12 col-sm-12 col-md-12 col-lg-6 mb-4 mb-lg-0">
+            <div className="d-flex">
+              <div className="circle-image p-4">
+                <StopwatchSVG className="" />
+              </div>
+              <div className="ps-4 ">
+                <div className="benefit-header text-white">On demand</div>
+                <div className="benefit-body text-white">
+                  Even if youre not PC-confident, you can create price labels in
+                  a few clicks.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-12 col-sm-12 col-md-12 col-lg-6">
+            <div className="d-flex">
+              <div className="circle-image p-4">
+                <FoodsafeSVG className="" />
+              </div>
+              <div className="ps-4 ">
+                <div className="benefit-header text-white">Food safe</div>
+                <div className="benefit-body text-white">
+                  Create durable, hygienic and wipe-clean price labels, that are
+                  safe to use around food.
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="w-100 pb-4">
+        <div className="display-5 text-white pb-4 text-center fw-bold">
+          What Our Customers Are Think
+        </div>
         <div className="text-center display-4 fw-bold">
           {/* <span className="text-white fw-bold">What Our Customers Said!</span> */}
         </div>
         <div className="container h-100">
-          <div className="row justify-content-center">
-            <div className="col-12 col-sm-12 col-md-6 col-lg-4 justify-content-center d-flex flex-column">
+          <div className="row justify-content-center gap-3">
+            <div className="col-10 col-sm-10 col-md-6 col-lg-4 justify-content-center d-flex flex-column circle-image p-4">
               <img
                 className="img-fluid w-75 round-img"
                 src={require("../Images/reviewer-1.jpg")}
               />
               <div className="text-white fw-bold text-center">Josh M.</div>
               <div className="text-center text-white fw-bold review-text pb-4 mb-4">
-                "Since using Tickety, having the ability to quickly edit and
-                print tickets on demand is so useful!"
+                "Using Tickety give me the ability to quickly edit and print
+                tickets on demand is so useful!"
               </div>
             </div>
-            <div className="col-12 col-sm-12 col-md-6 col-lg-4 justify-content-center d-flex flex-column">
+            <div className="col-10 col-sm-10 col-md-6 col-lg-4 justify-content-center d-flex flex-column circle-image p-4">
               <img
                 className="img-fluid w-75 round-img"
                 src={require("../Images/reviewer-2.jpg")}
@@ -81,7 +135,7 @@ function Home() {
                 saves us is so helpful!"
               </div>
             </div>
-            <div className="col-12 col-sm-12 col-md-6 col-lg-4 justify-content-center d-flex flex-column">
+            <div className="col-10 col-sm-10 col-md-6 col-lg-4 justify-content-center d-flex flex-column circle-image p-4">
               <img
                 className="img-fluid w-75 round-img"
                 src={require("../Images/reviewer-3.jpg")}
@@ -92,17 +146,50 @@ function Home() {
                 of use! Definitely worth every penny!"
               </div>
             </div>
+            <div className="col-10 col-sm-10 col-md-6 col-lg-4 justify-content-center d-flex flex-column circle-image p-4">
+              <img
+                className="img-fluid w-75 round-img"
+                src={require("../Images/reviewer-4.jpg")}
+              />
+              <div className="text-white fw-bold text-center">Matt W.</div>
+              <div className="text-center text-white fw-bold review-text  pb-4 mb-4">
+                "The Online Software Is So Fast With Quick Delivery! 5 Star
+                service gaurenteed, couldnt ask for better!"
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* <div className="jumbotron w-100">
-        <div className="container h-100">
-          <div className="d-flex h-100 justify-content-center"></div>
+      <div className="d-flex flex-row d-none d-xl-block">
+        <div className="row container mx-auto">
+          <div className="col-8">
+            <div className="d-flex justify-content-end p-4 my-4 container">
+              <div className="text-center">
+                <img
+                  className="img-fluid w-100"
+                  alt="not found"
+                  width={"250px"}
+                  src={TicketExample}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="col-4 h-100 m-auto">
+            <div className="d-flex flex-column">
+              <div className="display-3 text-left text-white">Perfect For</div>
+              <ul className="text-white list-items">
+                <li>Attracting Customers</li>
+                <li>Increasing Sales</li>
+                <li>Returning Customers</li>
+                <li>More likely to recomend</li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </div> */}
+      </div>
 
-      <div className="pb-4">
+      <div className="py-4">
         <div id="carouselExampleCaptions" className="carousel slide container">
           <div class="carousel-indicators">
             <button
@@ -133,7 +220,7 @@ function Home() {
                 className="d-block w-100 mx-auto img-fluid"
                 alt="..."
               />
-              <div className="carousel-caption d-none d-lg-block text-black">
+              <div className="carousel-caption d-none d-xl-block text-black">
                 <h5>Ticket Batch Printer</h5>
                 <p>
                   Print hundreds at a time and watch your hard work become

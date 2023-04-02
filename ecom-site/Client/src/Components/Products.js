@@ -3,6 +3,7 @@ import Axios from "axios";
 import { Buffer } from "buffer";
 import { Link } from "react-router-dom";
 import "../CSS/App.css";
+import "../CSS/homepage.css";
 
 function Products() {
   const [productList, setProductList] = useState([]);
@@ -131,16 +132,16 @@ function Products() {
 
   return (
     <div className="maxheight">
-      <div className="container">
-        <h1 className="text-center">Products</h1>
+      <div className="container pt-3">
+        <div className="text-center text-white display-5 fw-bold">Products</div>
         <div className="row justify-content-center">
           {productObjectData.map((val, key) => {
             return (
               <div
                 key={key}
-                className="col-lg-2 col-md-2 col-sm-12 mt-3 me-lg-3 me-sm-0"
+                className="col-lg-2 col-md-6 col-sm-6 mt-3 me-lg-3 me-sm-0 circle-image"
               >
-                <div className="m-1 text-center border border-secondary h-100">
+                <div className="m-1 text-center rounded h-100 p-3">
                   <div id="previewImg" className="">
                     <img
                       className="img-fluid w-75"
