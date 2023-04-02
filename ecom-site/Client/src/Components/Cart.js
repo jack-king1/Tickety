@@ -200,9 +200,9 @@ function Cart() {
                 return (
                   <div key={key} className="border rounded-3 p-2 mt-4">
                     <div className="row mb-2 container ">
-                      <div className="col-4">
+                      <div className="col-5 col-sm-2 col-md-4 col-lg-4 col-xl-2 mx-auto my-auto">
                         <img
-                          className="w-50 img-fluid"
+                          className="w-75 w-sm-50 w-md-25 w-lg-25 w-xl-25 img-fluid"
                           alt="not found"
                           width={"250px"}
                           src={val.image.productImage}
@@ -213,7 +213,7 @@ function Cart() {
                       </div>
                       <div className="col-1 d-flex align-items-center justify-content-end">
                         <div>
-                          <div className="d-flex  flex-xl-row flex-md-column flex-lg-row flex-sm-column flex-column-reverse">
+                          <div className="d-flex flex-xl-row flex-md-column flex-lg-row flex-sm-column flex-column-reverse">
                             <button
                               onClick={() =>
                                 CartItemQty(val.cart.productID, false)
@@ -269,11 +269,11 @@ function Cart() {
               })}
               <hr className="bg-primary border-2 border-top border-primary" />
               <div className="row">
-                <div className="col-8 d-flex justify-content-start">
+                <div className="col-6 com-sm-7 col-md-7 d-flex justify-content-start">
                   <h2>Total: </h2>
                 </div>
-                <div className="col-2 d-flex justify-content-end align-items-center">
-                  <p className="fw-bold">{cartQty}</p>
+                <div className="col-4 col-sm-3 col-md-3 d-flex justify-content-center align-items-center">
+                  <p className="fw-bold">Qty: {cartQty}</p>
                 </div>
                 <div className="col-2 d-flex justify-content-end">
                   <p className="fw-bold">£{cartCost.toFixed(2)} </p>
