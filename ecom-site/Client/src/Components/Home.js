@@ -161,7 +161,21 @@ function Home() {
         </div>
       </div>
 
-      <div className="d-flex flex-row d-none d-xl-block">
+      <div className="jumbotron d-flex justify-content-center ">
+        <div className="container pt-4 mt-4 my-auto">
+          <div className="display-6 text-center fw-bold accent-text">
+            What Customers Are Saying About The Displays!
+          </div>
+          <div className="review-text text-white">
+            More than half of American shoppers surveyed* said they would visit
+            their local independent store more often if they took more pride in
+            their displays. Many described food displays as: “Cramped, rushed,
+            non-descript and unreadable”
+          </div>
+        </div>
+      </div>
+
+      {/* <div className="d-flex flex-row d-none d-xl-block">
         <div className="row container mx-auto">
           <div className="col-8">
             <div className="d-flex justify-content-end p-4 my-4 container">
@@ -187,9 +201,9 @@ function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
-      <div className="py-4">
+      <div className="py-4 mt-4">
         <div id="carouselExampleCaptions" className="carousel slide container">
           <div class="carousel-indicators">
             <button
