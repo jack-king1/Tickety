@@ -35,17 +35,34 @@ function Home() {
           </div>
         </div>
       </div>
+
+      <div className="jumbotron">
+        <div className="container h-100 pt-4 mt-4  d-flex justify-content-center flex-column ">
+          <div className=" my-auto transparent-bg h-75 d-flex flex-column rounded-5">
+            <div className="display-4 text-center fw-bold my-auto">
+              Why A Presentable Display Is So Important!
+              <div className="review-text text-white my-auto pt-3">
+                More than half of shoppers surveyed said they would visit their
+                local independent store more often if they took more pride in
+                their displays. Many described food displays as: “Cramped,
+                rushed, non-descript and unreadable”
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/*Benefits */}
 
-      <div className="mb-4 pb-4">
+      <div className="my-4 py-4">
         <div className="display-5 text-white pb-4 text-center fw-bold">
           The Tickety Solution Is...
         </div>
         <div className="row container justify-content-center mx-auto mb-4">
           <div className="col-12 col-sm-12 col-md-12 col-lg-6">
             <div className="d-flex mb-4">
-              <div className="circle-image p-4">
-                <ClipboardSVG className="" />
+              <div className="circle-image p-4 d-flex">
+                <ClipboardSVG className="h-100 py-auto" />
               </div>
               <div className="ps-4 ">
                 <div className="benefit-header text-white">Compliant</div>
@@ -58,8 +75,8 @@ function Home() {
           </div>
           <div className="col-12 col-sm-12 col-md-12 col-lg-6">
             <div className="d-flex">
-              <div className="circle-image p-4">
-                <EyeSVG className="" />
+              <div className="circle-image p-4 d-flex">
+                <EyeSVG className="h-100 py-auto" />
               </div>
 
               <div className="ps-4 ">
@@ -75,8 +92,8 @@ function Home() {
         <div className="row container justify-content-center mx-auto mb-4">
           <div className="col-12 col-sm-12 col-md-12 col-lg-6 mb-4 mb-lg-0">
             <div className="d-flex">
-              <div className="circle-image p-4">
-                <StopwatchSVG className="" />
+              <div className="circle-image p-4 d-flex">
+                <StopwatchSVG className="h-100 py-auto" />
               </div>
               <div className="ps-4 ">
                 <div className="benefit-header text-white">On demand</div>
@@ -89,8 +106,8 @@ function Home() {
           </div>
           <div className="col-12 col-sm-12 col-md-12 col-lg-6">
             <div className="d-flex">
-              <div className="circle-image p-4">
-                <FoodsafeSVG className="" />
+              <div className="circle-image p-4 d-flex">
+                <FoodsafeSVG className="h-100 py-auto" />
               </div>
               <div className="ps-4 ">
                 <div className="benefit-header text-white">Food safe</div>
@@ -106,7 +123,7 @@ function Home() {
 
       <div className="w-100 pb-4">
         <div className="display-5 text-white pb-4 text-center fw-bold">
-          What Our Customers Are Think
+          What Our Customers Think
         </div>
         <div className="text-center display-4 fw-bold">
           {/* <span className="text-white fw-bold">What Our Customers Said!</span> */}
@@ -120,8 +137,8 @@ function Home() {
               />
               <div className="text-white fw-bold text-center">Josh M.</div>
               <div className="text-center text-white fw-bold review-text pb-4 mb-4">
-                "Using Tickety give me the ability to quickly edit and print
-                tickets on demand is so useful!"
+                "Using Tickety gives me the ability to quickly edit and print
+                tickets on demand it's so useful!"
               </div>
             </div>
             <div className="col-10 col-sm-10 col-md-6 col-lg-4 justify-content-center d-flex flex-column circle-image p-4">
@@ -157,20 +174,6 @@ function Home() {
                 service gaurenteed, couldnt ask for better!"
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="jumbotron d-flex justify-content-center ">
-        <div className="container pt-4 mt-4 my-auto">
-          <div className="display-6 text-center fw-bold accent-text">
-            What Customers Are Saying About The Displays!
-          </div>
-          <div className="review-text text-white">
-            More than half of American shoppers surveyed* said they would visit
-            their local independent store more often if they took more pride in
-            their displays. Many described food displays as: “Cramped, rushed,
-            non-descript and unreadable”
           </div>
         </div>
       </div>

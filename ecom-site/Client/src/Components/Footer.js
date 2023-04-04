@@ -8,59 +8,36 @@ import { ReactComponent as YoutubeSVG } from "../Images/youtube.svg";
 function Footer() {
   return (
     <div className="">
-      <div className="bg-dark text-white footer-style pt-4">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-4">
-              <div className="">
-                <ul className="navbar-nav">
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/products">
-                      Products
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/about">
-                      About Us
-                    </NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/contact">
-                      Contact Us
-                    </NavLink>
-                  </li>
+      <div className="bg-dark text-white footer-style pt-2">
+        <div className="container d-flex flex-column justify-content-center">
+          {/* Logo */}
+          <div className="w-25 mx-auto d-flex">
+            {" "}
+            <img
+              className="img-fluid w-100 w-sm-50 w-md-25 w-lg-25 w-xl-25 mx-auto"
+              src={require("../Images/logo-white-orange.png")}
+            />
+          </div>
 
-                  <li className="nav-item">
-                    <NavLink className="nav-link" to="/admin">
-                      Admin
-                    </NavLink>
-                  </li>
-                </ul>
-              </div>
-              <Link
-                className="navbar-brand justify-content-left d-flex w-50 w-md-25"
-                to="/"
-              >
-                <img
-                  className="img-fluid w-100 w-sm-50 w-md-25 w-lg-25"
-                  src={require("../Images/logo-white-orange.png")}
-                />
-              </Link>
+          {/* Search Bar */}
+          <div class="input-group my-3 w-50 mx-auto">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search..."
+              aria-label="Recipient's username"
+              aria-describedby="basic-addon2"
+            />
+            <div class="input-group-append">
+              <button class="btn btn-outline-warning" type="button">
+                Search
+              </button>
             </div>
-            <div className="col-4 ">
-              <div className="d-flex justify-content-center mx-auto gap-4">
-                <div className="">
-                  <FacebookSVG className="social-media" />
-                </div>
-                <div className="">
-                  <InstagramSVG />
-                </div>
-                <div className="">
-                  <YoutubeSVG />
-                </div>
-              </div>
-            </div>
-            <div className="col-4 ">Social Media</div>
+          </div>
+
+          {/* Copyright */}
+          <div className="text-secondary text-center mt-2">
+            Copyright Tickert 2023. All Rights Reserved
           </div>
         </div>
       </div>

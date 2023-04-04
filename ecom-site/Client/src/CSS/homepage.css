@@ -110,3 +110,7 @@
 .list-items {
   font-size: 2rem;
 }
+
+.transparent-bg {
+  background-color: rgba(87, 87, 87, 0.8);
+}

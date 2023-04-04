@@ -144,7 +144,7 @@ function Products() {
                 <div className="m-1 text-center rounded h-100 p-3">
                   <div id="previewImg" className="">
                     <img
-                      className="img-fluid w-75"
+                      className="img-fluid w-75 rounded-2"
                       alt="not found"
                       width={"250px"}
                       src={val.objImg.productImage}
