@@ -29,7 +29,7 @@ function Navbar() {
     ) {
       setLoginText("Login");
     } else {
-      setLoginText("logout");
+      setLoginText("Logout");
     }
   };
 
@@ -60,7 +60,7 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/about">
-                  About Us
+                  FAQ
                 </NavLink>
               </li>
               <li className="nav-item">

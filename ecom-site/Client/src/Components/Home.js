@@ -37,9 +37,12 @@ function Home() {
       </div>
 
       <div className="jumbotron">
-        <div className="container h-100 pt-4 mt-4  d-flex justify-content-center flex-column ">
-          <div className=" my-auto transparent-bg h-75 d-flex flex-column rounded-5">
-            <div className="display-4 text-center fw-bold my-auto">
+        <div className="container h-100 py-4 mt-4  d-flex justify-content-center flex-column ">
+          <div
+            className=" my-auto transparent-bg d-flex flex-column rounded-5 border-black {
+"
+          >
+            <div className="display-4 text-white text-center fw-bold my-auto">
               Why A Presentable Display Is So Important!
               <div className="review-text text-white my-auto pt-3">
                 More than half of shoppers surveyed said they would visit their

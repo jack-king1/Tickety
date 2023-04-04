@@ -91,7 +91,7 @@ function Login() {
   const GetFormStyling = () => {};
   const LoginForm = () => {
     return (
-      <div>
+      <div className="maxheight">
         <form>
           <div className="form-group">
             <label>Username</label>
@@ -222,7 +222,7 @@ function Login() {
   return (
     <div>
       <div className="text-center">
-        <h1>Welcome {GetUsername()}</h1>
+        <div className="display-2">Welcome {GetUsername()}</div>
       </div>
 
       <div className="container w-50 mt-3">

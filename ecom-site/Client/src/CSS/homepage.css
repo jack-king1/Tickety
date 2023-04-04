@@ -25,6 +25,12 @@
   height: 100vh;
 }
 
+.border-black {
+  border-style: solid;
+  color: rgba(21, 170, 191, 1);
+  border-width: 2rem;
+}
+
 .bg-geometric-blue {
   color: white;
   background-image: url("../Images/background-blue.png");
@@ -112,5 +118,5 @@
 }
 
 .transparent-bg {
-  background-color: rgba(87, 87, 87, 0.8);
+  background-color: rgba(87, 87, 87, 0.9);
 }
