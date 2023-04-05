@@ -33,20 +33,22 @@ function App() {
   };
 
   const GetCartTotalQty = (items) => {
-    if (items.length > 0) {
-      let cartTotal = 0;
+    if (items != null) {
+      if (items.length > 0) {
+        let cartTotal = 0;
 
-      for (let i = 0; i < items.length; i++) {
-        cartTotal += items[i].quantity;
-        if (cartTotal >= 9) {
-          cartTotal = 9;
-          break;
+        for (let i = 0; i < items.length; i++) {
+          cartTotal += items[i].quantity;
+          if (cartTotal >= 9) {
+            cartTotal = 9;
+            break;
+          }
         }
+        console.log("Cart Total:", cartTotal);
+        return cartTotal;
+      } else {
+        return 0;
       }
-      console.log("Cart Total:", cartTotal);
-      return cartTotal;
-    } else {
-      return 0;
     }
   };
 
@@ -72,7 +74,7 @@ function App() {
               element={<Cart updateCartIcon={UpdateItemCart} />}
             />
             <Route path="/order/success" element={<Success />} />
-            <Route path="/order/error" element={<Error />} />
+            <Route path="/error" element={<Error />} />
           </Routes>
           <Footer />
         </div>

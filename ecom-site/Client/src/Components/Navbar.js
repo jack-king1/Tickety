@@ -42,7 +42,7 @@ function Navbar(props) {
   const SetCartQtyIcon = () => {
     let value = props.cartCount >= 9 ? "9+" : props.cartCount;
     return (
-      <div className="position-absolute bottom-0 end-0 bg-danger w-50 h-50 text-white cart-number my-auto">
+      <div className="position-absolute top-0 mt-3 end-0 bg-danger w-50 text-white cart-number">
         {value}
       </div>
     );
@@ -109,7 +109,7 @@ function Navbar(props) {
           </Link>
         </div>
         <div className="col-lg-5 col-md-4 col-sm-3 col-3 d-flex justify-content-end">
-          <div className="my-auto d-flex">
+          <div className="my-auto h-100 d-flex">
             <NavLink className="nav-link me-3" to="/search">
               <span className="material-icons fs-2 text-white ">search</span>
             </NavLink>

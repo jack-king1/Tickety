@@ -4,6 +4,7 @@ import Axios from "axios";
 import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
 import "../CSS/App.css";
+import AddReview from "./AddReview";
 
 function ProductPage(props) {
   const { productID } = useParams();
@@ -246,7 +247,7 @@ function ProductPage(props) {
     <div>
       <div className="container maxheight">
         <div className="row">
-          <div className="col-7">
+          <div className="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 pt-4">
             <img
               className="img-fluid w-100"
               alt="not found"
@@ -254,7 +255,7 @@ function ProductPage(props) {
               src={convertedImagesList[imageSelected]}
             />
           </div>
-          <div className="col-5">
+          <div className="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5">
             <h1 className="text-left pt-5">{GetProductName()}</h1>
 
             <hr className="bg-primary border-2 border-top border-primary" />
@@ -298,6 +299,7 @@ function ProductPage(props) {
                 );
               })}
             </div>
+            <AddReview />
           </div>
         </div>
       </div>

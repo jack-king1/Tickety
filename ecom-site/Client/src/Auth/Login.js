@@ -35,7 +35,7 @@ function Login() {
 
   const LogoutForm = () => {
     return (
-      <div className="position-relative maxheight">
+      <div className="position-relative">
         <div className="fixed-bottom">
           <button
             className="btn btn-danger btn-large w-100 p-4 btn-block border-0"
@@ -91,7 +91,7 @@ function Login() {
   const GetFormStyling = () => {};
   const LoginForm = () => {
     return (
-      <div className="maxheight">
+      <div>
         <form>
           <div className="form-group">
             <label>Username</label>
@@ -225,7 +225,7 @@ function Login() {
         <div className="display-2">Welcome {GetUsername()}</div>
       </div>
 
-      <div className="container w-50 mt-3">
+      <div className="container w-50 mt-3 maxheight">
         <div
           className={
             "d-flex text-center " + (CheckUserExists() ? "d-none" : "")

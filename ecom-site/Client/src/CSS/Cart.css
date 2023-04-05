@@ -1,6 +1,8 @@
 .hover-div:hover {
   cursor: pointer;
+  background-color: rgb(213, 49, 49);
 }
 
-.hover-div {
+div.hover-div {
+  background-color: hsl(0, 84%, 44%);
 }

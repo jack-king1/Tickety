@@ -253,7 +253,7 @@ function Cart(props) {
                       </div>
                       <div
                         onClick={() => RemoveCartItem(val.data.productID)}
-                        className="col-12 col-sm-12 col-md-1 col-lg-1 col-xl-1 align-items-center text-center bg-danger hover-div rounded-5 my-2"
+                        className="col-12 col-sm-12 col-md-1 col-lg-1 col-xl-1 align-items-center text-center hover-div rounded-5 my-2"
                       >
                         {/* <button
                           onClick={() => RemoveCartItem(val.data.productID)}
