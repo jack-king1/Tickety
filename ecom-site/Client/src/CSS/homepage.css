@@ -120,3 +120,15 @@
 .transparent-bg {
   background-color: rgba(87, 87, 87, 0.9);
 }
+
+.sticky-nav {
+  position: sticky;
+  top: 0;
+}
+
+.cart-number {
+  color: rgb(193, 15, 15);
+  border-radius: 20px;
+  text-align: center;
+  font-size: 0.7rem;
+}

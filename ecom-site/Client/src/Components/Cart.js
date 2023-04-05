@@ -8,7 +8,7 @@ import "../CSS/App.css";
 import "../CSS/Cart.css";
 import "../CSS/homepage.css";
 
-function Cart() {
+function Cart(props) {
   const [cartProductData, setCartProductData] = useState([]);
   const [cartQty, setCartQty] = useState(0);
   const [cartCost, setCartCost] = useState(0);
@@ -169,6 +169,7 @@ function Cart() {
     LoadData();
     GetCartTotalCost();
     GetCartTotalQty();
+    props.updateCartIcon();
   };
 
   const CartItemQty = async (productID, increaseQty) => {
@@ -188,6 +189,11 @@ function Cart() {
     LoadData();
     GetCartTotalCost();
     GetCartTotalQty();
+    props.updateCartIcon();
+  };
+
+  const GetMinusBtnActive = (qty) => {
+    return qty <= 1 ? "disabled" : "";
   };
 
   return (
@@ -218,7 +224,10 @@ function Cart() {
                               onClick={() =>
                                 CartItemQty(val.cart.productID, false)
                               }
-                              className="btn btn-outline-secondary btn-sm"
+                              className={
+                                "btn btn-outline-secondary btn-sm " +
+                                GetMinusBtnActive(val.cart.quantity)
+                              }
                             >
                               -
                             </button>

@@ -16,11 +16,45 @@ import Footer from "./Components/Footer";
 import "./CSS/App.css";
 
 function App() {
+  const [activeCartCount, setActiveCartCount] = useState(0);
+
+  //Called once at start of page load
+  useEffect(() => {
+    UpdateItemCart();
+  }, []);
+
+  const UpdateItemCart = () => {
+    console.log("Updating cart number!");
+    let items = JSON.parse(localStorage.getItem("cart"));
+    let qty = GetCartTotalQty(items);
+    setActiveCartCount(qty);
+
+    console.log("cart items:", items);
+  };
+
+  const GetCartTotalQty = (items) => {
+    if (items.length > 0) {
+      let cartTotal = 0;
+
+      for (let i = 0; i < items.length; i++) {
+        cartTotal += items[i].quantity;
+        if (cartTotal >= 9) {
+          cartTotal = 9;
+          break;
+        }
+      }
+      console.log("Cart Total:", cartTotal);
+      return cartTotal;
+    } else {
+      return 0;
+    }
+  };
+
   return (
     <div id="body" className="">
       <BrowserRouter>
         <div>
-          <Navbar />
+          <Navbar cartCount={activeCartCount} />
           <Routes>
             <Route exact path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
@@ -28,9 +62,15 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/admin" element={<Admin />} />
             {/*<Route path="/productpage" element={<ProductPage />} /> */}
-            <Route path="/productpage/:productID" element={<ProductPage />} />
+            <Route
+              path="/productpage/:productID"
+              element={<ProductPage updateCartIcon={UpdateItemCart} />}
+            />
             <Route path="/login" element={<Login />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route
+              path="/cart"
+              element={<Cart updateCartIcon={UpdateItemCart} />}
+            />
             <Route path="/order/success" element={<Success />} />
             <Route path="/order/error" element={<Error />} />
           </Routes>

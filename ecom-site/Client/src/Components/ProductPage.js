@@ -5,7 +5,7 @@ import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
 import "../CSS/App.css";
 
-function ProductPage() {
+function ProductPage(props) {
   const { productID } = useParams();
   //const { path } = useMatch();
   const [productData, setProductData] = useState([]);
@@ -81,6 +81,10 @@ function ProductPage() {
       //create a new entry
       cartValues.push({ productID: productID, quantity: 1 });
       localStorage.setItem("cart", JSON.stringify(cartValues));
+    }
+    console.log("Props:", props);
+    {
+      props.updateCartIcon();
     }
     console.log(JSON.parse(localStorage.getItem("cart")));
     //console.log(cartValues.includes(productID));

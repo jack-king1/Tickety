@@ -9,14 +9,20 @@ import Cart from "./Cart";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../CSS/homepage.css";
 
-function Navbar() {
+function Navbar(props) {
   const [loginText, setLoginText] = useState();
+  const [cartQty, setCartQty] = useState(0);
 
   useEffect(() => {
     LoadData();
   }, []);
 
+  useEffect(() => {
+    console.log("props count: ", props.cartCount);
+  }, props.cartCount);
+
   const LoadData = () => {
+    console.log("props", props);
     setLoginText(localStorage.getItem("username"));
     SetMenuLoginText();
   };
@@ -33,8 +39,17 @@ function Navbar() {
     }
   };
 
+  const SetCartQtyIcon = () => {
+    let value = props.cartCount >= 9 ? "9+" : props.cartCount;
+    return (
+      <div className="position-absolute bottom-0 end-0 bg-danger w-50 h-50 text-white cart-number my-auto">
+        {value}
+      </div>
+    );
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark navbar">
+    <nav className="navbar navbar-expand-lg navbar-dark navbar sticky-nav">
       <div className="row w-100">
         <div className="col-lg-5 col-md-5 col-sm-5 col-5 my-auto">
           <button
@@ -101,10 +116,11 @@ function Navbar() {
             <NavLink className="nav-link me-3" to="/login">
               <span className="material-icons fs-2 text-white">person</span>
             </NavLink>
-            <NavLink className="nav-link" to="/cart">
+            <NavLink className="nav-link position-relative" to="/cart">
               <span className="material-icons fs-2 text-white">
                 shopping_bag
               </span>
+              {SetCartQtyIcon()}
             </NavLink>
           </div>
         </div>
