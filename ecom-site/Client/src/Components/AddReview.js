@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 function AddReview() {
+  const [reviewRating, setReviewRating] = useState(5);
   const [reviewStars, setReviewStars] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -22,6 +23,7 @@ function AddReview() {
   };
 
   const GetReviewStars = (rating) => {
+    setReviewRating(rating);
     console.log("Rating Star", rating);
     let reviewStars = [];
     for (let i = 0; i < 5; i++) {
@@ -58,25 +60,31 @@ function AddReview() {
       <div>
         <form>
           <div className="form-group">
-            <label>Username/Name</label>
-            <input
-              type="name"
-              className="form-control"
-              placeholder="Enter username or name"
-              // onChange={}
-            />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
+            <label>Review</label>
             <input
               type="text"
               className="form-control"
-              placeholder="Your amazing review"
               // onChange={}
             />
           </div>
+          <div class="form-check">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              Anonymous Review
+            </label>
+          </div>
         </form>
-        <div className="mt-4">{reviewStars}</div>
+
+        <div className="d-flex mt-4">
+          <div className="me-2">{reviewStars} </div>
+          <div className="fw-bold">{reviewRating}</div>
+        </div>
+
         <input
           type="range"
           className="form-range w-50 "
@@ -86,6 +94,7 @@ function AddReview() {
           onChange={(e) => GetReviewStars(e.target.value)}
           defaultValue={5}
         />
+
         <button
           type="button"
           // onClick={}
