@@ -251,8 +251,8 @@ app.post("/api/sendemail", (req, res) => {
     from: "TicketySender@outlook.com",
     to: "jackking.gm97@gmail.com",
     subject: "Tickety Contact Form",
-    text: "tempText",
-    html: "<p>tempText</p>",
+    text: "Text",
+    html: `<p>${tempText.toString()}<p>`,
   };
 
   transporter.sendMail(options, function (err, info) {
