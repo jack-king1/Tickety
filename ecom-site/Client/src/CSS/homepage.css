@@ -75,13 +75,18 @@
 }
 
 .btn-primary {
-  background-color: rgb(250, 176, 5) !important;
-  border-color: #fab005 !important;
+  background-color: rgb(21, 170, 191);
+  border-color: rgb(21, 170, 191) !important;
 }
 
 .btn-primary:hover {
-  background-color: #ffe066 !important;
-  border-color: #ffe066 !important;
+  background-color: rgb(26, 189, 211) !important;
+  border-color: rgb(26, 189, 211) !important;
+}
+
+.btn-outline-primary {
+  border-color: rgb(21, 170, 191) !important;
+  color: rgb(21, 170, 191) !important;
 }
 
 .accent-text {
