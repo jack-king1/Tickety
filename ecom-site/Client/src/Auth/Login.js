@@ -76,10 +76,12 @@ function Login() {
   };
 
   const SetSessionData = (data) => {
+    console.log("Session Data: ", data);
     localStorage.setItem("username", data.username);
     localStorage.setItem("firstname", data.firstname);
     localStorage.setItem("lastname", data.lastname);
     localStorage.setItem("email", data.email);
+    localStorage.setItem("accountID", data.accountID);
   };
 
   //Register User

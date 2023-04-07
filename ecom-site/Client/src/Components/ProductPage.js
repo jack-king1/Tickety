@@ -19,11 +19,15 @@ function ProductPage(props) {
   const [productReviews, setProductReviews] = useState([]);
   const [productReviewAverageRating, setProductReviewAverageRating] =
     useState(0);
+  const [completedProductReview, setCompletedProductReview] = useState(false);
+  const [accountID, setAccountID] = useState(-1);
 
   useEffect(() => {
     if (!initProduct) {
       SetupProductPage();
       setInitProduct(true);
+      let tempID = localStorage.getItem("accountID");
+      setAccountID(tempID);
     }
   }, []);
 
@@ -45,6 +49,16 @@ function ProductPage(props) {
       //console.log(convertedImagesList);
     }
   }, [convertedImagesList]);
+
+  useEffect(() => {
+    for (let i = 0; i < productReviews.length; i++) {
+      if (productReviews[i].accountID == accountID) {
+        console.log("Has Already Reviewed!");
+        setCompletedProductReview(true);
+        break;
+      }
+    }
+  }, [productReviews]);
 
   const SetupProductPage = async () => {
     //Request data from server.
@@ -135,7 +149,6 @@ function ProductPage(props) {
       .then((response) => {
         //console.log("Product: ", response);
         setProductReviews(response.data);
-        console.log("product Reviews: ", response.data);
       })
       .then((response) => {
         return "Success!";
@@ -176,7 +189,6 @@ function ProductPage(props) {
       }
 
       reviewAverage = reviewTotalScore / productReviews.length;
-      console.log("Product Rating:", reviewAverage);
 
       for (let i = 0; i < 5; i++) {
         if (reviewAverage > i) {
@@ -243,6 +255,12 @@ function ProductPage(props) {
     return reviewAverage;
   };
 
+  const CheckReviewComplete = (reviewAccountID) => {
+    if (reviewAccountID == accountID) {
+      setCompletedProductReview(true);
+    }
+  };
+
   return (
     <div>
       <div className="container maxheight">
@@ -290,7 +308,9 @@ function ProductPage(props) {
               {productReviews.map((val, key) => {
                 return (
                   <div className="mb-4 col-4">
-                    <p className="mb-0 font-weight-bold">Jack King</p>
+                    <p className="mb-0 fw-bold">
+                      {val.anonymous == true ? "Anonymous" : val.username}
+                    </p>
                     <div className="d-flex">
                       <div className="pe-4">{val.reviewText}</div>
                     </div>
@@ -299,7 +319,10 @@ function ProductPage(props) {
                 );
               })}
             </div>
-            <AddReview />
+            <AddReview
+              productID={productID}
+              reviewComplete={completedProductReview}
+            />
           </div>
         </div>
       </div>

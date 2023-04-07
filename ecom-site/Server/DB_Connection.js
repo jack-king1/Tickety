@@ -10,6 +10,8 @@ const stripe = require("stripe")(
   "sk_test_51Mo9PbGTuZFzGPicZqCqfkYCBeuBVGHHDj3kgI44pZs3rQ7u3BekjJ1R9445RjuiU3P54jqp9B0687rSp3nOcFPS00zGwlCurU"
 );
 
+const nodemailer = require("nodemailer");
+
 //password is password on windows.
 //password is nYs378AA on linux.
 const db = mysql.createPool({
@@ -30,6 +32,31 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+// var transporter = nodemailer.createTransport({
+//   name: "TicketySender@outlook.com",
+//   host: "smtp-mail.outlook.com", // hostname
+//   secureConnection: false, // TLS requires secureConnection to be false
+//   port: 587, // port for secure SMTP
+//   auth: {
+//     user: "TicketySender@outlook.com",
+//     pass: "cRatt3EPwald",
+//   },
+//   tls: {
+//     ciphers: "SSLv3",
+//     rejectUnauthorized: false,
+//   },
+// });
+
+var transporter = nodemailer.createTransport({
+  host: "smtp.outlook.com",
+  port: 587,
+  secure: false, // upgrade later with STARTTLS
+  auth: {
+    user: "TicketySender@outlook.com",
+    pass: "cRatt3EPwald",
+  },
+});
 
 db.getConnection((err, connection) => {
   if (err) {
@@ -190,4 +217,53 @@ app.get("/order/success", async (req, res) => {
   res.send(
     `<html><body><h1>Thanks for your order, ${customer.name}!</h1></body></html>`
   );
+});
+
+//Review
+app.post("/api/createreview", (req, res) => {
+  const reviewText = req.body.reviewText;
+  const anonymous = req.body.anonymous;
+  const reviewRating = req.body.reviewRating;
+  const productID = req.body.productID;
+  const accountID = req.body.accountID;
+  const username = req.body.username;
+  console.log(reviewText, reviewRating, productID, accountID, anonymous);
+
+  const sqlInsertNewReview =
+    "INSERT INTO productreviews (reviewText, reviewRating, productID, accountID, anonymous, username) VALUES (?,?,?,?,?,?)";
+  db.query(
+    sqlInsertNewReview,
+    [reviewText, reviewRating, productID, accountID, anonymous, username],
+    (err, result) => {
+      console.log(err);
+      res.send(result);
+    }
+  );
+});
+
+//Contact
+
+app.post("/api/sendemail", (req, res) => {
+  console.log("Sending Email...");
+  let tempText = req.body.emailText + " : " + req.body.contactText;
+
+  const options = {
+    from: "TicketySender@outlook.com",
+    to: "jackking.gm97@gmail.com",
+    subject: "Tickety Contact Form",
+    text: "tempText",
+    html: "<p>tempText</p>",
+  };
+
+  transporter.sendMail(options, function (err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Send", info.response);
+      (err, result) => {
+        console.log(err);
+        res.send(result);
+      };
+    }
+  });
 });
