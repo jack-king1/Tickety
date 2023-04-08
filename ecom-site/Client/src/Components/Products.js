@@ -10,6 +10,8 @@ function Products() {
   const [productImagesList, setProductImagesList] = useState([]);
   const [asciiImageData, setAsciiImageData] = useState([]);
   const [productObjectData, setProductObjectData] = useState([]);
+  const [searchProductData, setSearchProductData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   //{productData: Object, productImage: string}
 
   const [initProducts, setInitProducts] = useState(false);
@@ -130,10 +132,10 @@ function Products() {
     });
   };
 
-  return (
-    <div className="maxheight">
-      <div className="container pt-3">
-        <div className="text-center text-white display-5 fw-bold">Products</div>
+  //Get Product Display
+  const DisplayProducts = () => {
+    if (searchQuery === "") {
+      return (
         <div className="row justify-content-center">
           {productObjectData.map((val, key) => {
             return (
@@ -169,6 +171,86 @@ function Products() {
             );
           })}
         </div>
+      );
+    } else {
+      return (
+        <div className="row justify-content-center">
+          {productObjectData
+            .filter((productData) => {
+              if (searchQuery === "") {
+                //if query is empty
+                return productData;
+              } else if (
+                (console.log(
+                  "PRODUCT DATA HERE BIRCH: ",
+                  productData.val.productName
+                ),
+                productData.val.productName
+                  .toLowerCase()
+                  .includes(searchQuery.toLowerCase()))
+              ) {
+                //returns filtered array
+                return productData;
+              }
+            })
+            .map((val, key) => {
+              return (
+                <div
+                  key={key}
+                  className="col-lg-2 col-md-6 col-sm-6 mt-3 me-lg-3 me-sm-0 circle-image"
+                >
+                  <div className="m-1 text-center rounded h-100 p-3">
+                    <div id="previewImg" className="">
+                      <img
+                        className="img-fluid w-75 rounded-2"
+                        alt="not found"
+                        width={"250px"}
+                        src={val.objImg.productImage}
+                      />
+                    </div>
+                    <div id="productInfo">
+                      <p>{val.val.productName}</p>
+                      <p className="fw-bold text-success">
+                        £{val.val.productPrice}
+                      </p>
+                      <Link to={`/productpage/${val.val.productID}`}>
+                        <button
+                          type="button"
+                          className="btn btn-outline-secondary btn-sm"
+                        >
+                          View Product
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
+      );
+    }
+  };
+
+  return (
+    <div className="maxheight">
+      <div className="container pt-3">
+        {/* <div className="text-center display-5 fw-bold">Products</div> */}
+        <div className="input-group my-3 w-50 mx-auto">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search..."
+            aria-label="Recipient's username"
+            aria-describedby="basic-addon2"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <div className="input-group-append">
+            <button className="btn btn-outline-secondary" type="button">
+              Search
+            </button>
+          </div>
+        </div>
+        {DisplayProducts()}
       </div>
     </div>
   );
