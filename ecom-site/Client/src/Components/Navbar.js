@@ -110,9 +110,9 @@ function Navbar(props) {
         </div>
         <div className="col-lg-5 col-md-4 col-sm-3 col-3 d-flex justify-content-end">
           <div className="my-auto h-100 d-flex">
-            <NavLink className="nav-link me-3" to="/search">
+            {/* <NavLink className="nav-link me-3" to="/search">
               <span className="material-icons fs-2 text-white ">search</span>
-            </NavLink>
+            </NavLink> */}
             <NavLink className="nav-link me-3" to="/login">
               <span className="material-icons fs-2 text-white">person</span>
             </NavLink>
