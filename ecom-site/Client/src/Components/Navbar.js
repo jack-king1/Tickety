@@ -49,7 +49,7 @@ function Navbar(props) {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark navbar sticky-nav">
+    <nav className="navbar navbar-expand-lg navbar-dark navbar sticky-nav navbar-z">
       <div className="row w-100">
         <div className="col-lg-5 col-md-5 col-sm-5 col-5 my-auto">
           <button
