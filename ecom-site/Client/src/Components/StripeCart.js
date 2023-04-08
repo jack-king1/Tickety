@@ -32,5 +32,14 @@ export default function StripeCart(props) {
     console.warn(error.message);
   }
 
-  return <button onClick={() => handleCheckout()}>Checkout</button>;
+  return (
+    <button
+      className={
+        "btn btn-success " + (props.props.length > 0 ? "" : "disabled")
+      }
+      onClick={() => handleCheckout()}
+    >
+      Checkout
+    </button>
+  );
 }
