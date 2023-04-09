@@ -69,7 +69,7 @@ function Navbar(props) {
           >
             <ul className="navbar-nav">
               <li className="nav-item">
-                <NavLink className="nav-link" to="/products">
+                <NavLink className="nav-link" to={`/products/all`}>
                   Products
                 </NavLink>
               </li>

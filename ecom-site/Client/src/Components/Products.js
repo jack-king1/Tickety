@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import "../CSS/App.css";
 import "../CSS/homepage.css";
 
-function Products() {
+function Products(props) {
+  const { footerSearch } = useParams();
   const [productList, setProductList] = useState([]);
   const [productImagesList, setProductImagesList] = useState([]);
   const [asciiImageData, setAsciiImageData] = useState([]);
@@ -21,8 +22,19 @@ function Products() {
     if (!initProducts) {
       GetProductsList();
       setInitProducts(true);
+      FooterSearchQueryInit();
     }
   }, []);
+
+  useEffect(() => {
+    if (
+      footerSearch === null ||
+      footerSearch === undefined ||
+      footerSearch != ""
+    ) {
+      setSearchQuery(footerSearch);
+    }
+  }, [footerSearch]);
 
   //when the product list is set, retrieve the images.
   useEffect(() => {
@@ -56,6 +68,19 @@ function Products() {
       setProductObjectData(finalPairList);
       return "Success!";
     });
+  };
+
+  const FooterSearchQueryInit = () => {
+    if (
+      footerSearch === null ||
+      footerSearch === undefined ||
+      footerSearch != ""
+    ) {
+      console.log("Search Query From Footer: ", footerSearch);
+      setSearchQuery("");
+    } else {
+      setSearchQuery(footerSearch);
+    }
   };
 
   const CreateProductImageList = async () => {
@@ -135,7 +160,7 @@ function Products() {
 
   //Get Product Display
   const DisplayProducts = () => {
-    if (searchQuery === "") {
+    if (searchQuery === "all") {
       return (
         <div className="row justify-content-center">
           {productObjectData.map((val, key) => {
@@ -182,13 +207,9 @@ function Products() {
                 //if query is empty
                 return productData;
               } else if (
-                (console.log(
-                  "PRODUCT DATA HERE BIRCH: ",
-                  productData.val.productName
-                ),
                 productData.val.productName
                   .toLowerCase()
-                  .includes(searchQuery.toLowerCase()))
+                  .includes(searchQuery.toLowerCase())
               ) {
                 //returns filtered array
                 return productData;

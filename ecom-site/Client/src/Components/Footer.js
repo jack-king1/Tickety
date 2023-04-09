@@ -4,8 +4,11 @@ import { Link, NavLink } from "react-router-dom";
 import { ReactComponent as FacebookSVG } from "../Images/facebook.svg";
 import { ReactComponent as InstagramSVG } from "../Images/instagram.svg";
 import { ReactComponent as YoutubeSVG } from "../Images/youtube.svg";
+import Products from "./Products";
 
 function Footer() {
+  const [searchQuery, setSearchQuery] = useState();
+
   return (
     <div className="">
       <div className="bg-dark text-white footer-style pt-2">
@@ -27,11 +30,14 @@ function Footer() {
               placeholder="Search..."
               aria-label="Recipient's username"
               aria-describedby="basic-addon2"
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <div class="input-group-append">
-              <button class="btn btn-outline-warning" type="button">
-                Search
-              </button>
+              <Link to={`/products/${searchQuery}`}>
+                <button type="button" className="btn btn-outline-warning">
+                  Search
+                </button>
+              </Link>
             </div>
           </div>
 
