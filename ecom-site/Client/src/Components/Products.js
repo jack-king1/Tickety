@@ -52,10 +52,21 @@ function Products(props) {
     }
   }, [productImagesList]);
 
+  useEffect(() => {
+    console.log("Final product Data: ", productObjectData);
+  }, [productObjectData]);
+
   const CreateImageProductPairList = async () => {
     //convert blob data to base64
+    let productTagsAll = [];
     let imgProdIDPairs = await CreateImageProductIDPairs();
     let finalPairList = [];
+
+    await Axios.get("http://localhost:3001/api/getallproducttags").then(
+      (response) => {
+        productTagsAll = response.data;
+      }
+    );
 
     return Promise.all(
       //need to check if product list is > 0
@@ -63,7 +74,16 @@ function Products(props) {
         //console.log("val:", val);
         let productID = val.productID;
         let objImg = imgProdIDPairs.find((o) => o.productID == productID);
-        finalPairList.push({ val, objImg });
+        let productTags;
+
+        //Get product tags
+        //use filter function here to filter tags for product id array
+        productTags = productTagsAll.filter((tag) => {
+          if (tag.productID === val.productID) {
+            return tag;
+          }
+        });
+        finalPairList.push({ val, objImg, productTags });
       })
     ).then(() => {
       setProductObjectData(finalPairList);

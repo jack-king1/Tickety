@@ -269,7 +269,18 @@ app.post("/api/sendemail", (req, res) => {
   });
 });
 
-//get product tags
+//get product tags for all products
+app.get("/api/getallproducttags", (req, res) => {
+  const pID = req.query.productID;
+  const sqlSelect =
+    " SELECT * FROM productstags INNER JOIN tags USING (tagID) INNER JOIN myproducts USING (productID)";
+  db.query(sqlSelect, [pID], (err, result) => {
+    res.send(result);
+    console.log(err);
+  });
+});
+
+//get product tags for specific product.
 app.get("/api/getproducttags", (req, res) => {
   const pID = req.query.productID;
   const sqlSelect =

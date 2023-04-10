@@ -273,7 +273,7 @@ function ProductPage(props) {
         <div className="row">
           <div className="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 pt-4">
             <img
-              className="img-fluid w-100"
+              className="img-fluid w-100 rounded-4"
               alt="not found"
               width={"250px"}
               src={convertedImagesList[imageSelected]}
