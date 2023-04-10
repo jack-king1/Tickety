@@ -8,6 +8,7 @@ function Admin() {
   const [productName, setProductName] = useState("test");
   const [productDesc, setProductDesc] = useState("test");
   const [productPrice, setProductPrice] = useState("test");
+  const [productQty, setProductQty] = useState("test");
   const [itemDelete, setItemDelete] = useState("");
   const [productList, setProductList] = useState([]);
   const [uploadImages, setUploadImages] = useState([]);
@@ -31,6 +32,7 @@ function Admin() {
       productName: productName,
       productDesc: productDesc,
       productPrice: productPrice,
+      productQty: productQty,
     }).then((response) => {
       console.log("Insert Success!", response);
       return "success!";
@@ -191,6 +193,12 @@ function Admin() {
             <input
               type="text"
               onChange={(e) => setProductPrice(e.target.value)}
+            />
+            <br />
+            <label>Product Qty (this is not stock):</label>
+            <input
+              type="text"
+              onChange={(e) => setProductQty(e.target.value)}
             />
           </form>
         </div>

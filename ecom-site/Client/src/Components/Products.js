@@ -15,6 +15,7 @@ function Products(props) {
   const [searchProductData, setSearchProductData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   //{productData: Object, productImage: string}
+  const [productTags, setProductTags] = useState([]);
 
   const [initProducts, setInitProducts] = useState(false);
 

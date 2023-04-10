@@ -15,6 +15,7 @@ function ProductPage(props) {
   const [convertedImagesList, setConvertedImagesList] = useState([]);
   const [imageSelected, setImageSelected] = useState(0);
   const [productDesc, setProductDesc] = useState("");
+  const [productQty, setProductQty] = useState(-1);
   const [reviewCount, setReviewCount] = useState(0);
   const [productReviews, setProductReviews] = useState([]);
   const [productReviewAverageRating, setProductReviewAverageRating] =
@@ -34,6 +35,7 @@ function ProductPage(props) {
   useEffect(() => {
     if (productData.length > 0) {
       setProductDesc(productData[0].productDesc);
+      setProductQty(productData[0].productQty);
       GetProductImages();
     }
   }, [productData]);
@@ -261,6 +263,10 @@ function ProductPage(props) {
     }
   };
 
+  const GetProductQty = () => {
+    return productQty;
+  };
+
   return (
     <div>
       <div className="container maxheight">
@@ -289,12 +295,15 @@ function ProductPage(props) {
             <h1 className="pt-3 font-weight-bold text-success">
               £{GetProductPrice()}
             </h1>
+            <p className="fw-bold">Qty: {GetProductQty()}</p>
+
             <button
               onClick={() => HandleAddToCart()}
-              className="btn btn-success mt-3"
+              className="btn btn-success mt-1"
             >
               <h4>BUY NOW</h4>
             </button>
+
             <hr className="bg-primary border-2 border-top border-primary" />
             <p className="pt-5 display-6">{GetProductDesc()}</p>
           </div>

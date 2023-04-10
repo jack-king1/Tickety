@@ -95,12 +95,13 @@ app.post("/api/insert", (req, res) => {
   const productName = req.body.productName;
   const productDesc = req.body.productDesc;
   const productPrice = req.body.productPrice;
+  const productQty = req.body.productQty;
 
   const sqlInsert =
-    "INSERT INTO myproducts (productName, productDesc, productPrice) VALUES (?,?,?)";
+    "INSERT INTO myproducts (productName, productDesc, productPrice, productQty) VALUES (?,?,?,?)";
   db.query(
     sqlInsert,
-    [productName, productDesc, productPrice],
+    [productName, productDesc, productPrice, productQty],
     (err, result) => {
       res.send(result);
       console.log(err);
@@ -267,3 +268,18 @@ app.post("/api/sendemail", (req, res) => {
     }
   });
 });
+
+//get product tags
+app.get("/api/getproducttags", (req, res) => {
+  const pID = req.query.productID;
+  const sqlSelect =
+    " SELECT * FROM productstags INNER JOIN tags USING (tagID) INNER JOIN myproducts USING (productID) WHERE myproducts.productID = ?";
+  db.query(sqlSelect, [pID], (err, result) => {
+    res.send(result);
+    console.log(err);
+  });
+});
+
+// app.listen(3001, () => {
+//   console.log("running on port 3001!");
+// });
