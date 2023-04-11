@@ -184,7 +184,7 @@ function Products(props) {
   //Get Product Display
   const DisplayProducts = () => {
     if (
-      searchQuery === "all" &&
+      (searchQuery === "all" || searchQuery === "") &&
       ticketFilter === false &&
       standFilter === false &&
       pinFilter === false &&
@@ -232,7 +232,13 @@ function Products(props) {
         <div className="row justify-content-center mb-4">
           {productObjectData
             .filter((productData) => {
-              if (searchQuery === "") {
+              if (
+                searchQuery === "" &&
+                ticketFilter === false &&
+                standFilter === false &&
+                pinFilter === false &&
+                printerFilter === false
+              ) {
                 //if query is empty
                 return productData;
               } else if (
