@@ -247,15 +247,51 @@ function Products(props) {
                 //returns filtered array
                 if (ticketFilter === true) {
                   if (productData.tags.length > 0) {
-                    for (let i = 0; i < productData.tags; i++) {
+                    for (let i = 0; i < productData.tags.length; i++) {
                       if (productData.tags[i].tagID == 1) {
+                        console.log("TICKET FILTER", ticketFilter);
+                        return productData;
+                      }
+                    }
+                  }
+                }
+                if (standFilter === true) {
+                  if (productData.tags.length > 0) {
+                    for (let i = 0; i < productData.tags.length; i++) {
+                      if (productData.tags[i].tagID == 2) {
+                        console.log("TICKET FILTER", ticketFilter);
+
+                        return productData;
+                      }
+                    }
+                  }
+                }
+
+                if (pinFilter === true) {
+                  if (productData.tags.length > 0) {
+                    for (let i = 0; i < productData.tags.length; i++) {
+                      if (productData.tags[i].tagID == 4) {
+                        console.log("TICKET FILTER", ticketFilter);
+
+                        return productData;
+                      }
+                    }
+                  }
+                }
+
+                if (printerFilter === true) {
+                  if (productData.tags.length > 0) {
+                    for (let i = 0; i < productData.tags.length; i++) {
+                      if (productData.tags[i].tagID == 3) {
+                        console.log("TICKET FILTER", ticketFilter);
+
                         return productData;
                       }
                     }
                   }
                 }
                 //WORKING HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                return productData;
+                // return productData;
               }
             })
             .map((val, key) => {
@@ -294,6 +330,12 @@ function Products(props) {
         </div>
       );
     }
+  };
+
+  const CheckSearchIncludes = (productData) => {
+    return productData.val.productName
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
   };
 
   return (
