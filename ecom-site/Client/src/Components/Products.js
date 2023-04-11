@@ -236,15 +236,19 @@ function Products(props) {
                 //if query is empty
                 return productData;
               } else if (
-                productData.val.productName
-                  .toLowerCase()
-                  .includes(searchQuery.toLowerCase()) ||
+                searchQuery !== "all" ||
                 ticketFilter === true ||
                 standFilter === true ||
                 pinFilter === true ||
                 printerFilter === true
               ) {
                 //returns filtered array
+                if (searchQuery !== "all" || searchQuery !== "") {
+                  if (CheckSearchIncludes(productData)) {
+                    return productData;
+                  }
+                }
+
                 if (ticketFilter === true) {
                   if (productData.tags.length > 0) {
                     for (let i = 0; i < productData.tags.length; i++) {
