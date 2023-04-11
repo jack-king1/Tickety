@@ -14,8 +14,10 @@ function Products(props) {
   const [productObjectData, setProductObjectData] = useState([]);
   const [searchProductData, setSearchProductData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  //{productData: Object, productImage: string}
-  const [productTags, setProductTags] = useState([]);
+  const [ticketFilter, setTicketFilter] = useState(false);
+  const [standFilter, setStandFilter] = useState(false);
+  const [pinFilter, setPinFilter] = useState(false);
+  const [printerFilter, setPrinterFilter] = useState(false);
 
   const [initProducts, setInitProducts] = useState(false);
 
@@ -74,16 +76,16 @@ function Products(props) {
         //console.log("val:", val);
         let productID = val.productID;
         let objImg = imgProdIDPairs.find((o) => o.productID == productID);
-        let productTags;
+        let tags;
 
         //Get product tags
         //use filter function here to filter tags for product id array
-        productTags = productTagsAll.filter((tag) => {
+        tags = productTagsAll.filter((tag) => {
           if (tag.productID === val.productID) {
             return tag;
           }
         });
-        finalPairList.push({ val, objImg, productTags });
+        finalPairList.push({ val, objImg, tags });
       })
     ).then(() => {
       setProductObjectData(finalPairList);
@@ -181,7 +183,13 @@ function Products(props) {
 
   //Get Product Display
   const DisplayProducts = () => {
-    if (searchQuery === "all") {
+    if (
+      searchQuery === "all" &&
+      ticketFilter === false &&
+      standFilter === false &&
+      pinFilter === false &&
+      printerFilter === false
+    ) {
       return (
         <div className="row justify-content-center">
           {productObjectData.map((val, key) => {
@@ -230,9 +238,23 @@ function Products(props) {
               } else if (
                 productData.val.productName
                   .toLowerCase()
-                  .includes(searchQuery.toLowerCase())
+                  .includes(searchQuery.toLowerCase()) ||
+                ticketFilter === true ||
+                standFilter === true ||
+                pinFilter === true ||
+                printerFilter === true
               ) {
                 //returns filtered array
+                if (ticketFilter === true) {
+                  if (productData.tags.length > 0) {
+                    for (let i = 0; i < productData.tags; i++) {
+                      if (productData.tags[i].tagID == 1) {
+                        return productData;
+                      }
+                    }
+                  }
+                }
+                //WORKING HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 return productData;
               }
             })
@@ -291,6 +313,56 @@ function Products(props) {
             <button className="btn btn-outline-secondary" type="button">
               Search
             </button>
+          </div>
+        </div>
+        <div className="d-flex">
+          <div className="mx-auto d-flex gap-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckDefault"
+                onChange={() => setTicketFilter(!ticketFilter)}
+              />
+              <label class="form-check-label" for="flexCheckDefault">
+                Tickets
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                id="flexCheckChecked"
+                onChange={() => setStandFilter(!standFilter)}
+              />
+              <label class="form-check-label" for="flexCheckChecked">
+                Stands
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                onChange={() => setPinFilter(!pinFilter)}
+              />
+              <label class="form-check-label" for="flexCheckChecked">
+                Pin
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                onChange={() => setPrinterFilter(!printerFilter)}
+              />
+              <label class="form-check-label" for="flexCheckChecked">
+                Printer
+              </label>
+            </div>
           </div>
         </div>
         {DisplayProducts()}
