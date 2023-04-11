@@ -18,6 +18,7 @@ function Products(props) {
   const [standFilter, setStandFilter] = useState(false);
   const [pinFilter, setPinFilter] = useState(false);
   const [printerFilter, setPrinterFilter] = useState(false);
+  const [cleaningFilter, setCleaningFilter] = useState(false);
 
   const [initProducts, setInitProducts] = useState(false);
 
@@ -188,7 +189,8 @@ function Products(props) {
       ticketFilter === false &&
       standFilter === false &&
       pinFilter === false &&
-      printerFilter === false
+      printerFilter === false &&
+      cleaningFilter === false
     ) {
       return (
         <div className="row justify-content-center mb-4">
@@ -237,7 +239,8 @@ function Products(props) {
                 ticketFilter === false &&
                 standFilter === false &&
                 pinFilter === false &&
-                printerFilter === false
+                printerFilter === false &&
+                cleaningFilter === false
               ) {
                 //if query is empty
                 return productData;
@@ -246,12 +249,25 @@ function Products(props) {
                 ticketFilter === true ||
                 standFilter === true ||
                 pinFilter === true ||
-                printerFilter === true
+                printerFilter === true ||
+                cleaningFilter === true
               ) {
                 //returns filtered array
                 if (searchQuery !== "all" || searchQuery !== "") {
                   if (CheckSearchIncludes(productData)) {
                     return productData;
+                  }
+                }
+
+                console.log("cleaningFilter", cleaningFilter);
+                if (cleaningFilter === true) {
+                  if (productData.tags.length > 0) {
+                    //console.log("Cleaning Obj:", productData);
+                    for (let i = 0; i < productData.tags.length; i++) {
+                      if (productData.tags[i].tagID == 5) {
+                        return productData;
+                      }
+                    }
                   }
                 }
 
@@ -269,8 +285,6 @@ function Products(props) {
                   if (productData.tags.length > 0) {
                     for (let i = 0; i < productData.tags.length; i++) {
                       if (productData.tags[i].tagID == 2) {
-                        console.log("TICKET FILTER", ticketFilter);
-
                         return productData;
                       }
                     }
@@ -281,8 +295,6 @@ function Products(props) {
                   if (productData.tags.length > 0) {
                     for (let i = 0; i < productData.tags.length; i++) {
                       if (productData.tags[i].tagID == 4) {
-                        console.log("TICKET FILTER", ticketFilter);
-
                         return productData;
                       }
                     }
@@ -293,8 +305,6 @@ function Products(props) {
                   if (productData.tags.length > 0) {
                     for (let i = 0; i < productData.tags.length; i++) {
                       if (productData.tags[i].tagID == 3) {
-                        console.log("TICKET FILTER", ticketFilter);
-
                         return productData;
                       }
                     }
@@ -411,6 +421,17 @@ function Products(props) {
               />
               <label class="form-check-label" for="flexCheckChecked">
                 Printer
+              </label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                value=""
+                onChange={() => setCleaningFilter(!cleaningFilter)}
+              />
+              <label class="form-check-label" for="flexCheckChecked">
+                Cleaning
               </label>
             </div>
           </div>

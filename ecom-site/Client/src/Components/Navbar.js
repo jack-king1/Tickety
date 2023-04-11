@@ -84,6 +84,11 @@ function Navbar(props) {
                 </NavLink>
               </li>
               <li className="nav-item">
+                <NavLink className="nav-link" to="/build">
+                  Build
+                </NavLink>
+              </li>
+              <li className="nav-item">
                 <NavLink
                   onClick={() => SetMenuLoginText()}
                   className="nav-link"
@@ -92,6 +97,7 @@ function Navbar(props) {
                   {loginText}
                 </NavLink>
               </li>
+
               {/* <li className="nav-item">
                 <NavLink className="nav-link" to="/admin">
                   Admin

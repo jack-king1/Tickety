@@ -14,6 +14,7 @@ import Success from "./Components/Success";
 import Error from "./Components/Error";
 import Footer from "./Components/Footer";
 import "./CSS/App.css";
+import Build from "./Components/Build";
 
 function App() {
   const [activeCartCount, setActiveCartCount] = useState(0);
@@ -75,6 +76,7 @@ function App() {
             />
             <Route path="/order/success" element={<Success />} />
             <Route path="/error" element={<Error />} />
+            <Route path="/build" element={<Build />} />
           </Routes>
           <Footer />
         </div>
