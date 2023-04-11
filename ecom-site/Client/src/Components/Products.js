@@ -191,7 +191,7 @@ function Products(props) {
       printerFilter === false
     ) {
       return (
-        <div className="row justify-content-center">
+        <div className="row justify-content-center mb-4">
           {productObjectData.map((val, key) => {
             return (
               <div
@@ -229,7 +229,7 @@ function Products(props) {
       );
     } else {
       return (
-        <div className="row justify-content-center">
+        <div className="row justify-content-center mb-4">
           {productObjectData
             .filter((productData) => {
               if (searchQuery === "") {
@@ -294,8 +294,6 @@ function Products(props) {
                     }
                   }
                 }
-                //WORKING HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                // return productData;
               }
             })
             .map((val, key) => {
