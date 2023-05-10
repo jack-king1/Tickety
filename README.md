@@ -3,6 +3,9 @@
 Tickety is an ECommerce website that sells business customers a solution to displaying products. For example a 
 bakery display. 
 
+## How To Access Tickety?
+Just visit the live URL: https://ticketyapp.netlify.app/
+
 ## Technologies
 1. React
 2. Bootstrap
