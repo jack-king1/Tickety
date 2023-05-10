@@ -10,5 +10,5 @@ bakery display.
 4. mySQL
 5. Express
 
-##Upcoming Features
+## Upcoming Features
 1. The ability for customers to design, print and have custom tickets delivred right to the doorstep and save them printing themselves.
