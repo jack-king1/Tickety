@@ -3,7 +3,7 @@
 Tickety is an ECommerce website that sells business customers a solution to displaying products. For example a 
 bakery display. 
 
-##Technologies
+## Technologies
 1. React
 2. Bootstrap
 3. NodeJS
