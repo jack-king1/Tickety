@@ -15,11 +15,22 @@ const nodemailer = require("nodemailer");
 //password is password on windows.
 //password is nYs378AA on linux.
 const db = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "ecomdb",
+  host: "ticketyapp-db.cdafkkymhjca.us-west-2.rds.amazonaws.com",
+  user: "admin",
+  password: "nYs378AA!",
+  database: "ticketapp",
+  port: 3306,
 });
+
+// const connection = mysql.createConnection({
+//   host: "ticketysqlserver.database.windows.net",
+//   user: "yourusername@your-server-name",
+//   password: "yourpassword",
+//   database: "tickety-db",
+//   ssl: {
+//     ca: "BaltimoreCyberTrustRoot.crt.pem", // Replace with the path to the certificate file on your system
+//   },
+// });
 
 app.use(cors());
 app.use(express.json());
