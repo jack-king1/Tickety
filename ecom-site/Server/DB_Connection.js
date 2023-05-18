@@ -15,10 +15,10 @@ const nodemailer = require("nodemailer");
 //password is password on windows.
 //password is nYs378AA on linux.
 const db = mysql.createPool({
-  host: "ticketyapp-db.cdafkkymhjca.us-west-2.rds.amazonaws.com",
-  user: "admin",
-  password: "nYs378AA!",
-  database: "ticketapp",
+  host: "145.14.153.51",
+  user: "u183414604_jack",
+  password: "nYs378AA",
+  database: "u183414604_ticketydb",
   port: 3306,
 });
 
