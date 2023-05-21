@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm start --prefix Server",
     "install-client": "cd ecom-site/Client && npm install && npm run build && cd ..",
-    "install-server": "cd Server && npm install && cd .. ",
+    "install-server": "cd ecom-site/Server && npm install && cd .. ",
     "heroku-postbuild": "npm run install-client && npm run install-server"
   },
   "author": "",
