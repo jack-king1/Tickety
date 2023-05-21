@@ -59,7 +59,7 @@ function App() {
         <div>
           <Navbar cartCount={activeCartCount} />
           <Routes>
-            <Route exact path="/" element={<Home />} />
+            <Route exact path="" element={<Home />} />
             <Route path="/products/:footerSearch" element={<Products />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
