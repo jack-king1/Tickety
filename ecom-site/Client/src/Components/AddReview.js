@@ -6,7 +6,6 @@ function AddReview(props) {
   const [reviewRating, setReviewRating] = useState(5);
   const [reviewStars, setReviewStars] = useState([]);
   const [loggedIn, setLoggedIn] = useState(false);
-
   //User review details
   const [reviewText, setReviewText] = useState("");
   const [accountID, setAccountID] = useState(-1);
