@@ -1,0 +1,14 @@
+{
+  "name": "ecom-site",
+  "version": "1.0.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "start": "npm start --prefix Server",
+    "install-client": "cd Client && npm install && npm run build && cd ..",
+    "install-server": "cd Server && npm install && cd .. ",
+    "heroku-postbuild": "npm run install-client && npm run install-server"
+  },
+  "author": "",
+  "license": "ISC"
+}
