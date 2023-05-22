@@ -4,11 +4,14 @@
   "description": "",
   "main": "",
   "scripts": {
-    "start": "npm start",
+    "start": "serve -s build",
     "install-client": "cd ecom-site/Client && npm install && npm run build && cd ..",
     "install-server": "cd ecom-site/Server && npm install && cd .. ",
     "heroku-postbuild": "npm run install-client && npm run install-server"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "serve": "^14.2.0"
+  }
 }
