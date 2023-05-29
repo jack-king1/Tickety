@@ -1,2 +1,0 @@
-web: node ecom-site/Server/DB_Connection.js;
-web: npm run heroku-postbuild;

@@ -7,6 +7,11 @@ import "../CSS/App.css";
 import AddReview from "./AddReview";
 
 function ProductPage(props) {
+  const api = Axios.create({
+    baseURL:
+      process.env.SERVER_URL ||
+      "https://ticketyapp-server-new.azurewebsites.net/",
+  });
   const { productID } = useParams();
   //const { path } = useMatch();
   const [productData, setProductData] = useState([]);
@@ -110,7 +115,8 @@ function ProductPage(props) {
   const GetProductImages = async () => {
     let params = new URLSearchParams([["productID", productID]]);
 
-    await Axios.get("http://localhost:3001/api/getproductimage", { params })
+    await api
+      .get("products/getproductimage", { params })
       .then((response) => {
         //console.log("Product: ", response);
         setProductImagesList(response.data);
@@ -138,16 +144,19 @@ function ProductPage(props) {
   const GetProductData = async () => {
     let params = new URLSearchParams([["productID", productID]]);
 
-    await Axios.get("http://localhost:3001/api/getproductwithid", {
-      params,
-    }).then((response) => {
-      //console.log("Product: ", response);
-      setProductData(response.data);
-    });
+    await api
+      .get("products/getproductwithid", {
+        params,
+      })
+      .then((response) => {
+        //console.log("Product: ", response);
+        setProductData(response.data);
+      });
 
-    await Axios.get("http://localhost:3001/api/getproductreviews", {
-      params,
-    })
+    await api
+      .get("reviews/getproductreviews", {
+        params,
+      })
       .then((response) => {
         //console.log("Product: ", response);
         setProductReviews(response.data);

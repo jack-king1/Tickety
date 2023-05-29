@@ -7,6 +7,11 @@ import UserProfile from "./UserProfile";
 import "../CSS/App.css";
 
 function Login() {
+  const api = Axios.create({
+    baseURL:
+      process.env.SERVER_URL ||
+      "https://ticketyapp-server-new.azurewebsites.net/",
+  });
   const [loginOption, setLoginOption] = useState(true);
 
   //react hooks for onchange data.
@@ -21,15 +26,17 @@ function Login() {
     //do date checks here.
     if (username !== "" && email !== "" && password !== "") {
       console.log("Ready to submit data.");
-      Axios.post("http://localhost:3001/api/createuser", {
-        username: username,
-        firstname: firstName,
-        lastname: lastName,
-        password: password,
-        email: email,
-      }).then((response) => {
-        console.log("Register Success!", response);
-      });
+      api
+        .post("account/createuser", {
+          username: username,
+          firstname: firstName,
+          lastname: lastName,
+          password: password,
+          email: email,
+        })
+        .then((response) => {
+          console.log("Register Success!", response);
+        });
     }
   };
 
@@ -62,17 +69,19 @@ function Login() {
       ["username", username],
       ["password", password],
     ]);
-    Axios.get("http://localhost:3001/api/getuserlogin", {
-      params,
-    }).then((response) => {
-      if (response.data.length > 0) {
-        console.log("User login attempt: ", response.data);
-        SetSessionData(response.data[0]);
-        window.location.reload();
-      } else {
-        console.log("login failed.");
-      }
-    });
+    api
+      .get("account/getuserlogin", {
+        params,
+      })
+      .then((response) => {
+        if (response.data.length > 0) {
+          console.log("User login attempt: ", response.data);
+          SetSessionData(response.data[0]);
+          window.location.reload();
+        } else {
+          console.log("login failed.");
+        }
+      });
   };
 
   const SetSessionData = (data) => {

@@ -19,6 +19,12 @@ function Admin() {
 
   let lastRowProductData;
 
+  const api = Axios.create({
+    baseURL:
+      process.env.SERVER_URL ||
+      "https://ticketyapp-server-new.azurewebsites.net/",
+  });
+
   //do something when upload images variable changes
   useEffect(() => {
     // Update the document title using the browser API.
@@ -28,19 +34,21 @@ function Admin() {
   }, [uploadImages]);
 
   const sendProductPostRequest = async () => {
-    await Axios.post("http://localhost:3001/api/insert/", {
-      productName: productName,
-      productDesc: productDesc,
-      productPrice: productPrice,
-      productQty: productQty,
-    }).then((response) => {
-      console.log("Insert Success!", response);
-      return "success!";
-    });
+    await api
+      .post("insert/", {
+        productName: productName,
+        productDesc: productDesc,
+        productPrice: productPrice,
+        productQty: productQty,
+      })
+      .then((response) => {
+        console.log("Insert Success!", response);
+        return "success!";
+      });
   };
 
   const addImagesToDB = () => {
-    Axios.post("http://localhost:3001/api/insertimage", {
+    api.post("insertimage", {
       productName: productName,
       productDesc: productDesc,
       productPrice: productPrice,
@@ -48,15 +56,17 @@ function Admin() {
   };
 
   const removeProductFromDB = () => {
-    Axios.post("http://localhost:3001/api/delete", {
-      productName: itemDelete,
-    }).then(() => {
-      alert("successful deletion");
-    });
+    api
+      .post("delete", {
+        productName: itemDelete,
+      })
+      .then(() => {
+        alert("successful deletion");
+      });
   };
 
   const debugCLick = () => {
-    Axios.get("http://localhost:3001/api/get").then((response) => {
+    api.get("get").then((response) => {
       console.log(response);
       setProductList(response.data);
     });
@@ -93,13 +103,15 @@ function Admin() {
         let blobImage;
         let tempName = lastRowProductData.productName;
         blobImage = await encodeImageFileAsURL(val);
-        await Axios.post("http://localhost:3001/api/insertimage", {
-          imageName: tempName,
-          productImage: blobImage,
-          productID: lastRowProductData.productID,
-        }).then((response) => {
-          console.log("image uploaded to db...");
-        });
+        await api
+          .post("insertimage", {
+            imageName: tempName,
+            productImage: blobImage,
+            productID: lastRowProductData.productID,
+          })
+          .then((response) => {
+            console.log("image uploaded to db...");
+          });
       })
     );
   }
@@ -120,20 +132,22 @@ function Admin() {
   async function debugGetImageFromDB() {
     const tempImages = [];
     const params = new URLSearchParams([["productID", 1]]);
-    Axios.get("http://localhost:3001/api/getproductimage", {
-      params,
-    }).then(async (response) => {
-      console.log(response.data);
-      const imagesFromDB = await ConvertBlobToImages(response.data);
-      console.log(imagesFromDB);
-      setAsciiImageData(imagesFromDB);
-    });
+    api
+      .get("getproductimage", {
+        params,
+      })
+      .then(async (response) => {
+        console.log(response.data);
+        const imagesFromDB = await ConvertBlobToImages(response.data);
+        console.log(imagesFromDB);
+        setAsciiImageData(imagesFromDB);
+      });
   }
 
   //get the last productID of the last row inserted into product database.
   //this will return the entire row so can use for other columns.
   async function GetLastID() {
-    await Axios.get("http://localhost:3001/api/getlastid").then((response) => {
+    await api.get("getlastid").then((response) => {
       console.log("LastID: ", response);
       let tempObj = {
         productName: response.data[0].productName,

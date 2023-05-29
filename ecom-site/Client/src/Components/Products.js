@@ -22,6 +22,12 @@ function Products(props) {
 
   const [initProducts, setInitProducts] = useState(false);
 
+  const api = Axios.create({
+    baseURL:
+      process.env.SERVER_URL ||
+      "https://ticketyapp-server-new.azurewebsites.net/",
+  });
+  //console.log(process.env.SERVER_URL);
   useEffect(() => {
     if (!initProducts) {
       GetProductsList();
@@ -65,11 +71,9 @@ function Products(props) {
     let imgProdIDPairs = await CreateImageProductIDPairs();
     let finalPairList = [];
 
-    await Axios.get("http://localhost:3001/api/getallproducttags").then(
-      (response) => {
-        productTagsAll = response.data;
-      }
-    );
+    await api.get("products/getallproducttags").then((response) => {
+      productTagsAll = response.data;
+    });
 
     return Promise.all(
       //need to check if product list is > 0
@@ -113,12 +117,14 @@ function Products(props) {
       //need to check if product list is > 0
       productList.map(async (val) => {
         let params = new URLSearchParams([["productID", val.productID]]);
-        await Axios.get("http://localhost:3001/api/getproductimagesingle", {
-          params,
-        }).then((response) => {
-          tempImages.push(response.data[0]);
-          //console.log("Image Returned: ", response.data[0]);
-        });
+        await api
+          .get("products/getproductimagesingle", {
+            params,
+          })
+          .then((response) => {
+            tempImages.push(response.data[0]);
+            //console.log("Image Returned: ", response.data[0]);
+          });
       })
     ).then(() => {
       setProductImagesList(tempImages);
@@ -128,7 +134,8 @@ function Products(props) {
   };
 
   const GetProductsList = async () => {
-    await Axios.get("http://localhost:3001/api/get")
+    await api
+      .get("products/get")
       .then((response) => {
         console.log("Product: ", response);
         setProductList(response.data);
@@ -172,14 +179,16 @@ function Products(props) {
   const GetProductImages = async (productID) => {
     const tempImages = [];
     const params = new URLSearchParams([["productID", 1]]);
-    Axios.get("http://localhost:3001/api/getproductimage", {
-      params,
-    }).then(async (response) => {
-      console.log(response.data);
-      const imagesFromDB = await ConvertBlobToImages(response.data);
-      console.log(imagesFromDB);
-      setAsciiImageData(imagesFromDB);
-    });
+    api
+      .get("products/getproductimage", {
+        params,
+      })
+      .then(async (response) => {
+        console.log(response.data);
+        const imagesFromDB = await ConvertBlobToImages(response.data);
+        console.log(imagesFromDB);
+        setAsciiImageData(imagesFromDB);
+      });
   };
 
   //Get Product Display

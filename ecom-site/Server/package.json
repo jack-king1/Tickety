@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node DB_Connection.js",
     "devStart": "nodemon DB_Connection.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node DB_Connection.js"
+    "build": "npm build"
   },
   "author": "",
   "license": "ISC",

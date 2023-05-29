@@ -13,6 +13,12 @@ function Cart(props) {
   const [cartQty, setCartQty] = useState(0);
   const [cartCost, setCartCost] = useState(0);
 
+  const api = Axios.create({
+    baseURL:
+      process.env.SERVER_URL ||
+      "https://ticketyapp-server-new.azurewebsites.net/",
+  });
+
   useEffect(() => {
     LoadData();
   }, []);
@@ -95,11 +101,13 @@ function Cart(props) {
       //need to check if product list is > 0
       items.map(async (val) => {
         let params = new URLSearchParams([["productID", val.productID]]);
-        await Axios.get("http://localhost:3001/api/getproductimage", {
-          params,
-        }).then((response) => {
-          tempBlobData.push(response.data[0]);
-        });
+        await api
+          .get("products/getproductimage", {
+            params,
+          })
+          .then((response) => {
+            tempBlobData.push(response.data[0]);
+          });
       })
     ).then(() => {
       //console.log("Cart products: ", tempBlobData);
@@ -117,12 +125,14 @@ function Cart(props) {
         //need to check if product list is > 0
         items.map(async (val) => {
           let params = new URLSearchParams([["productID", val.productID]]);
-          await Axios.get("http://localhost:3001/api/getproductwithid", {
-            params,
-          }).then((response) => {
-            tempProducts.push(response.data);
-            //console.log("Image Returned: ", response.data[0]);
-          });
+          await api
+            .get("products/getproductwithid", {
+              params,
+            })
+            .then((response) => {
+              tempProducts.push(response.data);
+              //console.log("Image Returned: ", response.data[0]);
+            });
         })
       ).then(() => {
         return tempProducts;

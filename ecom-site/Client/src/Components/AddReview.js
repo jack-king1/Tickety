@@ -13,6 +13,10 @@ function AddReview(props) {
   const [anonymousReview, setAnonymousReview] = useState(false);
   const [username, setUsername] = useState("");
 
+  const api = Axios.create({
+    baseURL: process.env.SERVER_URL,
+  });
+
   useEffect(() => {
     GetReviewStars(5);
     //check if user is logged in
@@ -29,16 +33,18 @@ function AddReview(props) {
     //check if user has already submitted a review before submitting.
     if (accountID !== "") {
       console.log("Ready to submit data.");
-      Axios.post("http://localhost:3001/api/createreview", {
-        reviewText: reviewText,
-        accountID: accountID,
-        productID: productID,
-        anonymous: anonymousReview,
-        reviewRating: reviewRating,
-        username: username,
-      }).then((response) => {
-        console.log("Register Success!", response);
-      });
+      api
+        .post("createreview", {
+          reviewText: reviewText,
+          accountID: accountID,
+          productID: productID,
+          anonymous: anonymousReview,
+          reviewRating: reviewRating,
+          username: username,
+        })
+        .then((response) => {
+          console.log("Register Success!", response);
+        });
     }
   };
 

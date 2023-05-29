@@ -11,15 +11,15 @@ const stripe = require("stripe")(
 );
 
 const nodemailer = require("nodemailer");
-
+const port = process.env.PORT || 3000;
 //password is password on windows.
 //password is nYs378AA on linux.
 const db = mysql.createPool({
-  host: "145.14.153.51",
-  user: "u183414604_jack",
+  host: "tickety-db2.c4ajfysjocrx.eu-west-2.rds.amazonaws.com",
+  user: "admin",
   password: "nYs378AA",
-  database: "u183414604_ticketydb",
-  port: 3306,
+  database: "sys",
+  port: "3306",
 });
 
 // const connection = mysql.createConnection({
@@ -76,6 +76,10 @@ db.getConnection((err, connection) => {
   }
   console.log("Connected to MySQL database as ID " + connection.threadId);
   connection.release();
+});
+
+app.get("/", (req, res) => {
+  res.send("Hello World!");
 });
 
 // myproducts
@@ -151,7 +155,6 @@ app.post("/api/insertimage", (req, res) => {
   const fk_productID = req.body.productID;
 
   //console.log(imageData);
-
   const sqlInsertImage =
     "INSERT INTO productimages (imageName, imageBlob, productID) VALUES (?,?,?)";
   db.query(
@@ -182,8 +185,8 @@ app.get("/api/getproductimagesingle", (req, res) => {
   });
 });
 
-app.listen(process.env.PORT || 3001, () => {
-  console.log("running on port 3001!");
+app.listen(port, () => {
+  console.log("running on port !");
 });
 
 //User registraion/login
