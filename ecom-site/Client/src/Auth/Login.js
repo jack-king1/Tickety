@@ -22,12 +22,12 @@ function Login() {
   const [password, setPassword] = useState("");
 
   //submit data to server
-  const SubmitUserDetails = () => {
+  const SubmitUserDetails = async () => {
     //do date checks here.
     if (username !== "" && email !== "" && password !== "") {
       console.log("Ready to submit data.");
       api
-        .post("account/createuser", {
+        .post("accounts/createuser", {
           username: username,
           firstname: firstName,
           lastname: lastName,
@@ -64,13 +64,13 @@ function Login() {
     window.location.reload();
   };
 
-  const LoginUser = () => {
+  const LoginUser = async () => {
     let params = new URLSearchParams([
       ["username", username],
       ["password", password],
     ]);
     api
-      .get("account/getuserlogin", {
+      .get("accounts/getuserlogin", {
         params,
       })
       .then((response) => {
@@ -236,7 +236,7 @@ function Login() {
         <div className="display-2">Welcome {GetUsername()}</div>
       </div>
 
-      <div className="container w-50 mt-3 maxheight">
+      <div className="container lg:w-50 mt-3 maxheight">
         <div
           className={
             "d-flex text-center " + (CheckUserExists() ? "d-none" : "")

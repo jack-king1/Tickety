@@ -385,7 +385,7 @@ function Products(props) {
           </div>
         </div>
         <div className="d-flex">
-          <div className="mx-auto d-flex gap-3">
+          <div className="mx-auto d-flex gap-3 flex-wrap justify-content-center">
             <div class="form-check">
               <input
                 class="form-check-input"

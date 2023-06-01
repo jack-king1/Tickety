@@ -67,7 +67,7 @@ function Navbar(props) {
             className="collapse navbar-collapse justify-content-middle"
             id="navbarNav"
           >
-            <ul className="navbar-nav">
+            <ul className="navbar-nav mx-1">
               <li className="nav-item">
                 <NavLink className="nav-link" to={`/products/all`}>
                   Products
