@@ -20,13 +20,14 @@ export default function StripeCart(props) {
   async function handleCheckout() {
     const stripe = await getStripe();
     let lineItems = await CreateLineItemArray();
-
+    let baseURL = window.location.href;
+    console.log("Base URL:", baseURL);
     const { error } = await stripe.redirectToCheckout({
       lineItems,
       mode: "payment",
-      successUrl: `http://localhost:3000/order/success`,
+      successUrl: `https://ticketyapp-client.azurewebsites.net/order/success`,
       // other options...,
-      cancelUrl: `http://localhost:3000/error`,
+      cancelUrl: `https://ticketyapp-client.azurewebsites.net/error`,
     });
     console.log(props);
     console.warn(error.message);

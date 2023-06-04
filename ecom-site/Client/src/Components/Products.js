@@ -5,6 +5,7 @@ import { Buffer } from "buffer";
 import { Link } from "react-router-dom";
 import "../CSS/App.css";
 import "../CSS/homepage.css";
+import Loading from "./Loading";
 
 function Products(props) {
   const { footerSearch } = useParams();
@@ -21,6 +22,7 @@ function Products(props) {
   const [cleaningFilter, setCleaningFilter] = useState(false);
 
   const [initProducts, setInitProducts] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const api = Axios.create({
     baseURL:
@@ -63,6 +65,7 @@ function Products(props) {
 
   useEffect(() => {
     console.log("Final product Data: ", productObjectData);
+    setIsLoading(false);
   }, [productObjectData]);
 
   const CreateImageProductPairList = async () => {
@@ -134,6 +137,7 @@ function Products(props) {
   };
 
   const GetProductsList = async () => {
+    setIsLoading(true);
     await api
       .get("products/get")
       .then((response) => {
@@ -203,6 +207,8 @@ function Products(props) {
     ) {
       return (
         <div className="row justify-content-center mb-4">
+          {isLoading && <Loading />}
+
           {productObjectData.map((val, key) => {
             return (
               <div

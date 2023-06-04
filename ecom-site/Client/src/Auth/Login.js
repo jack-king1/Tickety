@@ -5,6 +5,7 @@ import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
 import UserProfile from "./UserProfile";
 import "../CSS/App.css";
+import Loading from "../Components/Loading";
 
 function Login() {
   const api = Axios.create({
@@ -13,6 +14,7 @@ function Login() {
       "https://ticketyapp-server-new.azurewebsites.net/",
   });
   const [loginOption, setLoginOption] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   //react hooks for onchange data.
   const [username, setUsername] = useState("");
@@ -26,8 +28,9 @@ function Login() {
     //do date checks here.
     if (username !== "" && email !== "" && password !== "") {
       console.log("Ready to submit data.");
-      api
-        .post("accounts/createuser", {
+      setIsLoading(true);
+      await api
+        .post("account/createuser", {
           username: username,
           firstname: firstName,
           lastname: lastName,
@@ -35,6 +38,7 @@ function Login() {
           email: email,
         })
         .then((response) => {
+          setIsLoading(false);
           console.log("Register Success!", response);
         });
     }
@@ -42,15 +46,13 @@ function Login() {
 
   const LogoutForm = () => {
     return (
-      <div className="position-relative">
-        <div className="fixed-bottom">
-          <button
-            className="btn btn-danger btn-large w-100 p-4 btn-block border-0"
-            onClick={() => Logoutuser()}
-          >
-            Logout
-          </button>
-        </div>
+      <div className="h-100">
+        <button
+          className="btn btn-danger btn-large w-100 p-4 btn-block border-0 align-bottom"
+          onClick={() => Logoutuser()}
+        >
+          Logout
+        </button>
       </div>
     );
   };
@@ -69,8 +71,9 @@ function Login() {
       ["username", username],
       ["password", password],
     ]);
-    api
-      .get("accounts/getuserlogin", {
+    setIsLoading(true);
+    await api
+      .get("account/getuserlogin", {
         params,
       })
       .then((response) => {
@@ -81,6 +84,7 @@ function Login() {
         } else {
           console.log("login failed.");
         }
+        setIsLoading(false);
       });
   };
 
@@ -232,11 +236,12 @@ function Login() {
 
   return (
     <div>
+      {isLoading && <Loading />}
       <div className="text-center">
         <div className="display-2">Welcome {GetUsername()}</div>
       </div>
 
-      <div className="container lg:w-50 mt-3 maxheight">
+      <div className="container lg:w-50 mt-3 maxheight flex my-auto">
         <div
           className={
             "d-flex text-center " + (CheckUserExists() ? "d-none" : "")

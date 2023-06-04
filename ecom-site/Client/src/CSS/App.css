@@ -8,3 +8,16 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.fade-div {
+  background-color: blue;
+  transition: opacity 1s ease;
+}
+
+.fade-in {
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
+}

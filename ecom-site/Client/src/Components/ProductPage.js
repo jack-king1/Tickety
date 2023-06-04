@@ -5,7 +5,7 @@ import { Buffer } from "buffer";
 import "material-icons/iconfont/material-icons.css";
 import "../CSS/App.css";
 import AddReview from "./AddReview";
-
+import Notification from "./Notification";
 function ProductPage(props) {
   const api = Axios.create({
     baseURL:
@@ -27,6 +27,7 @@ function ProductPage(props) {
     useState(0);
   const [completedProductReview, setCompletedProductReview] = useState(false);
   const [accountID, setAccountID] = useState(-1);
+  const [notificationOpacity, setNotificationOpacity] = useState(0);
 
   useEffect(() => {
     if (!initProduct) {
@@ -67,6 +68,17 @@ function ProductPage(props) {
     }
   }, [productReviews]);
 
+  const [showDiv, setShowDiv] = useState(false);
+
+  const showDivFunc = () => {
+    setShowDiv(true);
+    const timer = setTimeout(() => {
+      setShowDiv(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  };
+
   const SetupProductPage = async () => {
     //Request data from server.
     await GetProductData();
@@ -75,6 +87,7 @@ function ProductPage(props) {
   };
 
   const HandleAddToCart = () => {
+    showDivFunc();
     let currentCartData = JSON.parse(localStorage.getItem("cart"));
     let cartValues = [];
     let finalCartValues = [];
@@ -278,6 +291,8 @@ function ProductPage(props) {
 
   return (
     <div>
+      <Notification active={showDiv} text={"Added To Cart!"} />
+
       <div className="container maxheight">
         <div className="row">
           <div className="col-12 col-sm-12 col-md-5 col-lg-5 col-xl-5 pt-4">
