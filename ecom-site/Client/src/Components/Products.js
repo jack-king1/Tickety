@@ -32,7 +32,14 @@ function Products(props) {
   //console.log(process.env.SERVER_URL);
   useEffect(() => {
     if (!initProducts) {
-      GetProductsList();
+      if (localStorage.getItem("allProductsData")) {
+        setProductObjectData(
+          JSON.parse(localStorage.getItem("allProductsData"))
+        );
+      } else {
+        GetProductsList();
+      }
+
       setInitProducts(true);
       FooterSearchQueryInit();
     }
@@ -66,6 +73,8 @@ function Products(props) {
   useEffect(() => {
     console.log("Final product Data: ", productObjectData);
     setIsLoading(false);
+    localStorage.setItem("allProductsData", JSON.stringify(productObjectData));
+    //save data to local storage
   }, [productObjectData]);
 
   const CreateImageProductPairList = async () => {
@@ -97,6 +106,7 @@ function Products(props) {
       })
     ).then(() => {
       setProductObjectData(finalPairList);
+
       return "Success!";
     });
   };
