@@ -43,7 +43,7 @@ function Footer() {
 
           {/* Copyright */}
           <div className="text-secondary text-center mt-2">
-            Copyright Tickert 2023. All Rights Reserved
+            Copyright Tickety 2023. All Rights Reserved
           </div>
         </div>
       </div>

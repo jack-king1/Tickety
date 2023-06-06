@@ -1,0 +1,13 @@
+.buildcanvas {
+  width: 30.25rem;
+  height: 12.75rem;
+}
+
+.buildcanvasmobile {
+  width: 15.125rem;
+  height: 6.375rem;
+}
+
+.canvascontainer {
+  height: 100vh;
+}
