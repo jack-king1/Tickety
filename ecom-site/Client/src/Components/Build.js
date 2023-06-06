@@ -12,7 +12,7 @@ import BuildPreview from "./BuildPreview";
 // canvas ticket for test size = x: 484px(128mm) y: 189px(50mm)
 function Build() {
   const [currentState, setCurrentState] = useState(1);
-
+  const [canvasStateJson, setCanvasStateJson] = useState("");
   const BUILD_STATE = {
     DATA: 0,
     DESIGN: 1,
@@ -40,7 +40,13 @@ function Build() {
         buildState={BUILD_STATE}
       />
       {currentState == BUILD_STATE.DATA && <BuildData />}
-      {currentState == BUILD_STATE.DESIGN && <BuildDesign />}
+      {currentState == BUILD_STATE.DESIGN && (
+        <BuildDesign
+          canvasStateJson={canvasStateJson}
+          setCanvasStateJson={setCanvasStateJson}
+          buildState={currentState}
+        />
+      )}
       {currentState == BUILD_STATE.PREVIEW && <BuildPreview />}
     </div>
   );
