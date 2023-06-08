@@ -13,23 +13,22 @@ import BuildPreview from "./BuildPreview";
 function Build() {
   const [currentState, setCurrentState] = useState(1);
   const [canvasStateJson, setCanvasStateJson] = useState("");
+  const [tableData, setTableData] = useState([
+    ["Title", "Description", "Price"],
+    ["Example 1", "Description", "£0.00"],
+    ["Example 2", "Descritpion", "£.00"],
+  ]);
+
+  useEffect(() => {
+    if (localStorage.getItem("tableData")) {
+      setTableData(JSON.parse(localStorage.getItem("tableData")));
+    }
+  }, []);
+
   const BUILD_STATE = {
     DATA: 0,
     DESIGN: 1,
     PREVIEW: 2,
-  };
-
-  const GetBuildState = () => {
-    switch (currentState) {
-      case BUILD_STATE.DATA:
-        return <BuildData />;
-      case BUILD_STATE.DESIGN:
-        return <BuildDesign />;
-      case BUILD_STATE.PREVIEW:
-        return <BuildPreview />;
-      default:
-      //code
-    }
   };
 
   return (
@@ -39,12 +38,15 @@ function Build() {
         setCurrentState={setCurrentState}
         buildState={BUILD_STATE}
       />
-      {currentState == BUILD_STATE.DATA && <BuildData />}
+      {currentState == BUILD_STATE.DATA && (
+        <BuildData tableData={tableData} setTableData={setTableData} />
+      )}
       {currentState == BUILD_STATE.DESIGN && (
         <BuildDesign
           canvasStateJson={canvasStateJson}
           setCanvasStateJson={setCanvasStateJson}
           buildState={currentState}
+          tableData={tableData[0]}
         />
       )}
       {currentState == BUILD_STATE.PREVIEW && <BuildPreview />}
