@@ -24,7 +24,7 @@ function BuildDesign({
     // Handle button click to add text
     CreateNewCanvas();
     const handleAddText = () => {
-      const text = new fabric.Text("New Text", {
+      const text = new fabric.Textbox("New Text", {
         left: 50,
         top: 50,
         fontSize: 24,
@@ -93,24 +93,23 @@ function BuildDesign({
         count++;
       });
       canvas.renderAll();
+    } else {
+      //if nothing exists in localStorage, create brand new canvas and add text items.
+
+      for (let i = 0; i < tableData.length; i++) {
+        handleAddText(tableData[i], i);
+      }
     }
-
-    //  else {
-    //   //if nothing exists in localStorage, create brand new canvas and add text items.
-
-    //   for (let i = 0; i < tableData.length; i++) {
-    //     handleAddText(tableData[i], i);
-    //   }
-    // }
   };
 
   const handleAddText = (labelName, i) => {
     let topVal = 50 * i + 1;
-    const text = new fabric.Text(labelName, {
+    const text = new fabric.Textbox(labelName, {
       left: 50,
       top: topVal,
       fontSize: 24,
       fill: "white",
+      textAlign: "center",
     });
     canvas.add(text);
     text.bringToFront();
@@ -147,20 +146,6 @@ function BuildDesign({
       console.log("setting normal canvas", windowSize);
       return "buildcanvas";
     }
-  };
-
-  //Canvas
-
-  // Set the properties
-  const AddText = () => {
-    // let newTextItem = new fabric.Text("Beef Brisket");
-    // newTextItem.set("top", 70);
-    // newTextItem.set("left", 65);
-    // newTextItem.set("fill", "white");
-    // newTextItem.set("fontWeight", "bold");
-    // newTextItem.bringToFront();
-    // canvas.add(newTextItem);
-    // canvas.renderAll();
   };
 
   const GetCanvas = () => {};

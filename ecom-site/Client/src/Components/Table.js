@@ -38,11 +38,6 @@ function Table({ data, setData }) {
   return (
     <div className="d-flex justify-content-center mt-4">
       <div>
-        <div className="d-flex justify-content-center m-2">
-          <button onClick={addRow}>Add Row</button>
-          <button onClick={addColumn}>Add Column</button>
-        </div>
-
         <table>
           <tbody>
             {data.map((row, rowIndex) => (
@@ -59,8 +54,20 @@ function Table({ data, setData }) {
                   </td>
                 ))}
                 <td>
-                  {rowIndex > 0 && (
-                    <button onClick={() => removeRow(rowIndex)}>Remove</button>
+                  {rowIndex > 0 ? (
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => removeRow(rowIndex)}
+                    >
+                      Remove
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-sm btn-success w-100"
+                      onClick={addRow}
+                    >
+                      + Row
+                    </button>
                   )}
                 </td>
               </tr>
@@ -68,7 +75,21 @@ function Table({ data, setData }) {
             <tr>
               {data[0].map((_, index) => (
                 <td key={index}>
-                  <button onClick={() => removeColumn(index)}>Remove</button>
+                  {index > 0 ? (
+                    <button
+                      className="btn btn-sm btn-danger"
+                      onClick={() => removeColumn(index)}
+                    >
+                      Remove
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-sm btn-success"
+                      onClick={addColumn}
+                    >
+                      + Column
+                    </button>
+                  )}
                 </td>
               ))}
             </tr>

@@ -41,6 +41,7 @@ function Build() {
       {currentState == BUILD_STATE.DATA && (
         <BuildData tableData={tableData} setTableData={setTableData} />
       )}
+
       {currentState == BUILD_STATE.DESIGN && (
         <BuildDesign
           canvasStateJson={canvasStateJson}
@@ -49,7 +50,9 @@ function Build() {
           tableData={tableData[0]}
         />
       )}
-      {currentState == BUILD_STATE.PREVIEW && <BuildPreview />}
+      {currentState == BUILD_STATE.PREVIEW && (
+        <BuildPreview tableData={tableData} />
+      )}
     </div>
   );
 }
