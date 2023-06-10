@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Table from "./Table";
+import "../CSS/Tabs.css";
 
-function BuildData({ tableData, setTableData }) {
+function BuildData({ tableData, setTableData, fontNames }) {
   const DATA_TYPE = {
     TITLE: 0,
     TEXT: 1,
@@ -10,7 +11,14 @@ function BuildData({ tableData, setTableData }) {
 
   return (
     <div className="canvascontainer ">
-      <Table data={tableData} setData={setTableData} />
+      <div className="d-flex justify-content-center mt-2">
+        <input
+          className="text-center tabledata-input"
+          type="text"
+          value={"Temp Data Set name"}
+        />
+      </div>
+      <Table data={tableData} setData={setTableData} fontNames={fontNames} />
     </div>
   );
 }

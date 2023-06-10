@@ -11,12 +11,16 @@ import BuildData from "./BuildData";
 import BuildPreview from "./BuildPreview";
 // canvas ticket for test size = x: 484px(128mm) y: 189px(50mm)
 function Build() {
-  const [currentState, setCurrentState] = useState(1);
+  const [currentState, setCurrentState] = useState(0);
   const [canvasStateJson, setCanvasStateJson] = useState("");
   const [tableData, setTableData] = useState([
     ["Title", "Description", "Price"],
     ["Example 1", "Description", "£0.00"],
     ["Example 2", "Descritpion", "£.00"],
+  ]);
+
+  const [fontNames, setBuildFonts] = useState([
+    ["Sriracha", "Noto Sans JP", "Grechen Fuemen"],
   ]);
 
   useEffect(() => {
@@ -39,7 +43,11 @@ function Build() {
         buildState={BUILD_STATE}
       />
       {currentState == BUILD_STATE.DATA && (
-        <BuildData tableData={tableData} setTableData={setTableData} />
+        <BuildData
+          tableData={tableData}
+          setTableData={setTableData}
+          fontNames={fontNames}
+        />
       )}
 
       {currentState == BUILD_STATE.DESIGN && (
@@ -48,6 +56,7 @@ function Build() {
           setCanvasStateJson={setCanvasStateJson}
           buildState={currentState}
           tableData={tableData[0]}
+          fontNames={fontNames}
         />
       )}
       {currentState == BUILD_STATE.PREVIEW && (

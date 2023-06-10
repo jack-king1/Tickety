@@ -6,10 +6,13 @@ function BuildDesign({
   setCanvasStateJson,
   buildState,
   tableData,
+  fontNames,
 }) {
   const canvasRef = useRef(null);
   const addButton = useRef(null);
+  const [tempFontStates, setTempFontStates] = useState([]);
   let canvas = new fabric.Canvas();
+  let objects;
 
   const CreateNewCanvas = () => {
     console.log("creating new canvas!");
@@ -35,7 +38,7 @@ function BuildDesign({
       localStorage.setItem("tempCanvas", JSON.stringify(canvas));
       console.log("Saving data to local storage.");
     };
-    addButton.current.addEventListener("click", handleAddText);
+    // addButton.current.addEventListener("click", handleAddText);
 
     const handleMouseUp = (event) => {
       console.log("Mouse up event detected - SAVE TO JSON!!");
@@ -47,7 +50,7 @@ function BuildDesign({
     return () => {
       // Clean up event listener on component unmount
       if (!handleAddText === null) {
-        addButton.current.removeEventListener("click", handleAddText);
+        // addButton.current.removeEventListener("click", handleAddText);
         canvas.off("mouse:up", handleMouseUp);
       }
     };
@@ -76,11 +79,11 @@ function BuildDesign({
         handleAddText(tableData[tableData.length - 1], positionOffset);
       }
 
-      let objects = canvas.getObjects();
+      objects = canvas.getObjects();
       let count = 0;
 
       objects.forEach(function (object, key) {
-        console.log(canvas._objects);
+        //console.log(canvas._objects);
         if (count < tableData.length) {
           //change text
           if (object.type === "text") {
@@ -99,7 +102,16 @@ function BuildDesign({
       for (let i = 0; i < tableData.length; i++) {
         handleAddText(tableData[i], i);
       }
+      objects = canvas.getObjects();
     }
+
+    //init font states
+    let tempFontState = [];
+    for (let f = 0; f < objects.length; f++) {
+      tempFontState.push(fontNames[0][0]);
+    }
+    setTempFontStates(tempFontState);
+    console.log("Font State Set: ", tempFontState);
   };
 
   const handleAddText = (labelName, i) => {
@@ -144,18 +156,90 @@ function BuildDesign({
       return "buildcanvasmobile";
     } else {
       console.log("setting normal canvas", windowSize);
+
       return "buildcanvas";
     }
   };
 
-  const GetCanvas = () => {};
+  useEffect(() => {
+    console.log("Temp Font States event: ", tempFontStates);
+  }, [tempFontStates]);
+
+  const OnSelectChangeFont = (setFont, i) => {
+    let tempState = tempFontStates;
+
+    console.log("setFont: ", setFont);
+    console.log("Row", i);
+    tempState[i] = fontNames[0][setFont];
+    console.log(tempFontStates[i]);
+    setTempFontStates(tempState);
+  };
+
+  const GetFontName = (i) => {
+    console.log("All States: ", tempFontStates, "I = ", i);
+    console.log("Retuned Value: ", tempFontStates[i]);
+    return tempFontStates[i];
+  };
+
+  const RenderDesignOptions = () => {
+    let count = 0;
+    return (
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Label</th>
+            <th scope="col">Font</th>
+            <th scope="col">Size</th>
+          </tr>
+        </thead>
+        <tbody>
+          {tableData.map((val, index) => (
+            <tr>
+              <th scope="row">{val}</th>
+              <td>
+                <select
+                  style={{ fontFamily: `${GetFontName(index)}, sans-serif` }}
+                  class="form-select "
+                  aria-label="Default select example"
+                  onChange={(e) => OnSelectChangeFont(e.target.value, index)}
+                >
+                  {fontNames[0].map((val, indexTwo) => {
+                    return (
+                      <option
+                        style={{ fontFamily: `${val}, sans-serif` }}
+                        className={``}
+                        value={indexTwo}
+                      >
+                        {val}
+                      </option>
+                    );
+                  })}
+                </select>
+              </td>
+              <td>
+                {" "}
+                <select class="form-select" aria-label="Default select example">
+                  <option selected value="1">
+                    One
+                  </option>
+                  <option value="2">Two</option>
+                  <option value="3">Three</option>
+                </select>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
 
   return (
     <div className="">
-      <h1>FabricJS React Sample</h1>
-      <button ref={addButton}>Add Text</button>
-      <div className="canvascontainer d-flex justify-content-center">
-        <canvas ref={canvasRef} className="rounded rounded-2"></canvas>
+      <div className="canvascontainer d-flex justify-content-center mt-4">
+        <div>
+          <canvas ref={canvasRef} className="rounded rounded-2"></canvas>
+          <div className="mt-4">{RenderDesignOptions()}</div>
+        </div>
       </div>
     </div>
   );

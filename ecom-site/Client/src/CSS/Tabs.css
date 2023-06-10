@@ -1,0 +1,44 @@
+.tab {
+  cursor: pointer;
+}
+
+.tab:hover {
+  background-color: rgb(21, 170, 191);
+  color: white;
+  border-bottom: 5px solid transparent;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.tabactive {
+  background-color: rgb(21, 170, 191);
+  color: white;
+  border-bottom: 5px solid rgba(250, 176, 5, 1);
+  border-radius: 0px 0px 10px 10px;
+}
+
+.tabledata-input {
+  border: 0;
+  outline: 0;
+}
+
+input:focus {
+  border: 1;
+  outline: 1;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}

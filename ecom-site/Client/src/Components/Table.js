@@ -43,7 +43,7 @@ function Table({ data, setData }) {
             {data.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 {row.map((cell, cellIndex) => (
-                  <td key={cellIndex}>
+                  <td className="" key={cellIndex}>
                     <input
                       type="text"
                       value={cell}
@@ -64,9 +64,9 @@ function Table({ data, setData }) {
                   ) : (
                     <button
                       className="btn btn-sm btn-success w-100"
-                      onClick={addRow}
+                      onClick={addColumn}
                     >
-                      + Row
+                      New Col
                     </button>
                   )}
                 </td>
@@ -83,11 +83,8 @@ function Table({ data, setData }) {
                       Remove
                     </button>
                   ) : (
-                    <button
-                      className="btn btn-sm btn-success"
-                      onClick={addColumn}
-                    >
-                      + Column
+                    <button className="btn btn-sm btn-success" onClick={addRow}>
+                      New Row
                     </button>
                   )}
                 </td>
