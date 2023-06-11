@@ -20,7 +20,7 @@ function Build() {
   ]);
 
   const [fontNames, setBuildFonts] = useState([
-    ["Sriracha", "Noto Sans JP", "Grechen Fuemen"],
+    ["Sriracha", "Noto Sans JP", "Grechen Fuemen", "Bebas Neue"],
   ]);
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { fabric } from "fabric";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
+import { FontFaceObserver } from "fontfaceobserver";
 function BuildDesign({
   canvasStateJson,
   setCanvasStateJson,
@@ -15,7 +16,6 @@ function BuildDesign({
   let objects;
 
   const CreateNewCanvas = () => {
-    console.log("creating new canvas!");
     canvas = new fabric.Canvas(canvasRef.current);
     // Initialize Fabric.js canvas on component mount
     canvas.setDimensions({ width: 484, height: 204 });
@@ -36,7 +36,6 @@ function BuildDesign({
       canvas.add(text);
       canvas.renderAll();
       localStorage.setItem("tempCanvas", JSON.stringify(canvas));
-      console.log("Saving data to local storage.");
     };
     // addButton.current.addEventListener("click", handleAddText);
 
@@ -59,9 +58,14 @@ function BuildDesign({
   //Called on state change to the DESIGN tab.
   useEffect(() => {
     CreateCanvasObjects();
-    // canvas.loadFromJSON(JSON.parse(localStorage.getItem("tempCanvas")));
     canvas.renderAll();
   }, [buildState]);
+
+  const loadFont = (fontFamily) => {
+    const font = new FontFaceObserver(fontFamily);
+
+    return font.load();
+  };
 
   //
   const CreateCanvasObjects = () => {
@@ -71,10 +75,9 @@ function BuildDesign({
       //loop through items passed and assign back to the objects already in canvas.
       let canvasJsonObj = JSON.parse(localStorage.getItem("tempCanvas"));
       canvas.loadFromJSON(canvasJsonObj);
+      console.log("New Canvas: ", canvas);
 
-      console.log("canvasObj from json:", tableData.length);
       if (tableData.length > canvas._objects.length) {
-        console.log("need to add text obj!!!");
         let positionOffset = 3;
         handleAddText(tableData[tableData.length - 1], positionOffset);
       }
@@ -104,14 +107,7 @@ function BuildDesign({
       }
       objects = canvas.getObjects();
     }
-
-    //init font states
-    let tempFontState = [];
-    for (let f = 0; f < objects.length; f++) {
-      tempFontState.push(fontNames[0][0]);
-    }
-    setTempFontStates(tempFontState);
-    console.log("Font State Set: ", tempFontState);
+    localStorage.setItem("tempCanvas", JSON.stringify(canvas));
   };
 
   const handleAddText = (labelName, i) => {
@@ -161,24 +157,20 @@ function BuildDesign({
     }
   };
 
-  useEffect(() => {
-    console.log("Temp Font States event: ", tempFontStates);
-  }, [tempFontStates]);
+  const HandleLabelFontChange = (font, row) => {
+    CreateCanvasObjects();
+    // canvas.loadFromJSON(JSON.parse(localStorage.getItem("tempCanvas")));
+    console.log(font, row);
+    let count = 0;
+    canvas.getObjects().forEach((val, key) => {
+      if (count == row) {
+        val.set("fontFamily", fontNames[0][font]);
+      }
 
-  const OnSelectChangeFont = (setFont, i) => {
-    let tempState = tempFontStates;
-
-    console.log("setFont: ", setFont);
-    console.log("Row", i);
-    tempState[i] = fontNames[0][setFont];
-    console.log(tempFontStates[i]);
-    setTempFontStates(tempState);
-  };
-
-  const GetFontName = (i) => {
-    console.log("All States: ", tempFontStates, "I = ", i);
-    console.log("Retuned Value: ", tempFontStates[i]);
-    return tempFontStates[i];
+      count++;
+    });
+    canvas.renderAll();
+    localStorage.setItem("tempCanvas", JSON.stringify(canvas));
   };
 
   const RenderDesignOptions = () => {
@@ -198,10 +190,10 @@ function BuildDesign({
               <th scope="row">{val}</th>
               <td>
                 <select
-                  style={{ fontFamily: `${GetFontName(index)}, sans-serif` }}
+                  style={{ fontFamily: `${fontNames[0][1]}, sans-serif` }}
                   class="form-select "
                   aria-label="Default select example"
-                  onChange={(e) => OnSelectChangeFont(e.target.value, index)}
+                  onChange={(e) => HandleLabelFontChange(e.target.value, index)}
                 >
                   {fontNames[0].map((val, indexTwo) => {
                     return (

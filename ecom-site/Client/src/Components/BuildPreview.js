@@ -23,6 +23,9 @@ function BuildPreview({ tableData }) {
     let objects = canvas.getObjects();
 
     for (let i = 0; i < tableData.length; i++) {
+      if (i <= 0) {
+        continue;
+      }
       for (let k = 0; k < tableData[i].length; k++) {
         objects[k].set("text", tableData[i][k]);
       }
