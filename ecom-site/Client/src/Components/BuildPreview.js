@@ -14,13 +14,14 @@ function BuildPreview({ tableData }) {
     canvas.setBackgroundColor("black");
     canvas.preserveObjectStacking = true;
     //init canvas with correct amount of text for amount of columns.
-    let canvasJsonObj = JSON.parse(localStorage.getItem("tempCanvas"));
+    let canvasJsonObj = JSON.parse(localStorage.getItem("localCanvas"));
     canvas.loadFromJSON(canvasJsonObj);
   };
 
   const GeneratePreviewImages = () => {
     //loop through each object on canvas
     let objects = canvas.getObjects();
+    let fontStates = JSON.parse(localStorage.getItem("fontStates"));
 
     for (let i = 0; i < tableData.length; i++) {
       if (i <= 0) {
@@ -28,6 +29,7 @@ function BuildPreview({ tableData }) {
       }
       for (let k = 0; k < tableData[i].length; k++) {
         objects[k].set("text", tableData[i][k]);
+        objects[k].set("fontFamily", fontStates[k]);
       }
       //save canvas image.
       SaveToPNG();

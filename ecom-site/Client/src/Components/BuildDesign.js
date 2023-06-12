@@ -43,18 +43,53 @@ function BuildDesign({
 
   const [canvasInit, setCanvasInit] = useState(false);
   const { selectedObjects, editor, onReady } = useFabricJSEditor();
+  const [fontStates, setFontStates] = useState([]);
 
   const InitCanvas = () => {
     editor.canvas.setDimensions({ width: 484, height: 204 });
     editor.canvas.setBackgroundColor("black");
     editor.canvas.preserveObjectStacking = true;
     LoadCanvasFromFile();
-    LoadDesignFontStates();
     UpdateAndAddCanvasObjectData();
+    LoadAndAssignFontFamily();
     editor.canvas.renderAll();
+    //setup event handlers
+    editor.canvas.on("object:moving", moveHandler);
   };
 
-  const LoadDesignFontStates = () => {};
+  const moveHandler = () => {
+    //save canvas state to localstorage.
+    localStorage.setItem("localCanvas", JSON.stringify(editor.canvas));
+  };
+
+  const LoadAndAssignFontFamily = () => {
+    console.log("Loading Fonts...");
+    let tempFontStates = [];
+    if (localStorage.getItem("fontStates")) {
+      tempFontStates = JSON.parse(localStorage.getItem("fontStates"));
+      setFontStates(tempFontStates);
+    } else {
+      editor.canvas.getObjects().forEach((obj, index) => {
+        tempFontStates.push(fontNames[0][1]);
+      });
+      localStorage.setItem("fontStates", JSON.stringify(tempFontStates));
+      setFontStates(tempFontStates);
+    }
+
+    let count = 0;
+    editor.canvas.getObjects().forEach((obj, index) => {
+      obj.set("fontFamily", tempFontStates[count]);
+      count++;
+    });
+  };
+
+  const SaveCurrentFontState = () => {
+    let currentFontState = [];
+    editor.canvas.getObjects().forEach((val, index) => {
+      currentFontState.push(val.fontFamily);
+    });
+    localStorage.setItem("fontStates", JSON.stringify(currentFontState));
+  };
 
   const HandleAddTextObjects = (textObjID) => {
     console.log("Adding Text: ", tableData[textObjID]);
@@ -126,10 +161,11 @@ function BuildDesign({
     };
   }, [onReady]);
 
-  //Called on state change to the DESIGN tab.
-
-  const onAddText = () => {
-    editor.addText();
+  const HandleFontOptionChange = (rowID, fontID) => {
+    console.log("FONT SELECTED:", rowID, fontID);
+    editor.canvas.getObjects()[rowID].fontFamily = fontNames[0][fontID];
+    editor.canvas.renderAll();
+    SaveCurrentFontState();
   };
 
   const RenderDesignOptions = () => {
@@ -152,6 +188,9 @@ function BuildDesign({
                   style={{ fontFamily: `${fontNames[0][1]}, sans-serif` }}
                   className="form-select "
                   aria-label="Default select example"
+                  onChange={(e) =>
+                    HandleFontOptionChange(index, e.target.value)
+                  }
                 >
                   {fontNames[0].map((val, indexTwo) => {
                     return (
