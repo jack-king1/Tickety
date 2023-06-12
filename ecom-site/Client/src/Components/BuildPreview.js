@@ -22,6 +22,7 @@ function BuildPreview({ tableData }) {
     //loop through each object on canvas
     let objects = canvas.getObjects();
     let fontStates = JSON.parse(localStorage.getItem("fontStates"));
+    let textAlignStates = JSON.parse(localStorage.getItem("textAlignStates"));
 
     for (let i = 0; i < tableData.length; i++) {
       if (i <= 0) {
@@ -30,6 +31,7 @@ function BuildPreview({ tableData }) {
       for (let k = 0; k < tableData[i].length; k++) {
         objects[k].set("text", tableData[i][k]);
         objects[k].set("fontFamily", fontStates[k]);
+        objects[k].set("textAlign", textAlignStates[k]);
       }
       //save canvas image.
       SaveToPNG();
@@ -72,9 +74,8 @@ function BuildPreview({ tableData }) {
 
   return (
     <div className="h-100 maxheight">
-      Preview All Tickets
       <div>
-        <div className="canvascontainer d-flex justify-content-center container h-100">
+        <div className="canvascontainer d-flex justify-content-center container h-100 mt-4">
           <canvas hidden className="position-float rounded rounded-2"></canvas>
           {RenderImages()}
         </div>

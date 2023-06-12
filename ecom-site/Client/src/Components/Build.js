@@ -23,6 +23,10 @@ function Build() {
     ["Sriracha", "Noto Sans JP", "Grechen Fuemen", "Bebas Neue"],
   ]);
 
+  const [textAlignOptions, setTextAlignOptions] = useState([
+    ["left", "center", "right"],
+  ]);
+
   useEffect(() => {
     if (localStorage.getItem("tableData")) {
       setTableData(JSON.parse(localStorage.getItem("tableData")));
@@ -57,6 +61,7 @@ function Build() {
           buildState={currentState}
           tableData={tableData[0]}
           fontNames={fontNames}
+          textAlignOptions={textAlignOptions}
         />
       )}
       {currentState == BUILD_STATE.PREVIEW && (

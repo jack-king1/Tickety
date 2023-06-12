@@ -8,6 +8,7 @@ function BuildDesign({
   buildState,
   tableData,
   fontNames,
+  textAlignOptions,
 }) {
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -44,6 +45,7 @@ function BuildDesign({
   const [canvasInit, setCanvasInit] = useState(false);
   const { selectedObjects, editor, onReady } = useFabricJSEditor();
   const [fontStates, setFontStates] = useState([]);
+  const [textAlignStates, setTextAlignStates] = useState([]);
 
   const InitCanvas = () => {
     editor.canvas.setDimensions({ width: 484, height: 204 });
@@ -52,6 +54,7 @@ function BuildDesign({
     LoadCanvasFromFile();
     UpdateAndAddCanvasObjectData();
     LoadAndAssignFontFamily();
+    LoadAndAssignTextAlign();
     editor.canvas.renderAll();
     //setup event handlers
     editor.canvas.on("object:moving", moveHandler);
@@ -83,12 +86,47 @@ function BuildDesign({
     });
   };
 
+  const LoadAndAssignTextAlign = () => {
+    console.log("Loading TextAlign...");
+    let tempTextAlignState = [];
+    if (localStorage.getItem("textAlignStates")) {
+      tempTextAlignState = JSON.parse(localStorage.getItem("textAlignStates"));
+      setTextAlignStates(tempTextAlignState);
+    } else {
+      editor.canvas.getObjects().forEach((obj, index) => {
+        tempTextAlignState.push(textAlignOptions[0][1]);
+      });
+      localStorage.setItem(
+        "textAlignStates",
+        JSON.stringify(tempTextAlignState)
+      );
+      setTextAlignStates(tempTextAlignState);
+    }
+
+    let count = 0;
+    editor.canvas.getObjects().forEach((obj, index) => {
+      obj.set("textAlign", tempTextAlignState[count]);
+      count++;
+    });
+  };
+
   const SaveCurrentFontState = () => {
     let currentFontState = [];
     editor.canvas.getObjects().forEach((val, index) => {
       currentFontState.push(val.fontFamily);
     });
     localStorage.setItem("fontStates", JSON.stringify(currentFontState));
+  };
+
+  const SaveCurrentTextAlignState = () => {
+    let currentTextAlignState = [];
+    editor.canvas.getObjects().forEach((val, index) => {
+      currentTextAlignState.push(val.textAlign);
+    });
+    localStorage.setItem(
+      "textAlignStates",
+      JSON.stringify(currentTextAlignState)
+    );
   };
 
   const HandleAddTextObjects = (textObjID) => {
@@ -168,6 +206,15 @@ function BuildDesign({
     SaveCurrentFontState();
   };
 
+  const HandleTextAlignOptionChange = (rowID, alignID) => {
+    console.log("Align Tex Selected:", textAlignOptions[0][alignID]);
+    editor.canvas
+      .getObjects()
+      [rowID].set("textAlign", textAlignOptions[0][alignID]);
+    editor.canvas.renderAll();
+    SaveCurrentTextAlignState();
+  };
+
   const RenderDesignOptions = () => {
     let count = 0;
     return (
@@ -206,16 +253,18 @@ function BuildDesign({
                 </select>
               </td>
               <td>
-                {" "}
                 <select
                   className="form-select"
                   aria-label="Default select example"
+                  onChange={(e) =>
+                    HandleTextAlignOptionChange(index, e.target.value)
+                  }
                 >
+                  <option value="0">Left</option>
                   <option selected value="1">
-                    One
+                    Centre
                   </option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
+                  <option value="2">Right</option>
                 </select>
               </td>
             </tr>
@@ -229,7 +278,10 @@ function BuildDesign({
     <div className="">
       <div className="canvascontainer d-flex justify-content-center mt-4">
         <div>
-          <FabricJSCanvas className="sample-canvas" onReady={onReady} />
+          <FabricJSCanvas
+            className="sample-canvas rounded rounded-3"
+            onReady={onReady}
+          />
           <div className="mt-4">{RenderDesignOptions()}</div>
         </div>
       </div>
