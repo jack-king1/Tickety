@@ -46,6 +46,8 @@ function BuildDesign({
   const { selectedObjects, editor, onReady } = useFabricJSEditor();
   const [fontStates, setFontStates] = useState([]);
   const [textAlignStates, setTextAlignStates] = useState([]);
+  const [fontStateLoaded, setFontStateLoaded] = useState(false);
+  const [textAlignStateLoaded, setTextAlignStateLoaded] = useState(false);
 
   const InitCanvas = () => {
     editor.canvas.setDimensions({ width: 484, height: 204 });
@@ -60,6 +62,20 @@ function BuildDesign({
     editor.canvas.on("object:moving", moveHandler);
   };
 
+  useEffect(() => {
+    if (fontStateLoaded) {
+      console.log("fonts states loaded!");
+      setFontStateLoaded(true);
+    }
+  }, [fontStates]);
+
+  useEffect(() => {
+    if (textAlignStateLoaded) {
+      console.log("text align states loaded!");
+      setTextAlignStateLoaded(true);
+    }
+  }, [textAlignStates]);
+
   const moveHandler = () => {
     //save canvas state to localstorage.
     localStorage.setItem("localCanvas", JSON.stringify(editor.canvas));
@@ -70,15 +86,13 @@ function BuildDesign({
     let tempFontStates = [];
     if (localStorage.getItem("fontStates")) {
       tempFontStates = JSON.parse(localStorage.getItem("fontStates"));
-      setFontStates(tempFontStates);
     } else {
       editor.canvas.getObjects().forEach((obj, index) => {
         tempFontStates.push(fontNames[0][1]);
       });
       localStorage.setItem("fontStates", JSON.stringify(tempFontStates));
-      setFontStates(tempFontStates);
     }
-
+    setFontStates(tempFontStates);
     let count = 0;
     editor.canvas.getObjects().forEach((obj, index) => {
       obj.set("fontFamily", tempFontStates[count]);
@@ -91,7 +105,6 @@ function BuildDesign({
     let tempTextAlignState = [];
     if (localStorage.getItem("textAlignStates")) {
       tempTextAlignState = JSON.parse(localStorage.getItem("textAlignStates"));
-      setTextAlignStates(tempTextAlignState);
     } else {
       editor.canvas.getObjects().forEach((obj, index) => {
         tempTextAlignState.push(textAlignOptions[0][1]);
@@ -100,9 +113,8 @@ function BuildDesign({
         "textAlignStates",
         JSON.stringify(tempTextAlignState)
       );
-      setTextAlignStates(tempTextAlignState);
     }
-
+    setTextAlignStates(tempTextAlignState);
     let count = 0;
     editor.canvas.getObjects().forEach((obj, index) => {
       obj.set("textAlign", tempTextAlignState[count]);
@@ -159,6 +171,8 @@ function BuildDesign({
       object.text = tableData[count];
       count++;
     });
+    SaveCurrentFontState();
+    SaveCurrentTextAlignState();
     editor.canvas.renderAll();
   };
 
@@ -200,19 +214,25 @@ function BuildDesign({
   }, [onReady]);
 
   const HandleFontOptionChange = (rowID, fontID) => {
-    console.log("FONT SELECTED:", rowID, fontID);
     editor.canvas.getObjects()[rowID].fontFamily = fontNames[0][fontID];
     editor.canvas.renderAll();
     SaveCurrentFontState();
   };
 
   const HandleTextAlignOptionChange = (rowID, alignID) => {
-    console.log("Align Tex Selected:", textAlignOptions[0][alignID]);
     editor.canvas
       .getObjects()
       [rowID].set("textAlign", textAlignOptions[0][alignID]);
     editor.canvas.renderAll();
     SaveCurrentTextAlignState();
+  };
+
+  const GetSelectedFontState = (option, rowID) => {
+    return fontStates[rowID] === option;
+  };
+
+  const GetSelectedAlignTextState = (option, rowID) => {
+    return textAlignStates[rowID] === textAlignOptions[0][option];
   };
 
   const RenderDesignOptions = () => {
@@ -245,6 +265,7 @@ function BuildDesign({
                         style={{ fontFamily: `${val}, sans-serif` }}
                         className={``}
                         value={indexTwo}
+                        selected={GetSelectedFontState(val, index)}
                       >
                         {val}
                       </option>
@@ -260,11 +281,24 @@ function BuildDesign({
                     HandleTextAlignOptionChange(index, e.target.value)
                   }
                 >
-                  <option value="0">Left</option>
-                  <option selected value="1">
+                  <option
+                    selected={GetSelectedAlignTextState(0, index)}
+                    value={0}
+                  >
+                    Left
+                  </option>
+                  <option
+                    selected={GetSelectedAlignTextState(1, index)}
+                    value={1}
+                  >
                     Centre
                   </option>
-                  <option value="2">Right</option>
+                  <option
+                    selected={GetSelectedAlignTextState(2, index)}
+                    value={2}
+                  >
+                    Right
+                  </option>
                 </select>
               </td>
             </tr>
