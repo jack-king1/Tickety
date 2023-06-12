@@ -41,16 +41,72 @@ function BuildDesign({
     }
   };
 
+  const [canvasInit, setCanvasInit] = useState(false);
   const { selectedObjects, editor, onReady } = useFabricJSEditor();
 
   const InitCanvas = () => {
     editor.canvas.setDimensions({ width: 484, height: 204 });
     editor.canvas.setBackgroundColor("black");
     editor.canvas.preserveObjectStacking = true;
-    console.log(editor.canvas);
+    LoadCanvasFromFile();
+    LoadDesignFontStates();
+    UpdateAndAddCanvasObjectData();
+    editor.canvas.renderAll();
   };
 
+  const LoadDesignFontStates = () => {};
+
+  const HandleAddTextObjects = (textObjID) => {
+    console.log("Adding Text: ", tableData[textObjID]);
+    var text = new fabric.Textbox("temp", {
+      left: 50 * textObjID,
+      top: 50 * textObjID,
+      fontFamily: "Sriracha",
+      fill: "white",
+      textAlign: "center", // Set the text alignment to center
+    });
+    text.bringToFront();
+    editor.canvas.setActiveObject(text);
+    editor.canvas.add(text);
+  };
+
+  const UpdateAndAddCanvasObjectData = () => {
+    let canvasObjects = editor.canvas.getObjects();
+    let amountOfTextToAdd = tableData.length - canvasObjects.length;
+
+    if (amountOfTextToAdd > 0) {
+      for (let i = 0; i < amountOfTextToAdd; i++) {
+        HandleAddTextObjects(canvasObjects.length + i);
+      }
+    }
+
+    //Ensure design text is updated here.
+    let count = 0;
+    editor.canvas.getObjects().forEach((object, index) => {
+      object.text = tableData[count];
+      count++;
+    });
+    editor.canvas.renderAll();
+  };
+
+  const LoadCanvasFromFile = () => {
+    if (localStorage.getItem("localCanvas")) {
+      editor.canvas = editor.canvas.loadFromJSON(
+        JSON.parse(localStorage.getItem("localCanvas"))
+      );
+    } else {
+      localStorage.setItem("localCanvas", JSON.stringify(editor.canvas));
+    }
+  };
+
+  //todo:
+  // pass in text and add to canvas object.
+  //change font on option event change.
+
   useEffect(() => {
+    if (canvasInit) {
+      return;
+    }
     const checkValue = () => {
       // Check if the value is no longer undefined
       if (editor !== undefined) {
@@ -58,11 +114,12 @@ function BuildDesign({
         console.log("Value is not undefined anymore:", editor.canvas);
         clearInterval(interval);
         InitCanvas();
+        setCanvasInit(true);
       }
     };
 
     // Set up an interval to check the value periodically
-    const interval = setInterval(checkValue, 1000);
+    const interval = setInterval(checkValue, 100);
 
     return () => {
       clearInterval(interval); // Clean up the interval on component unmount
@@ -83,7 +140,7 @@ function BuildDesign({
           <tr>
             <th scope="col">Label</th>
             <th scope="col">Font</th>
-            <th scope="col">Size</th>
+            <th scope="col">Text Align</th>
           </tr>
         </thead>
         <tbody>
