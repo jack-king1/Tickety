@@ -28,6 +28,7 @@ function Build() {
   ]);
 
   useEffect(() => {
+    console.log(process.env.REACT_APP_SERVER_URL);
     if (localStorage.getItem("tableData")) {
       setTableData(JSON.parse(localStorage.getItem("tableData")));
     }
