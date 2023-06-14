@@ -14,7 +14,7 @@ function AddReview(props) {
   const [username, setUsername] = useState("");
 
   const api = Axios.create({
-    baseURL: process.env.SERVER_URL,
+    baseURL: process.env.REACT_APP_SERVER_URL,
   });
 
   useEffect(() => {

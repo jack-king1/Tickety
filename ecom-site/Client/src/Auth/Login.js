@@ -10,7 +10,7 @@ import Loading from "../Components/Loading";
 function Login() {
   const api = Axios.create({
     baseURL:
-      process.env.SERVER_URL ||
+      process.env.REACT_APP_SERVER_URL ||
       "https://ticketyapp-server-new.azurewebsites.net/",
   });
   const [loginOption, setLoginOption] = useState(true);

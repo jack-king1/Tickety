@@ -26,10 +26,10 @@ function Products(props) {
 
   const api = Axios.create({
     baseURL:
-      process.env.SERVER_URL ||
+      process.env.REACT_APP_SERVER_URL ||
       "https://ticketyapp-server-new.azurewebsites.net/",
   });
-  //console.log(process.env.SERVER_URL);
+  //console.log(process.env.REACT_APP_SERVER_URL);
   useEffect(() => {
     if (!initProducts) {
       if (localStorage.getItem("allProductsData")) {

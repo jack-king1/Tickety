@@ -15,7 +15,7 @@ function Cart(props) {
 
   const api = Axios.create({
     baseURL:
-      process.env.SERVER_URL ||
+      process.env.REACT_APP_SERVER_URL ||
       "https://ticketyapp-server-new.azurewebsites.net/",
   });
 
