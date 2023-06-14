@@ -10,12 +10,12 @@ function BuildData({ tableData, setTableData, fontNames }) {
   };
 
   return (
-    <div className="canvascontainer ">
+    <div className="canvascontainer h-100">
       <div className="d-flex justify-content-center mt-2">
         <input
           className="text-center tabledata-input"
           type="text"
-          value={"Temp Data Set name"}
+          value={"Title"}
         />
       </div>
       <Table data={tableData} setData={setTableData} fontNames={fontNames} />

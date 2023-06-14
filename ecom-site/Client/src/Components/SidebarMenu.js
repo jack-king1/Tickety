@@ -8,10 +8,25 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
     let buildElements = [];
     if (buildList.length > 0) {
       buildList.forEach((buildItem) => {
-        buildElements.push(<div>NEW ITEM HERE!!!!!</div>);
+        buildElements.push(
+          <div className="d-flex border border-2 outline outline-black mb-2">
+            <div className="w-100 p-2">
+              <div
+                style={{ fontFamily: "Bebas Neue, sans-serif" }}
+                className="buildtitle"
+              >
+                title
+              </div>
+              <div>description</div>
+            </div>
+            <div className="btn btn-sm btn-danger d-flex">
+              <span className="material-icons text-white my-auto">delete </span>
+            </div>
+          </div>
+        );
       });
     }
-    console.log("BUILD List: ", buildList);
+    console.log("Build List: ", buildList);
     return buildElements;
   };
 
@@ -28,7 +43,7 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
 
   return (
     <div>
-      <div className="position-absolute top-50 start-0 translate-middle-y">
+      <div className="position-fixed top-50 start-0 translate-middle-y">
         <button
           className="btn btn-primary taller-button d-flex"
           type="button"

@@ -16,3 +16,7 @@
   height: 40px; /* Adjust the height value as per your requirement */
   width: auto;
 }
+
+.buildtitle {
+  font-size: 1.5rem;
+}
