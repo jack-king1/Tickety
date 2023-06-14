@@ -69,30 +69,47 @@ function Navbar(props) {
           >
             <ul className="navbar-nav mx-1">
               <li className="nav-item">
-                <NavLink className="nav-link" to={`/products/all`}>
+                <NavLink
+                  className="nav-link"
+                  to={`/products/all`}
+                  style={{ fontFamily: "Noto Sans JP, sans-serif" }}
+                >
                   Products
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/about">
+                <NavLink
+                  className="nav-link"
+                  style={{ fontFamily: "Noto Sans JP, sans-serif" }}
+                  to="/about"
+                >
                   FAQ
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/contact">
+                <NavLink
+                  className="nav-link"
+                  style={{ fontFamily: "Noto Sans JP, sans-serif" }}
+                  to="/contact"
+                >
                   Contact Us
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/build">
+                <NavLink
+                  className="nav-link"
+                  style={{ fontFamily: "Noto Sans JP, sans-serif" }}
+                  to="/build"
+                >
                   Build
                 </NavLink>
               </li>
               <li className="nav-item">
                 <NavLink
                   onClick={() => SetMenuLoginText()}
-                  className="nav-link"
+                  className="nav-link "
                   to="/login"
+                  style={{ fontFamily: "Noto Sans JP, sans-serif" }}
                 >
                   {loginText}
                 </NavLink>

@@ -11,16 +11,15 @@ import Tabs from "./Tabs";
 import BuildData from "./BuildData";
 import BuildPreview from "./BuildPreview";
 import SidebarMenu from "./SidebarMenu";
+import { GetTicketBuildList, SubmitTicketData } from "./API";
 // canvas ticket for test size = x: 484px(128mm) y: 189px(50mm)
+
+import { api } from "./API";
 function Build() {
-  const api = Axios.create({
-    baseURL:
-      process.env.REACT_APP_SERVER_URL ||
-      "https://ticketyapp-server-new.azurewebsites.net/",
-  });
   //con
   const [currentState, setCurrentState] = useState(0);
   const [canvasStateJson, setCanvasStateJson] = useState("");
+  const [buildList, setBuildList] = useState([]);
   const [tableData, setTableData] = useState([
     ["Title", "Description", "Price"],
     ["Example 1", "Description", "£0.00"],
@@ -35,8 +34,27 @@ function Build() {
     ["left", "center", "right"],
   ]);
 
+  const buildOptionObject = {
+    buildName: "tempName",
+    buildDesc: "a new build design object",
+  };
+
+  const GetBuildDataList = async () => {
+    try {
+      const response = await GetTicketBuildList();
+      const data = await response.json();
+      console.log("Fetched data:", data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  const SubmitActiveBuildData = async () => {};
+
   useEffect(() => {
     console.log(process.env.REACT_APP_SERVER_URL);
+    //load from database ticket build list items.
+
     if (localStorage.getItem("tableData")) {
       setTableData(JSON.parse(localStorage.getItem("tableData")));
     }
@@ -50,7 +68,11 @@ function Build() {
 
   return (
     <div className="">
-      <SidebarMenu />
+      <SidebarMenu
+        buildList={buildList}
+        setBuildList={setBuildList}
+        buildOptionObject={buildOptionObject}
+      />
       <Tabs
         currentState={currentState}
         setCurrentState={setCurrentState}

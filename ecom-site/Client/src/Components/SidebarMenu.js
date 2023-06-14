@@ -1,8 +1,31 @@
 import React from "react";
 import "../CSS/BuildCanvas.css";
 import "material-icons/iconfont/material-icons.css";
+import { SubmitTicketData } from "./API";
 
-function SidebarMenu() {
+function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
+  const RenderBuildListOptions = () => {
+    let buildElements = [];
+    if (buildList.length > 0) {
+      buildList.forEach((buildItem) => {
+        buildElements.push(<div>NEW ITEM HERE!!!!!</div>);
+      });
+    }
+    console.log("BUILD List: ", buildList);
+    return buildElements;
+  };
+
+  const AddBuildOption = () => {
+    if (buildList.length > 0) {
+      let tempBuildItem = buildOptionObject;
+      setBuildList((buildList) => [...buildList, tempBuildItem]);
+    } else {
+      let tempBuildItem = buildOptionObject;
+      setBuildList([tempBuildItem]);
+    }
+    console.log("Adding New Item!", buildList.length);
+  };
+
   return (
     <div>
       <div className="position-absolute top-50 start-0 translate-middle-y">
@@ -27,7 +50,7 @@ function SidebarMenu() {
       >
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasScrollingLabel">
-            Colored with scrolling
+            My Tickets
           </h5>
           <button
             type="button"
@@ -37,10 +60,15 @@ function SidebarMenu() {
           ></button>
         </div>
         <div class="offcanvas-body">
-          <p>
-            Try scrolling the rest of the page to see this option in action.
+          <p className="">
+            View all your ticket designs here and select one to edit!
           </p>
+          {RenderBuildListOptions()}
         </div>
+
+        <button className="btn btn-success" onClick={() => AddBuildOption()}>
+          Add +
+        </button>
       </div>
     </div>
   );

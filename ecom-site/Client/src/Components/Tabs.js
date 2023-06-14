@@ -20,7 +20,7 @@ function Tabs({ currentState, setCurrentState, buildState }) {
           className={`flex-fill fs-4 my-auto border-end px-2 tab ${GetActiveState(
             buildState.DATA
           )}`}
-          style={{ fontFamily: "Noto Sans JP, sans-serif" }}
+          style={{ fontFamily: "Bebas Neue, sans-serif" }}
         >
           Data
         </div>
@@ -29,7 +29,7 @@ function Tabs({ currentState, setCurrentState, buildState }) {
           className={`flex-fill fs-4 my-auto px-2 tab ${GetActiveState(
             buildState.DESIGN
           )}`}
-          style={{ fontFamily: "Sriracha, sans-serif" }}
+          style={{ fontFamily: "Bebas Neue, sans-serif" }}
         >
           Design
         </div>
@@ -38,7 +38,7 @@ function Tabs({ currentState, setCurrentState, buildState }) {
           className={`flex-fill fs-4 my-auto border-start px-2 tab ${GetActiveState(
             buildState.PREVIEW
           )}`}
-          style={{ fontFamily: "Sriracha, sans-serif" }}
+          style={{ fontFamily: "Bebas Neue, sans-serif" }}
         >
           Preview
         </div>
