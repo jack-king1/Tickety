@@ -20,3 +20,25 @@
 .buildtitle {
   font-size: 1.5rem;
 }
+
+.ticketbuilditem {
+  cursor: pointer;
+}
+
+.ticketbuilditem:hover {
+  background-color: rgb(216, 216, 216);
+}
+
+.editpen {
+  font-size: 1.25rem;
+}
+
+.editpen:hover {
+  background-color: green;
+  color: white;
+  border-radius: 0.25rem;
+}
+
+.ticketbuilditem:hover > input {
+  background-color: rgb(216, 216, 216);
+}

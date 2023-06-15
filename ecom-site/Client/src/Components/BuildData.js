@@ -10,7 +10,7 @@ function BuildData({ tableData, setTableData, fontNames }) {
   };
 
   return (
-    <div className="canvascontainer h-100">
+    <div className="canvascontainer h-100 maxheight">
       <div className="d-flex justify-content-center mt-2">
         <input
           className="text-center tabledata-input"
