@@ -1,9 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../CSS/BuildCanvas.css";
 import "material-icons/iconfont/material-icons.css";
-import { SubmitTicketData, api } from "./API";
+import {
+  SubmitTicketData,
+  api,
+  DeleteTicketData,
+  GetSelectedTicketBuild,
+} from "./API";
 
-function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
+function SidebarMenu({
+  buildList,
+  setBuildList,
+  buildOptionObject,
+  activeBuildOption,
+  setActiveBuildOption,
+}) {
   function activateInput(index, type) {
     console.log("focusing: ", type + index);
     const inputElement = document.getElementById(`${type}${index}`);
@@ -17,7 +28,7 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
 
   const HandleBuildOptionChangesTitle = (index, value) => {
     let tempValues = buildList;
-    tempValues[index].buildName = value;
+    tempValues[index].buildDataName = value;
     setBuildList(tempValues);
     incrementCount();
     console.log("Build List: ", tempValues);
@@ -25,7 +36,7 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
 
   const HandleBuildOptionChangesDesc = (index, value) => {
     let tempValues = buildList;
-    tempValues[index].buildDesc = value;
+    tempValues[index].buildDataDescription = value;
     setBuildList(tempValues);
     incrementCount();
   };
@@ -47,7 +58,7 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
                 <input
                   id={`title${key}`}
                   className="border-0 w-100"
-                  value={buildList[key].buildName}
+                  value={buildList[key].buildDataName}
                   onChange={(e) =>
                     HandleBuildOptionChangesTitle(key, e.target.value)
                   }
@@ -63,7 +74,7 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
                 <input
                   id={`desc${key}`}
                   className="border-0 w-100"
-                  value={buildList[key].buildDesc}
+                  value={buildList[key].buildDataDescription}
                   onChange={(e) =>
                     HandleBuildOptionChangesDesc(key, e.target.value)
                   }
@@ -76,7 +87,17 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
                 </span>
               </div>
               <div>10 Ticket(s)</div>
-              <button className="btn btn-success w-100">Open</button>
+              <button
+                onClick={() =>
+                  GetSelectedTicketBuild(
+                    buildList[key].buildDataID,
+                    setActiveBuildOption
+                  )
+                }
+                className="btn btn-success w-100"
+              >
+                Open
+              </button>
             </div>
             <div
               className="btn btn-sm btn-danger d-flex"
@@ -88,7 +109,6 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
         );
       });
     }
-    console.log("Build List: ", buildList);
     return buildElements;
   };
 
@@ -97,7 +117,7 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
     console.log("trying to remove: ", buildList[index]);
     let newArray = buildList.filter((item) => item !== buildList[index]);
     //remove from server database also
-
+    DeleteTicketData(buildList[index].buildDataID);
     // Update the state with the modified array
     setBuildList(newArray);
     incrementCount();

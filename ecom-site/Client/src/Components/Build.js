@@ -21,11 +21,7 @@ function Build() {
   const [canvasStateJson, setCanvasStateJson] = useState("");
   const [activeBuildOption, setActiveBuildOption] = useState();
   const [buildList, setBuildList] = useState([]);
-  const [tableData, setTableData] = useState([
-    ["Title", "Description", "Price"],
-    ["Example 1", "Description", "£0.00"],
-    ["Example 2", "Descritpion", "£.00"],
-  ]);
+  const [tableData, setTableData] = useState([["Title"], ["Example 1"]]);
 
   const [fontNames, setBuildFonts] = useState([
     ["Sriracha", "Noto Sans JP", "Grechen Fuemen", "Bebas Neue"],
@@ -40,15 +36,22 @@ function Build() {
     buildDesc: "a new build design object",
   };
 
-  const GetBuildDataList = async () => {
-    try {
-      const response = await GetTicketBuildList();
-      const data = await response.json();
-      console.log("Fetched data:", data);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      let id = await localStorage.getItem("accountID");
+      const response = await GetTicketBuildList(id, setBuildList);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    console.log("Build List Received: ", buildList);
+  }, [buildList]);
+
+  useEffect(() => {
+    console.log("Active Build Option Loaded: ", activeBuildOption);
+  }, [activeBuildOption]);
 
   const SubmitActiveBuildData = async () => {};
 
@@ -74,6 +77,7 @@ function Build() {
         setBuildList={setBuildList}
         buildOptionObject={buildOptionObject}
         activeBuildOption={activeBuildOption}
+        setActiveBuildOption={setActiveBuildOption}
       />
       <Tabs
         currentState={currentState}
@@ -87,6 +91,7 @@ function Build() {
           setTableData={setTableData}
           fontNames={fontNames}
           activeBuildOption={activeBuildOption}
+          setActiveBuildOption={setActiveBuildOption}
         />
       )}
 
