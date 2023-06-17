@@ -50,10 +50,10 @@ function BuildData({
           <div className="display-6 mx-auto text-center">
             Insert your first column data and label.
             <div className="d-flex mt-4">
-              <div className="pe-2">Title: </div>
+              <div className="pe-2">Label Name: </div>
               <input
                 onChange={(e) => handleCellChange(e.target.value, 0, 0)}
-                placeholder="Name"
+                placeholder="Product Name"
               ></input>
             </div>
             <div className="d-flex mt-2 w-100">
@@ -75,8 +75,7 @@ function BuildData({
       );
     } else
       return (
-        <div>
-          {" "}
+        <div className="d-flex flex-column">
           <input
             className="text-center tabledata-input display-6"
             type="text"

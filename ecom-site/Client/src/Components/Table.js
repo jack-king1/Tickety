@@ -102,7 +102,7 @@ function Table({ data, setData, activeBuildOption, setActiveBuildOption }) {
                 </tr>
               ))}
               <tr>
-                {data[0].map((_, index) => (
+                {activeBuildOption.buildData[0].map((_, index) => (
                   <td key={index}>
                     {index > 0 ? (
                       <button
