@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../CSS/BuildCanvas.css";
 import "material-icons/iconfont/material-icons.css";
-import { SubmitTicketData } from "./API";
+import { SubmitTicketData, api } from "./API";
 
 function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
   function activateInput(index, type) {
+    console.log("focusing: ", type + index);
     const inputElement = document.getElementById(`${type}${index}`);
     inputElement.focus();
   }
@@ -40,7 +41,6 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
           >
             <div className="w-100 p-2 ticketbuilditem">
               <div
-                key={key}
                 style={{ fontFamily: "Bebas Neue, sans-serif" }}
                 className="buildtitle d-flex"
               >
@@ -59,9 +59,8 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
                   edit
                 </span>
               </div>
-              <div key={key} className="d-flex">
+              <div className="d-flex">
                 <input
-                  onClick={() => activateInput(key, "desc")}
                   id={`desc${key}`}
                   className="border-0 w-100"
                   value={buildList[key].buildDesc}
@@ -69,11 +68,15 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
                     HandleBuildOptionChangesDesc(key, e.target.value)
                   }
                 ></input>
-                <span className="material-icons ms-2 editpen my-auto">
+                <span
+                  onClick={() => activateInput(key, "desc")}
+                  className="material-icons ms-2 editpen my-auto"
+                >
                   edit
                 </span>
               </div>
               <div>10 Ticket(s)</div>
+              <button className="btn btn-success w-100">Open</button>
             </div>
             <div
               className="btn btn-sm btn-danger d-flex"
@@ -101,14 +104,26 @@ function SidebarMenu({ buildList, setBuildList, buildOptionObject }) {
   };
 
   const AddBuildOption = () => {
+    let tempBuildItem = buildOptionObject;
     if (buildList.length > 0) {
-      let tempBuildItem = buildOptionObject;
       setBuildList((buildList) => [...buildList, tempBuildItem]);
     } else {
-      let tempBuildItem = buildOptionObject;
       setBuildList([tempBuildItem]);
     }
     console.log("Adding New Item!", buildList.length);
+    //save to database --
+    //canvas obj
+    //data
+    //name
+    //desc
+    //account id
+    SubmitTicketData(
+      null,
+      null,
+      tempBuildItem.buildName,
+      tempBuildItem.buildDesc,
+      localStorage.getItem("accountID")
+    );
   };
 
   return (

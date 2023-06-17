@@ -19,6 +19,7 @@ function Build() {
   //con
   const [currentState, setCurrentState] = useState(0);
   const [canvasStateJson, setCanvasStateJson] = useState("");
+  const [activeBuildOption, setActiveBuildOption] = useState();
   const [buildList, setBuildList] = useState([]);
   const [tableData, setTableData] = useState([
     ["Title", "Description", "Price"],
@@ -72,6 +73,7 @@ function Build() {
         buildList={buildList}
         setBuildList={setBuildList}
         buildOptionObject={buildOptionObject}
+        activeBuildOption={activeBuildOption}
       />
       <Tabs
         currentState={currentState}
@@ -84,6 +86,7 @@ function Build() {
           tableData={tableData}
           setTableData={setTableData}
           fontNames={fontNames}
+          activeBuildOption={activeBuildOption}
         />
       )}
 
@@ -95,6 +98,7 @@ function Build() {
           tableData={tableData[0]}
           fontNames={fontNames}
           textAlignOptions={textAlignOptions}
+          activeBuildOption={activeBuildOption}
         />
       )}
       {currentState == BUILD_STATE.PREVIEW && (

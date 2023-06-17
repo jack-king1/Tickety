@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Table from "./Table";
 import "../CSS/Tabs.css";
 
-function BuildData({ tableData, setTableData, fontNames }) {
+function BuildData({ tableData, setTableData, fontNames, activeBuildOption }) {
   const DATA_TYPE = {
     TITLE: 0,
     TEXT: 1,

@@ -9,6 +9,7 @@ function BuildDesign({
   tableData,
   fontNames,
   textAlignOptions,
+  activeBuildOption,
 }) {
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
