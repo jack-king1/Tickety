@@ -34,6 +34,8 @@ function Build() {
   const buildOptionObject = {
     buildName: "tempName",
     buildDesc: "a new build design object",
+    buildFontStates: [fontNames[0][1]],
+    buildTextAlignStates: [textAlignOptions[0][1]],
   };
 
   useEffect(() => {
@@ -104,6 +106,7 @@ function Build() {
           fontNames={fontNames}
           textAlignOptions={textAlignOptions}
           activeBuildOption={activeBuildOption}
+          setActiveBuildOption={setActiveBuildOption}
         />
       )}
       {currentState == BUILD_STATE.PREVIEW && (

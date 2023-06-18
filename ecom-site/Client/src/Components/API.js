@@ -1,4 +1,5 @@
 import axios from "axios";
+import { Buffer } from "buffer";
 
 export const api = axios.create({
   baseURL:
@@ -19,6 +20,8 @@ export const SubmitTicketData = async (
   buildData,
   buildDataName,
   buildDataDescription,
+  buildFontStates,
+  buildTextAlignStates,
   accountID
 ) => {
   //do date checks here.
@@ -28,6 +31,8 @@ export const SubmitTicketData = async (
       buildData: buildData,
       buildDataName: buildDataName,
       buildDataDescription: buildDataDescription,
+      buildFontStates: buildFontStates,
+      buildTextAlignStates: buildTextAlignStates,
       accountID: accountID,
     })
     .then((response) => {
@@ -46,12 +51,47 @@ export const DeleteTicketData = async (buildDataID) => {
     });
 };
 
+export const UpdateTicketData = async (
+  buildDesign,
+  buildData,
+  buildDataName,
+  buildDataDescription,
+  buildFontStates,
+  buildTextAlignStates,
+  buildDataID
+) => {
+  //do date checks here.
+  await api
+    .post("build/update", {
+      buildDesign: buildDesign,
+      buildData: buildData,
+      buildDataName: buildDataName,
+      buildDataDescription: buildDataDescription,
+      buildFontStates: buildFontStates,
+      buildTextAlignStates: buildTextAlignStates,
+      buildDataID: buildDataID,
+    })
+    .then((response) => {
+      console.log("Register Success!", response);
+    });
+};
+
 export const GetSelectedTicketBuild = async (
   buildDataID,
   setActiveBuildOption
 ) => {
   let params = new URLSearchParams([["buildDataID", buildDataID]]);
   await api.get("build/getselected", { params }).then((response) => {
+    const fontStates = JSON.parse(response.data[0].buildFontStates);
+    const data = JSON.parse(response.data[0].buildData);
+    const textAlignStates = JSON.parse(response.data[0].buildTextAlignStates);
+
+    response.data[0].buildFontStates = fontStates;
+    response.data[0].buildData = data;
+    response.data[0].buildTextAlignStates = textAlignStates;
+
+    console.log("LOGGING FINAL RESPONSE AFTER PARSE: ", response.data[0]);
+
     setActiveBuildOption(response.data[0]);
     localStorage.setItem("activeBuildOption", JSON.stringify(response.data[0]));
     return response;

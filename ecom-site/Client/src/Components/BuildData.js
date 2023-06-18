@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Table from "./Table";
 import "../CSS/Tabs.css";
+import { SubmitTicketData, api, UpdateTicketData } from "./API";
 
 function BuildData({
   tableData,
@@ -23,7 +24,7 @@ function BuildData({
     setInitData(updatedData);
   };
 
-  const SubmitInitData = () => {
+  const SubmitInitData = async () => {
     let tempBuildOption = activeBuildOption;
     tempBuildOption.buildData = initData;
     console.log(
@@ -34,12 +35,35 @@ function BuildData({
     );
     setActiveBuildOption(tempBuildOption);
     incrementCount();
+    //Save data to database.
+    await UpdateTicketData(
+      null,
+      JSON.stringify(activeBuildOption.buildData),
+      activeBuildOption.buildDataName,
+      activeBuildOption.buildDataDescription,
+      activeBuildOption.buildFontStates,
+      activeBuildOption.buildTextAlignStates,
+      activeBuildOption.buildDataID
+    );
   };
 
   const [count, setCount] = useState(0);
 
   const incrementCount = () => {
     setCount(count * -1); // Triggers a re-render
+  };
+
+  const SaveChangesToDB = async () => {
+    console.log("saving to db...");
+    await UpdateTicketData(
+      null,
+      JSON.stringify(activeBuildOption.buildData),
+      activeBuildOption.buildDataName,
+      activeBuildOption.buildDataDescription,
+      activeBuildOption.buildFontStates,
+      activeBuildOption.buildTextAlignStates,
+      activeBuildOption.buildDataID
+    );
   };
 
   const RenderTableOptions = () => {
@@ -81,6 +105,12 @@ function BuildData({
             type="text"
             value={"Title"}
           />
+          <div
+            onClick={() => SaveChangesToDB()}
+            className="btn btn-success btn-sm"
+          >
+            Save Changes
+          </div>
           {GetProductTable()}
         </div>
       );

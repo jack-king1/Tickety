@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { SubmitTicketData, api, UpdateTicketData } from "./API";
 
 function Table({ data, setData, activeBuildOption, setActiveBuildOption }) {
   const [count, setCount] = useState(0);

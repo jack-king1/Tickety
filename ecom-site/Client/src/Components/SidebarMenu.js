@@ -137,11 +137,21 @@ function SidebarMenu({
     //name
     //desc
     //account id
+
+    console.log("CHECKING VALUE OF FONT DATA: ", tempBuildItem.buildFontStates);
+
+    let stringyBuildFontStates = JSON.stringify(tempBuildItem.buildFontStates);
+    let strinyBuildTextAlignState = JSON.stringify(
+      tempBuildItem.buildTextAlignStates
+    );
+
     SubmitTicketData(
       null,
       null,
       tempBuildItem.buildName,
       tempBuildItem.buildDesc,
+      stringyBuildFontStates,
+      strinyBuildTextAlignState,
       localStorage.getItem("accountID")
     );
   };

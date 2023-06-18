@@ -10,6 +10,7 @@ function BuildDesign({
   fontNames,
   textAlignOptions,
   activeBuildOption,
+  setActiveBuildOption,
 }) {
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -79,21 +80,18 @@ function BuildDesign({
 
   const moveHandler = () => {
     //save canvas state to localstorage.
+    let tempBuildOption = activeBuildOption;
+    tempBuildOption.buildDesign = JSON.stringify(editor.canvas);
+    setActiveBuildOption(tempBuildOption);
     localStorage.setItem("localCanvas", JSON.stringify(editor.canvas));
   };
 
   const LoadAndAssignFontFamily = () => {
     console.log("Loading Fonts...");
+    let tempBuildOption = activeBuildOption;
     let tempFontStates = [];
-    if (localStorage.getItem("fontStates")) {
-      tempFontStates = JSON.parse(localStorage.getItem("fontStates"));
-    } else {
-      editor.canvas.getObjects().forEach((obj, index) => {
-        tempFontStates.push(fontNames[0][1]);
-      });
-      localStorage.setItem("fontStates", JSON.stringify(tempFontStates));
-    }
-    setFontStates(tempFontStates);
+    tempFontStates = JSON.parse(tempBuildOption.buildFontStates[0]);
+    console.log("FONT STATES:", tempFontStates);
     let count = 0;
     editor.canvas.getObjects().forEach((obj, index) => {
       obj.set("fontFamily", tempFontStates[count]);
