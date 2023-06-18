@@ -6,6 +6,7 @@ import {
   api,
   DeleteTicketData,
   GetSelectedTicketBuild,
+  GetTicketBuildList,
 } from "./API";
 
 function SidebarMenu({
@@ -123,7 +124,7 @@ function SidebarMenu({
     incrementCount();
   };
 
-  const AddBuildOption = () => {
+  const AddBuildOption = async () => {
     let tempBuildItem = buildOptionObject;
     if (buildList.length > 0) {
       setBuildList((buildList) => [...buildList, tempBuildItem]);
@@ -131,12 +132,6 @@ function SidebarMenu({
       setBuildList([tempBuildItem]);
     }
     console.log("Adding New Item!", buildList.length);
-    //save to database --
-    //canvas obj
-    //data
-    //name
-    //desc
-    //account id
 
     console.log("CHECKING VALUE OF FONT DATA: ", tempBuildItem.buildFontStates);
 
@@ -145,7 +140,7 @@ function SidebarMenu({
       tempBuildItem.buildTextAlignStates
     );
 
-    SubmitTicketData(
+    await SubmitTicketData(
       null,
       null,
       tempBuildItem.buildName,
@@ -154,6 +149,9 @@ function SidebarMenu({
       strinyBuildTextAlignState,
       localStorage.getItem("accountID")
     );
+
+    await GetTicketBuildList(localStorage.getItem("accountID"), setBuildList);
+    incrementCount();
   };
 
   return (
