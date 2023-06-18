@@ -51,25 +51,20 @@ export const DeleteTicketData = async (buildDataID) => {
     });
 };
 
-export const UpdateTicketData = async (
-  buildDesign,
-  buildData,
-  buildDataName,
-  buildDataDescription,
-  buildFontStates,
-  buildTextAlignStates,
-  buildDataID
-) => {
+export const UpdateTicketData = async (activeBuildData) => {
   //do date checks here.
+  console.log("BUILD DATA: ", activeBuildData);
   await api
     .post("build/update", {
-      buildDesign: buildDesign,
-      buildData: buildData,
-      buildDataName: buildDataName,
-      buildDataDescription: buildDataDescription,
-      buildFontStates: buildFontStates,
-      buildTextAlignStates: buildTextAlignStates,
-      buildDataID: buildDataID,
+      buildDesign: JSON.stringify(activeBuildData.buildDesign),
+      buildData: JSON.stringify(activeBuildData.buildData),
+      buildDataName: activeBuildData.buildDataName,
+      buildDataDescription: activeBuildData.buildDataDescription,
+      buildFontStates: JSON.stringify(activeBuildData.buildFontStates),
+      buildTextAlignStates: JSON.stringify(
+        activeBuildData.buildTextAlignStates
+      ),
+      buildDataID: activeBuildData.buildDataID,
     })
     .then((response) => {
       console.log("Register Success!", response);

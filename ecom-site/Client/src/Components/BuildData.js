@@ -36,15 +36,7 @@ function BuildData({
     setActiveBuildOption(tempBuildOption);
     incrementCount();
     //Save data to database.
-    await UpdateTicketData(
-      null,
-      JSON.stringify(activeBuildOption.buildData),
-      activeBuildOption.buildDataName,
-      activeBuildOption.buildDataDescription,
-      JSON.stringify(activeBuildOption.buildFontStates),
-      JSON.stringify(activeBuildOption.buildTextAlignStates),
-      activeBuildOption.buildDataID
-    );
+    await UpdateTicketData(activeBuildOption);
   };
 
   const [count, setCount] = useState(0);
@@ -55,15 +47,7 @@ function BuildData({
 
   const SaveChangesToDB = async () => {
     console.log("saving to db...");
-    await UpdateTicketData(
-      null,
-      JSON.stringify(activeBuildOption.buildData),
-      activeBuildOption.buildDataName,
-      activeBuildOption.buildDataDescription,
-      JSON.stringify(activeBuildOption.buildFontStates),
-      JSON.stringify(activeBuildOption.buildTextAlignStates),
-      activeBuildOption.buildDataID
-    );
+    await UpdateTicketData(activeBuildOption);
   };
 
   const HandleTitleChange = (value) => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { fabric } from "fabric";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { FontFaceObserver } from "fontfaceobserver";
+import { SubmitTicketData, api, UpdateTicketData } from "./API";
 function BuildDesign({
   canvasStateJson,
   setCanvasStateJson,
@@ -58,8 +59,8 @@ function BuildDesign({
     editor.canvas.preserveObjectStacking = true;
     LoadCanvasFromFile();
     UpdateAndAddCanvasObjectData();
-    // LoadAndAssignFontFamily();
-    // LoadAndAssignTextAlign();
+    LoadAndAssignFontFamily();
+    //LoadAndAssignTextAlign();
     // editor.canvas.renderAll();
     //setup event handlers
     //editor.canvas.on("object:moving", moveHandler);
@@ -90,20 +91,27 @@ function BuildDesign({
     console.log("Loading Fonts...");
     let tempBuildOption = activeBuildOption;
     let tempFontStates = [];
-    if (tempFontStates.length < activeBuildOption.buildData[0].length) {
+    tempFontStates = activeBuildOption.buildFontStates;
+
+    if (tempFontStates.length < editor.canvas.getObjects().length) {
+      console.log(
+        "Need to add more font states",
+        editor.canvas.getObjects().length - tempFontStates.length
+      );
       for (
         let i = 0;
-        i < activeBuildOption.buildData[0].length - tempFontStates.length;
+        i < editor.canvas.getObjects().length - tempFontStates.length;
         i++
-      )
-        tempFontStates.push(fontNames[0][1]);
+      ) {
+        tempFontStates.push(
+          editor.canvas.getObjects()[tempFontStates.length + i].fontFamily
+        );
+      }
     }
-    let count = 0;
-    editor.canvas.getObjects().forEach((obj, index) => {
-      obj.set("fontFamily", tempFontStates[count]);
-      count++;
-    });
-    tempBuildOption.buildFontStates = tempFontStates;
+    console.log(
+      "Added Font States Result: ",
+      activeBuildOption.buildFontStates
+    );
   };
 
   const LoadAndAssignTextAlign = () => {
@@ -119,13 +127,9 @@ function BuildDesign({
         tempTextAlignStates.push(textAlignOptions[0][1]);
       console.log("ADDING TEXT ALIGN STATES...", tempTextAlignStates);
     }
-    let count = 0;
-    editor.canvas.getObjects().forEach((obj, index) => {
-      obj.set("textAlign", tempTextAlignStates[count]);
-      count++;
-    });
     tempBuildOption.tempTextAlignStates = tempTextAlignStates;
-    //setActiveBuildOption(tempBuildOption);
+    console.log("NEW BUILD OPTION: ", tempBuildOption);
+    setActiveBuildOption(tempBuildOption);
   };
 
   const SaveCurrentFontState = () => {
@@ -235,11 +239,23 @@ function BuildDesign({
   };
 
   const GetSelectedFontState = (option, rowID) => {
-    return fontStates[rowID] === option;
+    console.log(
+      "DOES SELECTED STATE MATCH: ",
+      option,
+      activeBuildOption.buildFontStates[rowID]
+    );
+    return activeBuildOption.buildFontStates[rowID] === option;
   };
 
   const GetSelectedAlignTextState = (option, rowID) => {
     return textAlignStates[rowID] === textAlignOptions[0][option];
+  };
+
+  const SaveChangesToDB = () => {
+    let tempBuildData = activeBuildOption;
+    tempBuildData.buildDesign = JSON.stringify(editor.canvas);
+    setActiveBuildOption(tempBuildData);
+    UpdateTicketData(tempBuildData);
   };
 
   const RenderDesignOptions = () => {
@@ -317,6 +333,12 @@ function BuildDesign({
 
   return (
     <div className="">
+      <div
+        onClick={() => SaveChangesToDB()}
+        className="btn btn-success d-flex justify-content-center w-25 mx-auto mt-4"
+      >
+        Save Changes
+      </div>
       <div className="canvascontainer d-flex justify-content-center mt-4">
         <div>
           <FabricJSCanvas
