@@ -41,8 +41,8 @@ function BuildData({
       JSON.stringify(activeBuildOption.buildData),
       activeBuildOption.buildDataName,
       activeBuildOption.buildDataDescription,
-      activeBuildOption.buildFontStates,
-      activeBuildOption.buildTextAlignStates,
+      JSON.stringify(activeBuildOption.buildFontStates),
+      JSON.stringify(activeBuildOption.buildTextAlignStates),
       activeBuildOption.buildDataID
     );
   };
@@ -60,8 +60,8 @@ function BuildData({
       JSON.stringify(activeBuildOption.buildData),
       activeBuildOption.buildDataName,
       activeBuildOption.buildDataDescription,
-      activeBuildOption.buildFontStates,
-      activeBuildOption.buildTextAlignStates,
+      JSON.stringify(activeBuildOption.buildFontStates),
+      JSON.stringify(activeBuildOption.buildTextAlignStates),
       activeBuildOption.buildDataID
     );
   };
