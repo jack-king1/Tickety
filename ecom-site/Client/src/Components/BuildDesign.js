@@ -60,7 +60,7 @@ function BuildDesign({
     LoadCanvasFromFile();
     UpdateAndAddCanvasObjectData();
     LoadAndAssignFontFamily();
-    //LoadAndAssignTextAlign();
+    LoadAndAssignTextAlign();
     // editor.canvas.renderAll();
     //setup event handlers
     //editor.canvas.on("object:moving", moveHandler);
@@ -115,21 +115,30 @@ function BuildDesign({
   };
 
   const LoadAndAssignTextAlign = () => {
-    console.log("Loading Text Align...");
+    console.log("Loading Text Align State...");
     let tempBuildOption = activeBuildOption;
     let tempTextAlignStates = [];
-    if (tempTextAlignStates.length < activeBuildOption.buildData[0].length) {
+    tempTextAlignStates = activeBuildOption.buildTextAlignStates;
+
+    if (tempTextAlignStates.length < editor.canvas.getObjects().length) {
+      console.log(
+        "Need to add more text align states",
+        editor.canvas.getObjects().length - tempTextAlignStates.length
+      );
       for (
         let i = 0;
-        i < activeBuildOption.buildData[0].length - tempTextAlignStates.length;
+        i < editor.canvas.getObjects().length - tempTextAlignStates.length;
         i++
-      )
-        tempTextAlignStates.push(textAlignOptions[0][1]);
-      console.log("ADDING TEXT ALIGN STATES...", tempTextAlignStates);
+      ) {
+        tempTextAlignStates.push(
+          editor.canvas.getObjects()[tempTextAlignStates.length + i].textAlign
+        );
+      }
     }
-    tempBuildOption.tempTextAlignStates = tempTextAlignStates;
-    console.log("NEW BUILD OPTION: ", tempBuildOption);
-    setActiveBuildOption(tempBuildOption);
+    console.log(
+      "Added Text Align States Result: ",
+      activeBuildOption.buildTextAlignStates
+    );
   };
 
   const SaveCurrentFontState = () => {
@@ -137,7 +146,9 @@ function BuildDesign({
     editor.canvas.getObjects().forEach((val, index) => {
       currentFontState.push(val.fontFamily);
     });
-    localStorage.setItem("fontStates", JSON.stringify(currentFontState));
+
+    let tempBuildOption = activeBuildOption;
+    tempBuildOption.buildFontStates = currentFontState;
   };
 
   const SaveCurrentTextAlignState = () => {
@@ -145,17 +156,16 @@ function BuildDesign({
     editor.canvas.getObjects().forEach((val, index) => {
       currentTextAlignState.push(val.textAlign);
     });
-    localStorage.setItem(
-      "textAlignStates",
-      JSON.stringify(currentTextAlignState)
-    );
+
+    let tempBuildOption = activeBuildOption;
+    tempBuildOption.buildTextAlignStates = currentTextAlignState;
   };
 
   const HandleAddTextObjects = (textObjID) => {
     console.log("Adding Text: ", activeBuildOption.buildData[textObjID]);
     var text = new fabric.Textbox("temp", {
-      left: 50 * textObjID,
-      top: 50 * textObjID,
+      left: 484 / 2,
+      top: 128 / 2,
       fontFamily: "Sriracha",
       fill: "white",
       textAlign: "center", // Set the text alignment to center
@@ -239,16 +249,14 @@ function BuildDesign({
   };
 
   const GetSelectedFontState = (option, rowID) => {
-    console.log(
-      "DOES SELECTED STATE MATCH: ",
-      option,
-      activeBuildOption.buildFontStates[rowID]
-    );
     return activeBuildOption.buildFontStates[rowID] === option;
   };
 
   const GetSelectedAlignTextState = (option, rowID) => {
-    return textAlignStates[rowID] === textAlignOptions[0][option];
+    return (
+      activeBuildOption.buildTextAlignStates[rowID] ===
+      textAlignOptions[0][option]
+    );
   };
 
   const SaveChangesToDB = () => {

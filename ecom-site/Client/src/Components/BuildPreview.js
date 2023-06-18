@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { fabric } from "fabric";
 import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
-function BuildPreview({ tableData }) {
+function BuildPreview({ tableData, activeBuildOption }) {
   const canvasRef = useRef(null);
   let canvas = new fabric.Canvas();
   const [previewImages, setPreviewImages] = useState([]);
@@ -14,30 +14,31 @@ function BuildPreview({ tableData }) {
     canvas.setBackgroundColor("black");
     canvas.preserveObjectStacking = true;
     //init canvas with correct amount of text for amount of columns.
-    let canvasJsonObj = JSON.parse(localStorage.getItem("localCanvas"));
-    canvas.loadFromJSON(canvasJsonObj);
+
+    canvas.loadFromJSON(JSON.parse(activeBuildOption.buildDesign));
   };
 
   const GeneratePreviewImages = () => {
     //loop through each object on canvas
     let objects = canvas.getObjects();
-    let fontStates = JSON.parse(localStorage.getItem("fontStates"));
-    let textAlignStates = JSON.parse(localStorage.getItem("textAlignStates"));
+    let fontStates = activeBuildOption.buildFontStates;
+    let textAlignStates = activeBuildOption.textAlignStates;
+    console.log("PREVIEW CANVAS OBJECTS: ", objects);
 
-    for (let i = 0; i < tableData.length; i++) {
+    for (let i = 0; i < activeBuildOption.buildData.length; i++) {
       if (i <= 0) {
         continue;
       }
-      for (let k = 0; k < tableData[i].length; k++) {
-        objects[k].set("text", tableData[i][k]);
+      for (let k = 0; k < activeBuildOption.buildData[i].length; k++) {
+        objects[k].set("text", activeBuildOption.buildData[i][k]);
         objects[k].set("fontFamily", fontStates[k]);
-        objects[k].set("textAlign", textAlignStates[k]);
+        // objects[k].set("textAlign", textAlignStates[k]);
       }
       //save canvas image.
       SaveToPNG();
     }
     canvas.renderAll();
-    canvas.remove();
+    //canvas.remove();
   };
 
   const SaveToPNG = () => {

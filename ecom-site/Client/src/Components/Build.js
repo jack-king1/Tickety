@@ -110,7 +110,10 @@ function Build() {
         />
       )}
       {currentState == BUILD_STATE.PREVIEW && (
-        <BuildPreview tableData={tableData} />
+        <BuildPreview
+          tableData={tableData}
+          activeBuildOption={activeBuildOption}
+        />
       )}
     </div>
   );
