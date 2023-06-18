@@ -66,6 +66,16 @@ function BuildData({
     );
   };
 
+  const HandleTitleChange = (value) => {
+    let updatedData = activeBuildOption.buildDataName;
+    updatedData = value;
+    console.log("DESIGN NAME: ", value);
+    let tempBuildOption = activeBuildOption;
+    tempBuildOption.buildDataName = updatedData;
+    setActiveBuildOption(tempBuildOption);
+    incrementCount();
+  };
+
   const RenderTableOptions = () => {
     if (activeBuildOption.buildData == null) {
       return (
@@ -101,9 +111,10 @@ function BuildData({
       return (
         <div className="d-flex flex-column">
           <input
+            onChange={(e) => HandleTitleChange(e.target.value)}
             className="text-center tabledata-input display-6"
             type="text"
-            value={"Title"}
+            value={activeBuildOption.buildDataName}
           />
           <div
             onClick={() => SaveChangesToDB()}
