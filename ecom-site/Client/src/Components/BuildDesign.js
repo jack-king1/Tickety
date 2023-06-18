@@ -52,16 +52,17 @@ function BuildDesign({
   const [textAlignStateLoaded, setTextAlignStateLoaded] = useState(false);
 
   const InitCanvas = () => {
+    console.log("Initing Canvas!!!!!!!");
     editor.canvas.setDimensions({ width: 484, height: 204 });
     editor.canvas.setBackgroundColor("black");
     editor.canvas.preserveObjectStacking = true;
     LoadCanvasFromFile();
     UpdateAndAddCanvasObjectData();
-    LoadAndAssignFontFamily();
-    LoadAndAssignTextAlign();
-    editor.canvas.renderAll();
+    // LoadAndAssignFontFamily();
+    // LoadAndAssignTextAlign();
+    // editor.canvas.renderAll();
     //setup event handlers
-    editor.canvas.on("object:moving", moveHandler);
+    //editor.canvas.on("object:moving", moveHandler);
   };
 
   useEffect(() => {
@@ -79,46 +80,52 @@ function BuildDesign({
   }, [textAlignStates]);
 
   const moveHandler = () => {
-    //save canvas state to localstorage.
-    let tempBuildOption = activeBuildOption;
-    tempBuildOption.buildDesign = JSON.stringify(editor.canvas);
-    setActiveBuildOption(tempBuildOption);
-    localStorage.setItem("localCanvas", JSON.stringify(editor.canvas));
+    // //save canvas state to localstorage.
+    // let tempBuildOption = activeBuildOption;
+    // tempBuildOption.buildDesign = JSON.stringify(editor.canvas);
+    // setActiveBuildOption(tempBuildOption);
   };
 
   const LoadAndAssignFontFamily = () => {
     console.log("Loading Fonts...");
     let tempBuildOption = activeBuildOption;
     let tempFontStates = [];
-    tempFontStates = JSON.parse(tempBuildOption.buildFontStates[0]);
-    console.log("FONT STATES:", tempFontStates);
+    if (tempFontStates.length < activeBuildOption.buildData[0].length) {
+      for (
+        let i = 0;
+        i < activeBuildOption.buildData[0].length - tempFontStates.length;
+        i++
+      )
+        tempFontStates.push(fontNames[0][1]);
+    }
     let count = 0;
     editor.canvas.getObjects().forEach((obj, index) => {
       obj.set("fontFamily", tempFontStates[count]);
       count++;
     });
+    tempBuildOption.buildFontStates = tempFontStates;
   };
 
   const LoadAndAssignTextAlign = () => {
-    console.log("Loading TextAlign...");
-    let tempTextAlignState = [];
-    if (localStorage.getItem("textAlignStates")) {
-      tempTextAlignState = JSON.parse(localStorage.getItem("textAlignStates"));
-    } else {
-      editor.canvas.getObjects().forEach((obj, index) => {
-        tempTextAlignState.push(textAlignOptions[0][1]);
-      });
-      localStorage.setItem(
-        "textAlignStates",
-        JSON.stringify(tempTextAlignState)
-      );
+    console.log("Loading Text Align...");
+    let tempBuildOption = activeBuildOption;
+    let tempTextAlignStates = [];
+    if (tempTextAlignStates.length < activeBuildOption.buildData[0].length) {
+      for (
+        let i = 0;
+        i < activeBuildOption.buildData[0].length - tempTextAlignStates.length;
+        i++
+      )
+        tempTextAlignStates.push(textAlignOptions[0][1]);
+      console.log("ADDING TEXT ALIGN STATES...", tempTextAlignStates);
     }
-    setTextAlignStates(tempTextAlignState);
     let count = 0;
     editor.canvas.getObjects().forEach((obj, index) => {
-      obj.set("textAlign", tempTextAlignState[count]);
+      obj.set("textAlign", tempTextAlignStates[count]);
       count++;
     });
+    tempBuildOption.tempTextAlignStates = tempTextAlignStates;
+    //setActiveBuildOption(tempBuildOption);
   };
 
   const SaveCurrentFontState = () => {
@@ -141,7 +148,7 @@ function BuildDesign({
   };
 
   const HandleAddTextObjects = (textObjID) => {
-    console.log("Adding Text: ", tableData[textObjID]);
+    console.log("Adding Text: ", activeBuildOption.buildData[textObjID]);
     var text = new fabric.Textbox("temp", {
       left: 50 * textObjID,
       top: 50 * textObjID,
@@ -149,6 +156,7 @@ function BuildDesign({
       fill: "white",
       textAlign: "center", // Set the text alignment to center
     });
+    console.log("TEXT SETTINGS: ", text);
     text.bringToFront();
     editor.canvas.setActiveObject(text);
     editor.canvas.add(text);
@@ -156,7 +164,8 @@ function BuildDesign({
 
   const UpdateAndAddCanvasObjectData = () => {
     let canvasObjects = editor.canvas.getObjects();
-    let amountOfTextToAdd = tableData.length - canvasObjects.length;
+    let amountOfTextToAdd =
+      activeBuildOption.buildData[0].length - canvasObjects.length;
 
     if (amountOfTextToAdd > 0) {
       for (let i = 0; i < amountOfTextToAdd; i++) {
@@ -164,24 +173,23 @@ function BuildDesign({
       }
     }
 
-    //Ensure design text is updated here.
+    // //Ensure design text is updated here.
+    let objects = editor.canvas.getObjects();
+    let data = activeBuildOption.buildData;
     let count = 0;
-    editor.canvas.getObjects().forEach((object, index) => {
-      object.text = tableData[count];
+    objects.forEach((object) => {
+      object.text = data[0][count];
       count++;
     });
-    SaveCurrentFontState();
-    SaveCurrentTextAlignState();
-    editor.canvas.renderAll();
+    // SaveCurrentFontState();
+    // SaveCurrentTextAlignState();
   };
 
   const LoadCanvasFromFile = () => {
-    if (localStorage.getItem("localCanvas")) {
-      editor.canvas = editor.canvas.loadFromJSON(
-        JSON.parse(localStorage.getItem("localCanvas"))
-      );
+    if (activeBuildOption.buildDesign != null) {
+      editor.canvas.loadFromJSON(JSON.parse(activeBuildOption.buildDesign));
     } else {
-      localStorage.setItem("localCanvas", JSON.stringify(editor.canvas));
+      console.log("BUILD CANVAS IS NULL");
     }
   };
 
@@ -214,8 +222,8 @@ function BuildDesign({
 
   const HandleFontOptionChange = (rowID, fontID) => {
     editor.canvas.getObjects()[rowID].fontFamily = fontNames[0][fontID];
-    editor.canvas.renderAll();
     SaveCurrentFontState();
+    editor.canvas.renderAll();
   };
 
   const HandleTextAlignOptionChange = (rowID, alignID) => {
@@ -246,7 +254,7 @@ function BuildDesign({
           </tr>
         </thead>
         <tbody>
-          {tableData.map((val, index) => (
+          {activeBuildOption.buildData[0].map((val, index) => (
             <tr>
               <th scope="row">{val}</th>
               <td>
@@ -312,7 +320,7 @@ function BuildDesign({
       <div className="canvascontainer d-flex justify-content-center mt-4">
         <div>
           <FabricJSCanvas
-            className="sample-canvas rounded rounded-3"
+            // className="sample-canvas rounded rounded-3"
             onReady={onReady}
           />
           <div className="mt-4">{RenderDesignOptions()}</div>
