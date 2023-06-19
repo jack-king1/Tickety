@@ -73,6 +73,7 @@ function BuildDesign({
     //setup event handlers
     editor.canvas.on("mouse:up", moveHandler);
     editor.canvas.renderAll();
+    SaveChangesToDB();
   };
 
   useEffect(() => {

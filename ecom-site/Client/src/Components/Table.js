@@ -65,7 +65,6 @@ function Table({ data, setData, activeBuildOption, setActiveBuildOption }) {
   return (
     <div className="d-flex justify-content-center mt-4">
       <div>
-        {console.log(data, activeBuildOption.buildData)}
         {(activeBuildOption.buildData != null ||
           activeBuildOption.buildData != undefined) && (
           <table>

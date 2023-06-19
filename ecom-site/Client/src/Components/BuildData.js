@@ -9,6 +9,8 @@ function BuildData({
   fontNames,
   activeBuildOption,
   setActiveBuildOption,
+  buildList,
+  setBuildList,
 }) {
   const DATA_TYPE = {
     TITLE: 0,
@@ -52,11 +54,19 @@ function BuildData({
 
   const HandleTitleChange = (value) => {
     let updatedData = activeBuildOption.buildDataName;
+    let tempBuildList = buildList;
+
+    const index = buildList.findIndex(
+      (element) => element.buildDataID === activeBuildOption.buildDataID
+    );
+    tempBuildList[index].buildDataName = value;
     updatedData = value;
     console.log("DESIGN NAME: ", value);
     let tempBuildOption = activeBuildOption;
     tempBuildOption.buildDataName = updatedData;
     setActiveBuildOption(tempBuildOption);
+    setBuildList(tempBuildList); //update side menu at the same time.
+
     incrementCount();
   };
 

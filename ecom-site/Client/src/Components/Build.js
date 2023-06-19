@@ -43,14 +43,18 @@ function Build() {
     buildFontSizeStates: ["16"],
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let id = await localStorage.getItem("accountID");
-      const response = await GetTicketBuildList(id, setBuildList);
-    };
+  const fetchData = async () => {
+    let id = await localStorage.getItem("accountID");
+    const response = await GetTicketBuildList(id, setBuildList);
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
+  const UpdateBuildList = async () => {
+    await fetchData();
+  };
 
   useEffect(() => {
     console.log("Build List Received: ", buildList);
@@ -100,6 +104,8 @@ function Build() {
           fontNames={fontNames}
           activeBuildOption={activeBuildOption}
           setActiveBuildOption={setActiveBuildOption}
+          buildList={buildList}
+          setBuildList={setBuildList}
         />
       )}
 

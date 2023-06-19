@@ -27,6 +27,11 @@ function SidebarMenu({
     setCount(count * -1); // Triggers a re-render
   };
 
+  useEffect(() => {
+    console.log("rerendering side menu...");
+    incrementCount();
+  }, [buildList]);
+
   const HandleBuildOptionChangesTitle = (index, value) => {
     let tempValues = buildList;
     tempValues[index].buildDataName = value;
