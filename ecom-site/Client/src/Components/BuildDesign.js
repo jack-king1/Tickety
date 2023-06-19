@@ -61,6 +61,7 @@ function BuildDesign({
     UpdateAndAddCanvasObjectData();
     LoadAndAssignFontFamily();
     LoadAndAssignTextAlign();
+    LoadAndAssignFontSize();
     // editor.canvas.renderAll();
     //setup event handlers
     //editor.canvas.on("object:moving", moveHandler);
@@ -141,6 +142,33 @@ function BuildDesign({
     );
   };
 
+  const LoadAndAssignFontSize = () => {
+    console.log("Loading Text Align State...");
+    let tempBuildOption = activeBuildOption;
+    let tempFontSizeStates = [];
+    tempFontSizeStates = activeBuildOption.buildFontSizeStates;
+
+    if (tempFontSizeStates.length < editor.canvas.getObjects().length) {
+      console.log(
+        "Need to add more text align states",
+        editor.canvas.getObjects().length - tempFontSizeStates.length
+      );
+      for (
+        let i = 0;
+        i < editor.canvas.getObjects().length - tempFontSizeStates.length;
+        i++
+      ) {
+        tempFontSizeStates.push(
+          editor.canvas.getObjects()[tempFontSizeStates.length + i].fontSize
+        );
+      }
+    }
+    console.log(
+      "Added Font Size States Result: ",
+      activeBuildOption.buildFontSizeStates
+    );
+  };
+
   const SaveCurrentFontState = () => {
     let currentFontState = [];
     editor.canvas.getObjects().forEach((val, index) => {
@@ -161,6 +189,16 @@ function BuildDesign({
     tempBuildOption.buildTextAlignStates = currentTextAlignState;
   };
 
+  const SaveCurrentFontSizeState = () => {
+    let currentFontSizeState = [];
+    editor.canvas.getObjects().forEach((val, index) => {
+      currentFontSizeState.push(val.fontSize);
+    });
+
+    let tempBuildOption = activeBuildOption;
+    tempBuildOption.buildFontSizeStates = currentFontSizeState;
+  };
+
   const HandleAddTextObjects = (textObjID) => {
     console.log("Adding Text: ", activeBuildOption.buildData[textObjID]);
     var text = new fabric.Textbox("temp", {
@@ -169,6 +207,7 @@ function BuildDesign({
       fontFamily: "Sriracha",
       fill: "white",
       textAlign: "center", // Set the text alignment to center
+      fontSize: "16",
     });
     console.log("TEXT SETTINGS: ", text);
     text.bringToFront();
@@ -248,11 +287,26 @@ function BuildDesign({
     SaveCurrentTextAlignState();
   };
 
+  const HandleFontSizeOptionChange = (textSize, rowID) => {
+    const tempBuildFontSizeStates = activeBuildOption.buildFontSizeStates;
+    tempBuildFontSizeStates[rowID] = textSize;
+    editor.canvas.getObjects()[rowID].set("fontSize", textSize);
+    editor.canvas.renderAll();
+    SaveCurrentFontSizeState();
+  };
+
   const GetSelectedFontState = (option, rowID) => {
     return activeBuildOption.buildFontStates[rowID] === option;
   };
 
   const GetSelectedAlignTextState = (option, rowID) => {
+    return (
+      activeBuildOption.buildTextAlignStates[rowID] ===
+      textAlignOptions[0][option]
+    );
+  };
+
+  const GetSelectedFontSize = (option, rowID) => {
     return (
       activeBuildOption.buildTextAlignStates[rowID] ===
       textAlignOptions[0][option]
@@ -275,6 +329,7 @@ function BuildDesign({
             <th scope="col">Label</th>
             <th scope="col">Font</th>
             <th scope="col">Text Align</th>
+            <th scope="col">Font Size</th>
           </tr>
         </thead>
         <tbody>
@@ -332,6 +387,16 @@ function BuildDesign({
                   </option>
                 </select>
               </td>
+              <td className="">
+                <input
+                  onChange={(e) =>
+                    HandleFontSizeOptionChange(e.target.value, index)
+                  }
+                  defaultValue={activeBuildOption.buildFontSizeStates[index]}
+                  className="w-100"
+                  type="text"
+                ></input>
+              </td>
             </tr>
           ))}
         </tbody>
@@ -347,13 +412,15 @@ function BuildDesign({
       >
         Save Changes
       </div>
-      <div className="canvascontainer d-flex justify-content-center mt-4">
-        <div>
+      <div className="canvascontainer mt-4 mx-auto">
+        <div className=" d-flex justify-content-center">
           <FabricJSCanvas
             // className="sample-canvas rounded rounded-3"
             onReady={onReady}
           />
-          <div className="mt-4">{RenderDesignOptions()}</div>
+        </div>
+        <div className="mt-4 w-50 justify-content-center d-flex mx-auto">
+          {RenderDesignOptions()}
         </div>
       </div>
     </div>

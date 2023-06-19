@@ -136,8 +136,11 @@ function SidebarMenu({
     console.log("CHECKING VALUE OF FONT DATA: ", tempBuildItem.buildFontStates);
 
     let stringyBuildFontStates = JSON.stringify(tempBuildItem.buildFontStates);
-    let strinyBuildTextAlignState = JSON.stringify(
+    let stringyBuildTextAlignState = JSON.stringify(
       tempBuildItem.buildTextAlignStates
+    );
+    let stringyBuildFontSizeStates = JSON.stringify(
+      tempBuildItem.buildFontSizeStates
     );
 
     await SubmitTicketData(
@@ -146,7 +149,8 @@ function SidebarMenu({
       tempBuildItem.buildName,
       tempBuildItem.buildDesc,
       stringyBuildFontStates,
-      strinyBuildTextAlignState,
+      stringyBuildTextAlignState,
+      stringyBuildFontSizeStates,
       localStorage.getItem("accountID")
     );
 

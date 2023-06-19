@@ -31,11 +31,16 @@ function Build() {
     ["left", "center", "right"],
   ]);
 
+  const [fontSizeOptions, setFontSizeOptions] = useState([
+    ["xsmall", "small", "medium", "large", "xlarge"],
+  ]);
+
   const buildOptionObject = {
     buildName: "tempName",
     buildDesc: "a new build design object",
     buildFontStates: [fontNames[0][1]],
     buildTextAlignStates: [textAlignOptions[0][1]],
+    buildFontSizeStates: ["16"],
   };
 
   useEffect(() => {
@@ -85,6 +90,7 @@ function Build() {
         currentState={currentState}
         setCurrentState={setCurrentState}
         buildState={BUILD_STATE}
+        activeBuildOption={activeBuildOption}
       />
 
       {currentState == BUILD_STATE.DATA && (

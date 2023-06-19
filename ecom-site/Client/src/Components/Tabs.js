@@ -1,14 +1,42 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../CSS/Tabs.css";
 
-function Tabs({ currentState, setCurrentState, buildState }) {
+function Tabs({
+  currentState,
+  setCurrentState,
+  buildState,
+  activeBuildOption,
+}) {
   const SetNewState = (state) => {
-    setCurrentState(state);
+    if (activeBuildOption != undefined || activeBuildOption != null) {
+      setCurrentState(state);
+    }
+    incrementCount();
+  };
+
+  const [count, setCount] = useState(0);
+
+  const incrementCount = () => {
+    setCount(count * -1); // Triggers a re-render
   };
 
   const GetActiveState = (tabType) => {
     if (currentState === tabType) {
       return "tabactive ";
+    }
+  };
+
+  const GetInactiveState = () => {
+    if (typeof activeBuildOption === "undefined") {
+      console.log("The value is undefined");
+      return " tabinactive";
+    } else {
+      console.log("The value is defined");
+      if (activeBuildOption.buildDesign === null) {
+        //object is undefined.
+        return "tabinactive";
+      }
+      return " tab";
     }
   };
 
@@ -26,18 +54,18 @@ function Tabs({ currentState, setCurrentState, buildState }) {
         </div>
         <div
           onClick={() => SetNewState(buildState.DESIGN)}
-          className={`flex-fill fs-4 my-auto px-2 tab ${GetActiveState(
+          className={`flex-fill fs-4 my-auto px-2 ${GetActiveState(
             buildState.DESIGN
-          )}`}
+          )} ${GetInactiveState()}`}
           style={{ fontFamily: "Bebas Neue, sans-serif" }}
         >
           Design
         </div>
         <div
           onClick={() => SetNewState(buildState.PREVIEW)}
-          className={`flex-fill fs-4 my-auto border-start px-2 tab ${GetActiveState(
+          className={`flex-fill fs-4 my-auto border-start px-2 ${GetActiveState(
             buildState.PREVIEW
-          )}`}
+          )} ${GetInactiveState()}`}
           style={{ fontFamily: "Bebas Neue, sans-serif" }}
         >
           Preview

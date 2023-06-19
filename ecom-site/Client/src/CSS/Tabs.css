@@ -42,3 +42,7 @@ input:focus {
 .dropdown:hover .dropdown-content {
   display: block;
 }
+
+.tabinactive {
+  color: rgba(128, 128, 128, 0.338);
+}

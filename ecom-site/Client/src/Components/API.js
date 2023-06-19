@@ -22,6 +22,7 @@ export const SubmitTicketData = async (
   buildDataDescription,
   buildFontStates,
   buildTextAlignStates,
+  buildFontSizeStates,
   accountID
 ) => {
   //do date checks here.
@@ -33,6 +34,7 @@ export const SubmitTicketData = async (
       buildDataDescription: buildDataDescription,
       buildFontStates: buildFontStates,
       buildTextAlignStates: buildTextAlignStates,
+      buildFontSizeStates: buildFontSizeStates,
       accountID: accountID,
     })
     .then((response) => {
@@ -65,6 +67,7 @@ export const UpdateTicketData = async (activeBuildData) => {
         activeBuildData.buildTextAlignStates
       ),
       buildDataID: activeBuildData.buildDataID,
+      buildFontSizeStates: JSON.stringify(activeBuildData.buildFontSizeStates),
     })
     .then((response) => {
       console.log("Register Success!", response);
@@ -80,10 +83,12 @@ export const GetSelectedTicketBuild = async (
     const fontStates = JSON.parse(response.data[0].buildFontStates);
     const data = JSON.parse(response.data[0].buildData);
     const textAlignStates = JSON.parse(response.data[0].buildTextAlignStates);
+    const fontSizeStates = JSON.parse(response.data[0].buildFontSizeStates);
 
     response.data[0].buildFontStates = fontStates;
     response.data[0].buildData = data;
     response.data[0].buildTextAlignStates = textAlignStates;
+    response.data[0].buildFontSizeStates = fontSizeStates;
 
     console.log("LOGGING FINAL RESPONSE AFTER PARSE: ", response.data[0]);
 
