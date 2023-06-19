@@ -45,12 +45,19 @@ function BuildDesign({
     }
   };
 
+  const [count, setCount] = useState(0);
+
+  const incrementCount = () => {
+    setCount(count * -1); // Triggers a re-render
+  };
+
   const [canvasInit, setCanvasInit] = useState(false);
   const { selectedObjects, editor, onReady } = useFabricJSEditor();
   const [fontStates, setFontStates] = useState([]);
   const [textAlignStates, setTextAlignStates] = useState([]);
   const [fontStateLoaded, setFontStateLoaded] = useState(false);
   const [textAlignStateLoaded, setTextAlignStateLoaded] = useState(false);
+  const [fontSizeEnteredText, setFontSizeEnteredText] = useState([]);
 
   const InitCanvas = () => {
     console.log("Initing Canvas!!!!!!!");
@@ -333,6 +340,11 @@ function BuildDesign({
       // Prevent resizing the textbox on the y-axis
       object.lockUniScaling = true;
 
+      object.controls = {
+        ...fabric.Textbox.prototype.controls,
+        mtr: new fabric.Control({ visible: false }),
+      };
+
       //Add scaling event.
       object.on("modified", HandleObjectScaling);
       object.on("moving", (e) => {
@@ -405,12 +417,37 @@ function BuildDesign({
     SaveCurrentTextAlignState();
   };
 
-  const HandleFontSizeOptionChange = (textSize, rowID) => {
+  const HandleFontSizeOptionChange = (fontSize, rowID) => {
+    let sanitizedInput = fontSize.replace(/[^0-9-]/g, "");
+    if (120 < Number(sanitizedInput)) {
+      sanitizedInput = "120";
+    }
     const tempBuildFontSizeStates = activeBuildOption.buildFontSizeStates;
-    tempBuildFontSizeStates[rowID] = textSize;
-    editor.canvas.getObjects()[rowID].set("fontSize", textSize);
-    editor.canvas.renderAll();
+    tempBuildFontSizeStates[rowID] = sanitizedInput;
+    editor.canvas.getObjects()[rowID].set("fontSize", sanitizedInput);
+    HandleConstrainObjectToCanvas(editor.canvas.getObjects()[rowID]);
     SaveCurrentFontSizeState();
+    editor.canvas.renderAll();
+    console.log("NEW FONT SIZE ARRAY:", activeBuildOption.buildFontSizeStates);
+  };
+
+  const TestHandleTitleChange = (fontSize, rowID) => {
+    let sanitizedInput = fontSize.replace(/[^0-9]/g, "");
+    //limit font size input
+    if (80 < Number(sanitizedInput)) {
+      sanitizedInput = "120";
+    }
+    let updatedData = activeBuildOption.buildFontSizeStates;
+    updatedData[rowID] = sanitizedInput;
+    console.log("NEW FONT SIZE: ", sanitizedInput);
+    let tempBuildOption = activeBuildOption;
+    tempBuildOption.buildFontSizeStates = updatedData;
+    editor.canvas.getObjects()[rowID].set("fontSize", sanitizedInput);
+    HandleConstrainObjectToCanvas(editor.canvas.getObjects()[rowID]);
+    SaveCurrentFontSizeState();
+    setActiveBuildOption(tempBuildOption);
+    editor.canvas.renderAll();
+    incrementCount();
   };
 
   const GetSelectedFontState = (option, rowID) => {
@@ -440,6 +477,7 @@ function BuildDesign({
 
   const RenderDesignOptions = () => {
     let count = 0;
+    let tempFontSizeStates = activeBuildOption.buildFontSizeStates;
     return (
       <table class="table">
         <thead>
@@ -507,10 +545,8 @@ function BuildDesign({
               </td>
               <td className="">
                 <input
-                  onChange={(e) =>
-                    HandleFontSizeOptionChange(e.target.value, index)
-                  }
-                  defaultValue={activeBuildOption.buildFontSizeStates[index]}
+                  onChange={(e) => TestHandleTitleChange(e.target.value, index)}
+                  value={tempFontSizeStates[index]}
                   className="w-100"
                   type="text"
                 ></input>
