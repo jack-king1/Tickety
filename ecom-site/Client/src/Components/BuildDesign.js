@@ -64,7 +64,8 @@ function BuildDesign({
     LoadAndAssignFontSize();
     // editor.canvas.renderAll();
     //setup event handlers
-    //editor.canvas.on("object:moving", moveHandler);
+    editor.canvas.on("mouse:up", moveHandler);
+    editor.canvas.renderAll();
   };
 
   useEffect(() => {
@@ -82,10 +83,13 @@ function BuildDesign({
   }, [textAlignStates]);
 
   const moveHandler = () => {
-    // //save canvas state to localstorage.
-    // let tempBuildOption = activeBuildOption;
-    // tempBuildOption.buildDesign = JSON.stringify(editor.canvas);
-    // setActiveBuildOption(tempBuildOption);
+    editor.canvas.getObjects().forEach((obj) => {
+      HandleConstrainObjectToCanvas(obj);
+
+      // Trigger canvas render after modifying the object
+      editor.canvas.requestRenderAll();
+    });
+    editor.canvas.renderAll();
   };
 
   const LoadAndAssignFontFamily = () => {
@@ -209,10 +213,97 @@ function BuildDesign({
       textAlign: "center", // Set the text alignment to center
       fontSize: "16",
     });
+
+    text.controls = {
+      ...fabric.Textbox.prototype.controls,
+      mtr: new fabric.Control({ visible: false }),
+    };
+
+    text.setControlsVisibility({
+      mt: false, // Disable top middle control
+      mb: false, // Disable bottom middle control
+      ml: true, // Enable left middle control
+      mr: true, // Enable right middle control
+      tl: false, // Disable top left control (diagonal)
+      tr: false, // Disable top right control (diagonal)
+      bl: false, // Disable bottom left control (diagonal)
+      br: false, // Disable bottom right control (diagonal)
+    });
+
+    // Prevent resizing the textbox on the y-axis
+    text.lockUniScaling = true;
+    text.on("modified", HandleObjectScaling);
+    text.on("moving", (e) => {
+      // Constrain the object within the canvas
+      HandleConstrainObjectToCanvas(text);
+
+      // Trigger canvas render after modifying the object
+      editor.canvas.requestRenderAll();
+    });
     console.log("TEXT SETTINGS: ", text);
     text.bringToFront();
     editor.canvas.setActiveObject(text);
     editor.canvas.add(text);
+  };
+
+  const HandleObjectScaling = (e) => {
+    const target = e.target;
+    console.log("HANDLESCALING HERE", e.target);
+
+    // Ensure the width stays within the canvas boundaries
+    if (target.width * target.scaleX > editor.canvas.width) {
+      const newWidth = editor.canvas.width / target.scaleX;
+      target.set({
+        width: newWidth,
+        scaleX: 1,
+      });
+    }
+
+    // Ensure the height stays within the canvas boundaries
+    if (target.height * target.scaleY > editor.canvas.height) {
+      const newHeight = editor.canvas.height / target.scaleY;
+      target.set({
+        height: newHeight,
+        scaleY: 1,
+      });
+    }
+  };
+
+  const HandleConstrainObjectToCanvas = (e) => {
+    console.log("MOVING OBJECT: ", e.target);
+    const obj = e;
+    const canvasWidth = editor.canvas.width;
+    const canvasHeight = editor.canvas.height;
+
+    // Get the object's current position and dimensions
+    const { left, top, width, height } = obj;
+
+    // Get the dimensions of the object
+    const objectWidth = obj.width; // Replace with the actual width of your object
+    const objectHeight = obj.height; // Replace with the actual height of your object
+
+    // Calculate the right and bottom edges of the object
+    const right = left + objectWidth;
+    const bottom = top + objectHeight;
+
+    // Check if the object goes beyond the canvas boundaries
+    if (left < 0) {
+      // Adjust the left position to keep the object within the canvas
+      obj.set({ left: 0 });
+    }
+    if (top < 0) {
+      // Adjust the top position to keep the object within the canvas
+      obj.set({ top: 0 });
+    }
+    if (right > canvasWidth) {
+      // Adjust the width to keep the object within the canvas
+      obj.set({ left: canvasWidth - objectWidth });
+    }
+    if (bottom > canvasHeight) {
+      // Adjust the height to keep the object within the canvas
+      obj.set({ top: canvasHeight - objectHeight });
+    }
+    editor.canvas.requestRenderAll();
   };
 
   const UpdateAndAddCanvasObjectData = () => {
@@ -225,6 +316,33 @@ function BuildDesign({
         HandleAddTextObjects(canvasObjects.length + i);
       }
     }
+
+    //ensure scaling options are set for every text box.
+    canvasObjects.forEach((object) => {
+      object.setControlsVisibility({
+        mt: false, // Disable top middle control
+        mb: false, // Disable bottom middle control
+        ml: true, // Enable left middle control
+        mr: true, // Enable right middle control
+        tl: false, // Disable top left control (diagonal)
+        tr: false, // Disable top right control (diagonal)
+        bl: false, // Disable bottom left control (diagonal)
+        br: false, // Disable bottom right control (diagonal)
+      });
+
+      // Prevent resizing the textbox on the y-axis
+      object.lockUniScaling = true;
+
+      //Add scaling event.
+      object.on("modified", HandleObjectScaling);
+      object.on("moving", (e) => {
+        // Constrain the object within the canvas
+        HandleConstrainObjectToCanvas(object);
+
+        // Trigger canvas render after modifying the object
+        editor.canvas.requestRenderAll();
+      });
+    });
 
     // //Ensure design text is updated here.
     let objects = editor.canvas.getObjects();

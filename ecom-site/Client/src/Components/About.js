@@ -11,7 +11,7 @@ function About() {
         <div className="subheader-text">
           What Is Tickety?
           <div className="body-text">
-            Tikcety aims to be the all-in-one solution for business display
+            Tickety aims to be the all-in-one solution for business display
             creation. This involves supplying a software solution online to be
             able to create, manage and produce tickets. Alongside our easy and
             time saving software we also provide feedback and suggestions to
