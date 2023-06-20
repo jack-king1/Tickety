@@ -375,6 +375,7 @@ function BuildDesign({
     } else {
       console.log("BUILD CANVAS IS NULL");
     }
+    editor.canvas.setBackgroundColor("black");
   };
 
   //todo:

@@ -88,6 +88,28 @@ function Login() {
       });
   };
 
+  const LoginDemoUser = async () => {
+    let params = new URLSearchParams([
+      ["username", "demo"],
+      ["password", "demo"],
+    ]);
+    setIsLoading(true);
+    await api
+      .get("account/getuserlogin", {
+        params,
+      })
+      .then((response) => {
+        if (response.data.length > 0) {
+          console.log("User login attempt: ", response.data);
+          SetSessionData(response.data[0]);
+          window.location.reload();
+        } else {
+          console.log("login failed.");
+        }
+        setIsLoading(false);
+      });
+  };
+
   const SetSessionData = (data) => {
     console.log("Session Data: ", data);
     localStorage.setItem("username", data.username);
@@ -95,6 +117,14 @@ function Login() {
     localStorage.setItem("lastname", data.lastname);
     localStorage.setItem("email", data.email);
     localStorage.setItem("accountID", data.accountID);
+  };
+
+  const DemoLogin = () => {
+    return (
+      <div>
+        <div className="display-5">Demo Login</div>
+      </div>
+    );
   };
 
   //Register User
@@ -133,6 +163,13 @@ function Login() {
           className="btn btn-outline-success w-100 mt-3"
         >
           Login
+        </button>
+        <button
+          type="button"
+          onClick={() => LoginDemoUser()}
+          className="btn btn-outline-success w-100 mt-3"
+        >
+          Demo Login - no need to fill in the form.
         </button>
       </div>
     );
@@ -259,6 +296,7 @@ function Login() {
           >
             Login
           </button>
+
           <button
             type="button"
             className={

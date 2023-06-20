@@ -43,6 +43,12 @@ function Build() {
     buildFontSizeStates: ["16"],
   };
 
+  function activateSideMenu(index, type) {
+    console.log("focusing: ", type + index);
+    const inputElement = document.getElementById(`${type}${index}`);
+    inputElement.focus();
+  }
+
   const fetchData = async () => {
     let id = await localStorage.getItem("accountID");
     const response = await GetTicketBuildList(id, setBuildList);
@@ -83,13 +89,16 @@ function Build() {
 
   return (
     <div className="">
-      <SidebarMenu
-        buildList={buildList}
-        setBuildList={setBuildList}
-        buildOptionObject={buildOptionObject}
-        activeBuildOption={activeBuildOption}
-        setActiveBuildOption={setActiveBuildOption}
-      />
+      {localStorage.getItem("accountID") && (
+        <SidebarMenu
+          buildList={buildList}
+          setBuildList={setBuildList}
+          buildOptionObject={buildOptionObject}
+          activeBuildOption={activeBuildOption}
+          setActiveBuildOption={setActiveBuildOption}
+        />
+      )}
+
       <Tabs
         currentState={currentState}
         setCurrentState={setCurrentState}
@@ -106,6 +115,7 @@ function Build() {
           setActiveBuildOption={setActiveBuildOption}
           buildList={buildList}
           setBuildList={setBuildList}
+          activateSideMenu={activateSideMenu}
         />
       )}
 

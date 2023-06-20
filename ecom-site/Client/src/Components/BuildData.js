@@ -11,6 +11,7 @@ function BuildData({
   setActiveBuildOption,
   buildList,
   setBuildList,
+  activateSideMenu,
 }) {
   const DATA_TYPE = {
     TITLE: 0,
@@ -68,6 +69,21 @@ function BuildData({
     setBuildList(tempBuildList); //update side menu at the same time.
 
     incrementCount();
+  };
+
+  const NotifyLogin = () => {
+    return localStorage.getItem("accountID") ? (
+      <div className="display-4 text-center h-100 d-flex my-auto mx-auto">
+        Select or Create a new ticket build from the menu.
+      </div>
+    ) : (
+      <div className="display-4 text-center h-100 d-flex flex-column my-auto mx-auto">
+        Please Login
+        <div className="display-6">
+          Feel free to use our demo login to test out the features of the app!
+        </div>
+      </div>
+    );
   };
 
   const RenderTableOptions = () => {
@@ -139,11 +155,8 @@ function BuildData({
         {(activeBuildOption != undefined || activeBuildOption != null) &&
           RenderTableOptions()}
       </div>
-      {(activeBuildOption == undefined || activeBuildOption == null) && (
-        <div className="display-4 text-center h-100 d-flex my-auto mx-auto">
-          Select or Create a new ticket build from the menu.
-        </div>
-      )}
+      {(activeBuildOption == undefined || activeBuildOption == null) &&
+        NotifyLogin()}
     </div>
   );
 }
