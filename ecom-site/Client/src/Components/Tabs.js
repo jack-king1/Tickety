@@ -46,10 +46,15 @@ function Tabs({
       return " tabinactive";
     } else {
       console.log("The value is defined");
-      if (activeBuildOption.buildDesign === null) {
-        //object is undefined.
+      if (activeBuildOption !== null) {
+        if (activeBuildOption.buildDesign === null) {
+          //object is undefined.
+          return "tabinactive";
+        }
+      } else {
         return "tabinactive";
       }
+
       return " tab";
     }
   };

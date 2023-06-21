@@ -121,11 +121,19 @@ function SidebarMenu({
   const DeleteBuildOption = (index) => {
     // Filter out the item to remove
     console.log("trying to remove: ", buildList[index]);
+    //check if deleted option is same as active option.
+    if (activeBuildOption !== null) {
+      if ((activeBuildOption.buildID = buildList[index].buildDataID)) {
+        setActiveBuildOption(null);
+      }
+    }
+
     let newArray = buildList.filter((item) => item !== buildList[index]);
     //remove from server database also
     DeleteTicketData(buildList[index].buildDataID);
     // Update the state with the modified array
     setBuildList(newArray);
+
     incrementCount();
   };
 
