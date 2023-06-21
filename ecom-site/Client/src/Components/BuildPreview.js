@@ -52,26 +52,51 @@ function BuildPreview({ tableData, activeBuildOption }) {
   };
 
   useEffect(() => {
-    CreateNewCanvas();
-    GeneratePreviewImages();
+    if (!ActiveIsNull()) {
+      CreateNewCanvas();
+      GeneratePreviewImages();
+    }
   }, []);
 
   useEffect(() => {
     console.log("Images:", previewImages);
   }, [previewImages]);
 
-  const RenderImages = () => {
+  const ActiveIsNull = () => {
     return (
-      <div className="container ">
-        <div className="row h-100">
-          {previewImages.map((val, index) => (
-            <div key={index} className="col-md-4  mb-2">
-              <img className="img-fluid rounded-2" alt="not found" src={val} />
-            </div>
-          ))}
-        </div>
-      </div>
+      activeBuildOption.buildDesign === null ||
+      activeBuildOption.buildDesign == undefined
     );
+  };
+
+  const RenderImages = () => {
+    if (ActiveIsNull()) {
+      return (
+        <div className="d-flex w-100 canvascontainer mx-auto align-items-middle">
+          <div className="mx-auto mt-4 text-center display-6">
+            {" "}
+            Please initialize your data on the "Data" tab and design your layout
+            on the "Design" tab before continuing.
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="container ">
+          <div className="row h-100">
+            {previewImages.map((val, index) => (
+              <div key={index} className="col-md-4  mb-2">
+                <img
+                  className="img-fluid rounded-2"
+                  alt="not found"
+                  src={val}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
   };
 
   return (
@@ -79,6 +104,7 @@ function BuildPreview({ tableData, activeBuildOption }) {
       <div>
         <div className="canvascontainer d-flex justify-content-center container h-100 mt-4">
           <canvas hidden className="position-float rounded rounded-2"></canvas>
+
           {RenderImages()}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { SubmitTicketData, api, UpdateTicketData } from "./API";
+import "../CSS/Tabs.css";
 
 function Table({ data, setData, activeBuildOption, setActiveBuildOption }) {
   const [count, setCount] = useState(0);
@@ -79,6 +80,9 @@ function Table({ data, setData, activeBuildOption, setActiveBuildOption }) {
                         onChange={(e) =>
                           handleCellChange(e.target.value, rowIndex, cellIndex)
                         }
+                        className={`${
+                          rowIndex <= 0 && "titleitem fw-bold"
+                        } cellitem`}
                       />
                     </td>
                   ))}

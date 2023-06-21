@@ -467,110 +467,127 @@ function BuildDesign({
     UpdateTicketData(tempBuildData);
   };
 
+  const CheckInitStatus = () => {
+    if (activeBuildOption.buildData === null) {
+      return (
+        <div className="d-flex w-100 canvascontainer mx-auto align-items-middle">
+          <div className="mx-auto mt-4 text-center display-6">
+            {" "}
+            Please initialize your data on the "Data" tab before continuing.
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="canvascontainer mt-4 mx-auto">
+          <div className=" d-flex justify-content-center">
+            <FabricJSCanvas
+              // className="sample-canvas rounded rounded-3"
+              onReady={onReady}
+            />
+          </div>
+          <div className="mt-4 w-50 justify-content-center d-flex mx-auto">
+            {RenderDesignOptions()}
+          </div>
+        </div>
+      );
+    }
+  };
+
   const RenderDesignOptions = () => {
     let count = 0;
     let tempFontSizeStates = activeBuildOption.buildFontSizeStates;
     return (
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Label</th>
-            <th scope="col">Font</th>
-            <th scope="col">Text Align</th>
-            <th scope="col">Font Size</th>
-          </tr>
-        </thead>
-        <tbody>
-          {activeBuildOption.buildData[0].map((val, index) => (
+      <div>
+        <div
+          onClick={() => SaveChangesToDB()}
+          className="btn btn-success d-flex justify-content-center w-100 mx-auto mt-4"
+        >
+          Save Changes
+        </div>
+        <table class="table">
+          <thead>
             <tr>
-              <th scope="row">{val}</th>
-              <td>
-                <select
-                  style={{ fontFamily: `${fontNames[0][1]}, sans-serif` }}
-                  className="form-select "
-                  aria-label="Default select example"
-                  onChange={(e) =>
-                    HandleFontOptionChange(index, e.target.value)
-                  }
-                >
-                  {fontNames[0].map((val, indexTwo) => {
-                    return (
-                      <option
-                        style={{ fontFamily: `${val}, sans-serif` }}
-                        className={``}
-                        value={indexTwo}
-                        selected={GetSelectedFontState(val, index)}
-                      >
-                        {val}
-                      </option>
-                    );
-                  })}
-                </select>
-              </td>
-              <td>
-                <select
-                  className="form-select"
-                  aria-label="Default select example"
-                  onChange={(e) =>
-                    HandleTextAlignOptionChange(index, e.target.value)
-                  }
-                >
-                  <option
-                    selected={GetSelectedAlignTextState(0, index)}
-                    value={0}
-                  >
-                    Left
-                  </option>
-                  <option
-                    selected={GetSelectedAlignTextState(1, index)}
-                    value={1}
-                  >
-                    Centre
-                  </option>
-                  <option
-                    selected={GetSelectedAlignTextState(2, index)}
-                    value={2}
-                  >
-                    Right
-                  </option>
-                </select>
-              </td>
-              <td className="">
-                <input
-                  onChange={(e) => TestHandleTitleChange(e.target.value, index)}
-                  value={tempFontSizeStates[index]}
-                  className="w-100"
-                  type="text"
-                ></input>
-              </td>
+              <th scope="col">Label</th>
+              <th scope="col">Font</th>
+              <th scope="col">Text Align</th>
+              <th scope="col">Font Size</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {activeBuildOption.buildData[0].map((val, index) => (
+              <tr>
+                <th scope="row">{val}</th>
+                <td>
+                  <select
+                    style={{ fontFamily: `${fontNames[0][1]}, sans-serif` }}
+                    className="form-select "
+                    aria-label="Default select example"
+                    onChange={(e) =>
+                      HandleFontOptionChange(index, e.target.value)
+                    }
+                  >
+                    {fontNames[0].map((val, indexTwo) => {
+                      return (
+                        <option
+                          style={{ fontFamily: `${val}, sans-serif` }}
+                          className={``}
+                          value={indexTwo}
+                          selected={GetSelectedFontState(val, index)}
+                        >
+                          {val}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </td>
+                <td>
+                  <select
+                    className="form-select"
+                    aria-label="Default select example"
+                    onChange={(e) =>
+                      HandleTextAlignOptionChange(index, e.target.value)
+                    }
+                  >
+                    <option
+                      selected={GetSelectedAlignTextState(0, index)}
+                      value={0}
+                    >
+                      Left
+                    </option>
+                    <option
+                      selected={GetSelectedAlignTextState(1, index)}
+                      value={1}
+                    >
+                      Centre
+                    </option>
+                    <option
+                      selected={GetSelectedAlignTextState(2, index)}
+                      value={2}
+                    >
+                      Right
+                    </option>
+                  </select>
+                </td>
+                <td className="">
+                  <input
+                    onChange={(e) =>
+                      TestHandleTitleChange(e.target.value, index)
+                    }
+                    value={tempFontSizeStates[index]}
+                    className="w-100"
+                    type="text"
+                  ></input>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     );
   };
 
-  return (
-    <div className="">
-      <div
-        onClick={() => SaveChangesToDB()}
-        className="btn btn-success d-flex justify-content-center w-25 mx-auto mt-4"
-      >
-        Save Changes
-      </div>
-      <div className="canvascontainer mt-4 mx-auto">
-        <div className=" d-flex justify-content-center">
-          <FabricJSCanvas
-            // className="sample-canvas rounded rounded-3"
-            onReady={onReady}
-          />
-        </div>
-        <div className="mt-4 w-50 justify-content-center d-flex mx-auto">
-          {RenderDesignOptions()}
-        </div>
-      </div>
-    </div>
-  );
+  return <div className="">{CheckInitStatus()}</div>;
 }
 
 export default BuildDesign;

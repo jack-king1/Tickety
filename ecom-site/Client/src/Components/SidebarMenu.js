@@ -15,6 +15,9 @@ function SidebarMenu({
   buildOptionObject,
   activeBuildOption,
   setActiveBuildOption,
+  currentState,
+  setCurrentState,
+  buildState,
 }) {
   function activateInput(index, type) {
     console.log("focusing: ", type + index);
@@ -45,6 +48,11 @@ function SidebarMenu({
     tempValues[index].buildDataDescription = value;
     setBuildList(tempValues);
     incrementCount();
+  };
+
+  const HandleOpenBtnSelected = (key) => {
+    setCurrentState(buildState.DATA);
+    GetSelectedTicketBuild(buildList[key].buildDataID, setActiveBuildOption);
   };
 
   const RenderBuildListOptions = () => {
@@ -94,12 +102,7 @@ function SidebarMenu({
               </div>
               <div>10 Ticket(s)</div>
               <button
-                onClick={() =>
-                  GetSelectedTicketBuild(
-                    buildList[key].buildDataID,
-                    setActiveBuildOption
-                  )
-                }
+                onClick={() => HandleOpenBtnSelected(key)}
                 className="btn btn-success w-100"
               >
                 Open
@@ -122,7 +125,7 @@ function SidebarMenu({
     // Filter out the item to remove
     console.log("trying to remove: ", buildList[index]);
     //check if deleted option is same as active option.
-    if (activeBuildOption !== null) {
+    if (typeof activeBuildOption !== "undefined") {
       if ((activeBuildOption.buildID = buildList[index].buildDataID)) {
         setActiveBuildOption(null);
       }

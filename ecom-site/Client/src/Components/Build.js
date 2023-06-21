@@ -96,6 +96,9 @@ function Build() {
           buildOptionObject={buildOptionObject}
           activeBuildOption={activeBuildOption}
           setActiveBuildOption={setActiveBuildOption}
+          currentState={currentState}
+          setCurrentState={setCurrentState}
+          buildState={BUILD_STATE}
         />
       )}
 
@@ -115,7 +118,8 @@ function Build() {
           setActiveBuildOption={setActiveBuildOption}
           buildList={buildList}
           setBuildList={setBuildList}
-          activateSideMenu={activateSideMenu}
+          setCurrentState={setCurrentState}
+          buildState={BUILD_STATE}
         />
       )}
 

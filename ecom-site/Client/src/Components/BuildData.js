@@ -13,7 +13,8 @@ function BuildData({
   setActiveBuildOption,
   buildList,
   setBuildList,
-  activateSideMenu,
+  buildState,
+  setCurrentState,
 }) {
   const DATA_TYPE = {
     TITLE: 0,
@@ -38,6 +39,7 @@ function BuildData({
       "should look like: ",
       tableData
     );
+    setCurrentState(buildState.DATA);
     setActiveBuildOption(tempBuildOption);
     incrementCount();
     //Save data to database.

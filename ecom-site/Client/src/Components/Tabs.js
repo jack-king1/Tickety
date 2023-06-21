@@ -9,21 +9,7 @@ function Tabs({
 }) {
   const SetNewState = (state) => {
     if (activeBuildOption != undefined || activeBuildOption != null) {
-      if (
-        activeBuildOption.buildData !== null &&
-        (state === buildState.DESIGN || state === buildState.PREVIEW)
-      ) {
-        console.log(
-          "GET INACTIVESTATE - build data isnt null: ",
-          activeBuildOption
-        );
-        setCurrentState(state);
-      } else if (
-        activeBuildOption.buildData === null ||
-        state === buildState.DATA
-      ) {
-        setCurrentState(buildState.DATA);
-      }
+      setCurrentState(state);
     }
     incrementCount();
   };
@@ -40,22 +26,30 @@ function Tabs({
     }
   };
 
-  const GetInactiveState = () => {
-    if (typeof activeBuildOption === "undefined") {
+  const GetInactiveState = (tabTypeState) => {
+    console.log("GETTING NEW TAB STATES!!!");
+    if (activeBuildOption === undefined || activeBuildOption === undefined) {
       console.log("The value is undefined");
       return " tabinactive";
     } else {
       console.log("The value is defined");
       if (activeBuildOption !== null) {
-        if (activeBuildOption.buildDesign === null) {
-          //object is undefined.
-          return "tabinactive";
+        if (tabTypeState === buildState.DESIGN) {
+          if (activeBuildOption.buildData === null) {
+            //object is undefined.
+            return "tabinactive";
+          } else {
+            return "tab";
+          }
+        } else if (tabTypeState === buildState.PREVIEW) {
+          if (activeBuildOption.buildDesign === null) {
+            //object is undefined.
+            return "tabinactive";
+          } else {
+            return "tab";
+          }
         }
-      } else {
-        return "tabinactive";
       }
-
-      return " tab";
     }
   };
 
@@ -75,7 +69,7 @@ function Tabs({
           onClick={() => SetNewState(buildState.DESIGN)}
           className={`flex-fill fs-4 my-auto px-2 ${GetActiveState(
             buildState.DESIGN
-          )} ${GetInactiveState()}`}
+          )}`}
           style={{ fontFamily: "Bebas Neue, sans-serif" }}
         >
           Design
@@ -84,7 +78,7 @@ function Tabs({
           onClick={() => SetNewState(buildState.PREVIEW)}
           className={`flex-fill fs-4 my-auto border-start px-2 ${GetActiveState(
             buildState.PREVIEW
-          )} ${GetInactiveState()}`}
+          )}`}
           style={{ fontFamily: "Bebas Neue, sans-serif" }}
         >
           Preview

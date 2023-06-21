@@ -50,3 +50,11 @@ input:focus {
 .arrowleft {
   font-size: 3rem;
 }
+
+.titleitem {
+  background-color: rgb(236, 236, 236);
+}
+
+.cellitem {
+  font-family: "Noto Sans JP";
+}
