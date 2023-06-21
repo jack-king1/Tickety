@@ -34,6 +34,7 @@ function BuildPreview({ tableData, activeBuildOption }) {
         objects[k].set("fontFamily", fontStates[k]);
         // objects[k].set("textAlign", textAlignStates[k]);
       }
+      console.log("ACTIVE FONT STATES: ", fontStates);
       //save canvas image.
       SaveToPNG();
     }

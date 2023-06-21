@@ -46,3 +46,7 @@ input:focus {
 .tabinactive {
   color: rgba(128, 128, 128, 0.338);
 }
+
+.arrowleft {
+  font-size: 3rem;
+}

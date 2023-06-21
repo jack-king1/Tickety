@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import Table from "./Table";
 import "../CSS/Tabs.css";
+import "../CSS/BuildCanvas.css";
 import { SubmitTicketData, api, UpdateTicketData } from "./API";
+import "material-icons/iconfont/material-icons.css";
 
 function BuildData({
   tableData,
@@ -73,7 +75,10 @@ function BuildData({
 
   const NotifyLogin = () => {
     return localStorage.getItem("accountID") ? (
-      <div className="display-4 text-center h-100 d-flex my-auto mx-auto">
+      <div className="display-4 text-center h-100 d-flex my-auto mx-auto d-flex">
+        <span className="material-icons text-black my-auto arrowleft mr-2">
+          arrow_back
+        </span>
         Select or Create a new ticket build from the menu.
       </div>
     ) : (
@@ -89,19 +94,46 @@ function BuildData({
   const RenderTableOptions = () => {
     if (activeBuildOption.buildData == null) {
       return (
-        <div className="d-flex mx-auto my-auto h-100 flex-column">
+        <div className="d-flex mx-auto my-auto h-100 flex-column border border-2 p-2 rounded rounded-2 border-primary">
           <div className="display-5 mx-auto text-center">Data Setup</div>
-          <div className="display-6 mx-auto text-center">
-            Insert your first column data and label.
-            <div className="d-flex mt-4">
-              <div className="pe-2">Label Name: </div>
+
+          <div className=" mx-auto mb-4 mt-2 ">
+            <div className="initsubtitle">
+              Create group name and description.
+            </div>
+            <div className="mt-1">
+              <div className="w-100">Name: </div>
+              <input
+                className="w-100"
+                onChange={(e) => handleCellChange(e.target.value, 0, 0)}
+                placeholder="Group Name"
+              ></input>
+            </div>
+            <div className="mt-2 w-100">
+              <div className="w-100 text-left">Description: </div>
+              <input
+                onChange={(e) => handleCellChange(e.target.value, 1, 0)}
+                placeholder="A description goes here..."
+                className="w-100"
+              ></input>
+            </div>
+          </div>
+
+          <div className="mx-auto">
+            <div className="initsubtitle">
+              Insert your first column data and label.
+            </div>
+
+            <div className="mt-1">
+              <div className="w-100">Name: </div>
               <input
                 onChange={(e) => handleCellChange(e.target.value, 0, 0)}
                 placeholder="Product Name"
+                className="w-100"
               ></input>
             </div>
-            <div className="d-flex mt-2 w-100">
-              <div className="pe-2">Value: </div>
+            <div className="mt-2 w-100">
+              <div className="w-100">Value: </div>
               <input
                 onChange={(e) => handleCellChange(e.target.value, 1, 0)}
                 placeholder="Spare Ribs"
@@ -110,7 +142,7 @@ function BuildData({
             </div>
             <button
               onClick={() => SubmitInitData()}
-              className="btn w-100 btn-success"
+              className="btn w-100 btn-success mt-2"
             >
               Submit
             </button>

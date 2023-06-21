@@ -4,10 +4,6 @@ import { FabricJSCanvas, useFabricJSEditor } from "fabricjs-react";
 import { FontFaceObserver } from "fontfaceobserver";
 import { SubmitTicketData, api, UpdateTicketData } from "./API";
 function BuildDesign({
-  canvasStateJson,
-  setCanvasStateJson,
-  buildState,
-  tableData,
   fontNames,
   textAlignOptions,
   activeBuildOption,
@@ -189,6 +185,7 @@ function BuildDesign({
 
     let tempBuildOption = activeBuildOption;
     tempBuildOption.buildFontStates = currentFontState;
+    setActiveBuildOption(tempBuildOption);
   };
 
   const SaveCurrentTextAlignState = () => {
@@ -419,20 +416,6 @@ function BuildDesign({
     SaveCurrentTextAlignState();
   };
 
-  const HandleFontSizeOptionChange = (fontSize, rowID) => {
-    let sanitizedInput = fontSize.replace(/[^0-9-]/g, "");
-    if (120 < Number(sanitizedInput)) {
-      sanitizedInput = "120";
-    }
-    const tempBuildFontSizeStates = activeBuildOption.buildFontSizeStates;
-    tempBuildFontSizeStates[rowID] = sanitizedInput;
-    editor.canvas.getObjects()[rowID].set("fontSize", sanitizedInput);
-    HandleConstrainObjectToCanvas(editor.canvas.getObjects()[rowID]);
-    SaveCurrentFontSizeState();
-    editor.canvas.renderAll();
-    console.log("NEW FONT SIZE ARRAY:", activeBuildOption.buildFontSizeStates);
-  };
-
   const TestHandleTitleChange = (fontSize, rowID) => {
     let sanitizedInput = fontSize.replace(/[^0-9]/g, "");
     //limit font size input
@@ -453,6 +436,13 @@ function BuildDesign({
   };
 
   const GetSelectedFontState = (option, rowID) => {
+    console.log(
+      "Set default font state: ",
+      activeBuildOption.buildFontStates[rowID] === option,
+      option,
+      "activeBuildOption.buildFontStates[rowID]: ",
+      activeBuildOption.buildFontStates[rowID]
+    );
     return activeBuildOption.buildFontStates[rowID] === option;
   };
 

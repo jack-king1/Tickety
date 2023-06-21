@@ -89,6 +89,10 @@
   color: rgb(21, 170, 191) !important;
 }
 
+.border-primary {
+  border-color: rgb(21, 170, 191) !important;
+}
+
 .accent-text {
   color: #fab005;
 }

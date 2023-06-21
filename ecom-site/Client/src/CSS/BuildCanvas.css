@@ -42,3 +42,7 @@
 .ticketbuilditem:hover > input {
   background-color: rgb(216, 216, 216);
 }
+
+.initsubtitle {
+  font-size: 1.35rem;
+}

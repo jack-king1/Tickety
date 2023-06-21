@@ -38,7 +38,7 @@ function Build() {
   const buildOptionObject = {
     buildName: "tempName",
     buildDesc: "a new build design object",
-    buildFontStates: [fontNames[0][1]],
+    buildFontStates: [fontNames[0][0]],
     buildTextAlignStates: [textAlignOptions[0][1]],
     buildFontSizeStates: ["16"],
   };
@@ -121,10 +121,6 @@ function Build() {
 
       {currentState == BUILD_STATE.DESIGN && (
         <BuildDesign
-          canvasStateJson={canvasStateJson}
-          setCanvasStateJson={setCanvasStateJson}
-          buildState={currentState}
-          tableData={tableData[0]}
           fontNames={fontNames}
           textAlignOptions={textAlignOptions}
           activeBuildOption={activeBuildOption}

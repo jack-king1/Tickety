@@ -9,7 +9,21 @@ function Tabs({
 }) {
   const SetNewState = (state) => {
     if (activeBuildOption != undefined || activeBuildOption != null) {
-      setCurrentState(state);
+      if (
+        activeBuildOption.buildData !== null &&
+        (state === buildState.DESIGN || state === buildState.PREVIEW)
+      ) {
+        console.log(
+          "GET INACTIVESTATE - build data isnt null: ",
+          activeBuildOption
+        );
+        setCurrentState(state);
+      } else if (
+        activeBuildOption.buildData === null ||
+        state === buildState.DATA
+      ) {
+        setCurrentState(buildState.DATA);
+      }
     }
     incrementCount();
   };
