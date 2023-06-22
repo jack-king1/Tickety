@@ -75,6 +75,24 @@ function BuildData({
     incrementCount();
   };
 
+  const HandleDescriptionChange = (value) => {
+    let updatedData = activeBuildOption.buildDataDescription;
+    let tempBuildList = buildList;
+
+    const index = buildList.findIndex(
+      (element) => element.buildDataID === activeBuildOption.buildDataID
+    );
+    tempBuildList[index].buildDataDescription = value;
+    updatedData = value;
+    console.log("DESIGN Desc: ", value);
+    let tempBuildOption = activeBuildOption;
+    tempBuildOption.buildDataDescription = updatedData;
+    setActiveBuildOption(tempBuildOption);
+    setBuildList(tempBuildList); //update side menu at the same time.
+
+    incrementCount();
+  };
+
   const NotifyLogin = () => {
     return localStorage.getItem("accountID") ? (
       <div className="display-4 text-center h-100 d-flex my-auto mx-auto d-flex">
@@ -159,6 +177,12 @@ function BuildData({
             className="text-center tabledata-input display-6"
             type="text"
             value={activeBuildOption.buildDataName}
+          />
+          <input
+            onChange={(e) => HandleDescriptionChange(e.target.value)}
+            className="text-center tabledata-input"
+            type="text"
+            value={activeBuildOption.buildDataDescription}
           />
           <div
             onClick={() => SaveChangesToDB()}

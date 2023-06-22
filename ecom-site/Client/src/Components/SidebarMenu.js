@@ -77,12 +77,12 @@ function SidebarMenu({
                     HandleBuildOptionChangesTitle(key, e.target.value)
                   }
                 ></input>
-                <span
+                {/* <span
                   onClick={() => activateInput(key, "title")}
                   className="material-icons ms-2 editpen my-auto"
                 >
                   edit
-                </span>
+                </span> */}
               </div>
               <div className="d-flex">
                 <input
@@ -93,14 +93,13 @@ function SidebarMenu({
                     HandleBuildOptionChangesDesc(key, e.target.value)
                   }
                 ></input>
-                <span
+                {/* <span
                   onClick={() => activateInput(key, "desc")}
                   className="material-icons ms-2 editpen my-auto"
                 >
                   edit
-                </span>
+                </span> */}
               </div>
-              <div>10 Ticket(s)</div>
               <button
                 onClick={() => HandleOpenBtnSelected(key)}
                 className="btn btn-success w-100"

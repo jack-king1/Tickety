@@ -67,7 +67,7 @@ function Tabs({
         </div>
         <div
           onClick={() => SetNewState(buildState.DESIGN)}
-          className={`flex-fill fs-4 my-auto px-2 ${GetActiveState(
+          className={`flex-fill fs-4 my-auto px-2 tab ${GetActiveState(
             buildState.DESIGN
           )}`}
           style={{ fontFamily: "Bebas Neue, sans-serif" }}
@@ -76,7 +76,7 @@ function Tabs({
         </div>
         <div
           onClick={() => SetNewState(buildState.PREVIEW)}
-          className={`flex-fill fs-4 my-auto border-start px-2 ${GetActiveState(
+          className={`flex-fill fs-4 my-auto border-start px-2 tab ${GetActiveState(
             buildState.PREVIEW
           )}`}
           style={{ fontFamily: "Bebas Neue, sans-serif" }}
