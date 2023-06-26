@@ -8,6 +8,7 @@ import "material-icons/iconfont/material-icons.css";
 import Cart from "./Cart";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../CSS/homepage.css";
+import Cookies from "js-cookie";
 
 function Navbar(props) {
   const [loginText, setLoginText] = useState();
@@ -145,6 +146,12 @@ function Navbar(props) {
               </span>
               {SetCartQtyIcon()}
             </NavLink>
+            <img
+              className="img-fluid w-100 rounded-4"
+              alt="not found"
+              width={"32px"}
+              src={JSON.parse(Cookies.get("loginCookie")).picture}
+            />
           </div>
         </div>
       </div>

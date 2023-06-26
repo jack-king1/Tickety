@@ -286,15 +286,13 @@ function Login() {
   }
 
   const GetUsername = () => {
-    let username;
+    let username = "";
     if (
-      localStorage.getItem("firstname") !== null ||
-      localStorage.getItem("firstname") !== undefined
+      Cookies.get("loginCookie") !== null &&
+      Cookies.get("loginCookie") !== undefined
     ) {
-      username = localStorage.getItem("firstname");
-      if (username != null || username != undefined) {
-        username = capitalizeFirstLetter(username);
-      }
+      console.log(JSON.parse(Cookies.get("loginCookie")));
+      username = JSON.parse(Cookies.get("loginCookie")).given_name;
     }
     return username;
   };
@@ -307,39 +305,6 @@ function Login() {
       </div>
 
       <div className="container lg:w-50 mt-3 maxheight flex my-auto">
-        {GetLoginCookie() === null && (
-          <div
-            className={
-              "d-flex text-center " + (CheckUserExists() ? "" : "d-none")
-            }
-            data-toggle
-          >
-            <button
-              type="button"
-              className={
-                "btn btn-lg btn-block w-50 " +
-                (!loginOption ? "btn-primary" : "btn-outline-primary")
-              }
-              disabled={loginOption}
-              onClick={() => setLoginOption(true)}
-            >
-              Login
-            </button>
-
-            <button
-              type="button"
-              className={
-                "btn btn-lg btn-block w-50 " +
-                (loginOption ? "btn-warning" : "btn-outline-warning")
-              }
-              disabled={!loginOption}
-              onClick={() => setLoginOption(false)}
-            >
-              Register
-            </button>
-          </div>
-        )}
-
         {GetLoginCookie() === null
           ? loginOption
             ? LoginForm()
