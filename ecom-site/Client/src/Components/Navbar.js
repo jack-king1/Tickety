@@ -140,18 +140,22 @@ function Navbar(props) {
             <NavLink className="nav-link me-3" to="/login">
               <span className="material-icons fs-2 text-white">person</span>
             </NavLink>
-            <NavLink className="nav-link position-relative" to="/cart">
+            <NavLink className="nav-link position-relativev me-3" to="/cart">
               <span className="material-icons fs-2 text-white">
                 shopping_bag
               </span>
               {SetCartQtyIcon()}
             </NavLink>
-            <img
-              className="img-fluid w-100 rounded-4"
-              alt="not found"
-              width={"32px"}
-              src={JSON.parse(Cookies.get("loginCookie")).picture}
-            />
+            {Cookies.get("loginCookie") !== null &&
+              Cookies.get("loginCookie") !== undefined && (
+                <img
+                  className=" rounded-2"
+                  alt="not found"
+                  width={"32px"}
+                  height={"32px"}
+                  src={JSON.parse(Cookies.get("loginCookie")).picture}
+                />
+              )}
           </div>
         </div>
       </div>
