@@ -12,6 +12,7 @@ import BuildData from "./BuildData";
 import BuildPreview from "./BuildPreview";
 import SidebarMenu from "./SidebarMenu";
 import { GetTicketBuildList, SubmitTicketData } from "./API";
+import Cookies from "js-cookie";
 // canvas ticket for test size = x: 484px(128mm) y: 189px(50mm)
 
 import { api } from "./API";
@@ -89,7 +90,7 @@ function Build() {
 
   return (
     <div className="">
-      {localStorage.getItem("accountID") && (
+      {Cookies.get("loginCookie") && (
         <SidebarMenu
           buildList={buildList}
           setBuildList={setBuildList}

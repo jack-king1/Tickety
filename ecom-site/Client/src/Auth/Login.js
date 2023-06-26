@@ -35,18 +35,20 @@ function Login() {
   const SubmitUserDetails = async (userObj) => {
     //do date checks here.
     //Check if user a;ready exists
-
-    if (username !== "" && email !== "" && password !== "") {
+    console.log("Checking cookie exists...");
+    if (
+      Cookies.get("loginCookie") !== null ||
+      Cookies.get("loginCookie") !== undefined
+    ) {
       console.log("Ready to submit data.");
       setIsLoading(true);
       await api
         .post("account/createuser", {
-          username: userObj.name,
           firstname: userObj.given_name,
           lastname: userObj.family_name,
-          password: "password",
-          email: email,
+          email: userObj.email,
           profileImgURL: userObj.picture,
+          subID: userObj.sub,
         })
         .then((response) => {
           setIsLoading(false);
