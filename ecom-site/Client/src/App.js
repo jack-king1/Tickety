@@ -15,6 +15,7 @@ import Error from "./Components/Error";
 import Footer from "./Components/Footer";
 import "./CSS/App.css";
 import Build from "./Components/Build";
+import { loadGapiInsideDOM } from "gapi-script";
 
 function App() {
   const [activeCartCount, setActiveCartCount] = useState(0);

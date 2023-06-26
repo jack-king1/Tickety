@@ -6,6 +6,12 @@ import "material-icons/iconfont/material-icons.css";
 import UserProfile from "./UserProfile";
 import "../CSS/App.css";
 import Loading from "../Components/Loading";
+import jwt_decode from "jwt-decode";
+import Cookies from "js-cookie";
+
+import { GoogleLogin, useGoogleLogin, googleLogout } from "@react-oauth/google";
+
+//https://blog.logrocket.com/guide-adding-google-login-react-app/#:~:text=Run%20either%20of%20the%20below%20commands%20to%20install,app%20can%20access%20the%20Google%20Auth%20Provider%20once.
 
 function Login() {
   const api = Axios.create({
@@ -22,20 +28,25 @@ function Login() {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState([]);
+  const [profile, setProfile] = useState([]);
 
   //submit data to server
-  const SubmitUserDetails = async () => {
+  const SubmitUserDetails = async (userObj) => {
     //do date checks here.
+    //Check if user a;ready exists
+
     if (username !== "" && email !== "" && password !== "") {
       console.log("Ready to submit data.");
       setIsLoading(true);
       await api
         .post("account/createuser", {
-          username: username,
-          firstname: firstName,
-          lastname: lastName,
-          password: password,
+          username: userObj.name,
+          firstname: userObj.given_name,
+          lastname: userObj.family_name,
+          password: "password",
           email: email,
+          profileImgURL: userObj.picture,
         })
         .then((response) => {
           setIsLoading(false);
@@ -58,10 +69,7 @@ function Login() {
   };
 
   const Logoutuser = () => {
-    setUsername("");
-    setFirstName("");
-    setLastName("");
-    setEmail("");
+    Cookies.remove("loginCookie");
     localStorage.clear();
     window.location.reload();
   };
@@ -89,10 +97,7 @@ function Login() {
   };
 
   const LoginDemoUser = async () => {
-    let params = new URLSearchParams([
-      ["username", "demo"],
-      ["password", "demo"],
-    ]);
+    let params = new URLSearchParams([["username", "demo"]]);
     setIsLoading(true);
     await api
       .get("account/getuserlogin", {
@@ -119,18 +124,37 @@ function Login() {
     localStorage.setItem("accountID", data.accountID);
   };
 
-  const DemoLogin = () => {
-    return (
-      <div>
-        <div className="display-5">Demo Login</div>
-      </div>
-    );
-  };
-
   //Register User
   //check if username/email already exists on datachange
 
   //Login User
+
+  const SaveToCookie = async (response) => {
+    let decoded = jwt_decode(response.credential);
+    //store as cookie
+    Cookies.set("loginCookie", JSON.stringify(decoded));
+    //save to database.
+    await SubmitUserDetails(decoded);
+    window.location.reload();
+  };
+
+  const GetLoginCookie = () => {
+    const loginCookie = Cookies.get("loginCookie");
+    if (loginCookie) {
+      const myObject = JSON.parse(loginCookie);
+      console.log(myObject); // Output: { foo: 'bar', baz: 'qux' }
+      return loginCookie;
+    }
+    return null;
+  };
+
+  const responseMessage = (response) => {
+    console.log(response);
+    setUser(response);
+  };
+  const errorMessage = (error) => {
+    console.log(error);
+  };
 
   //Form Selection
   const GetFormStyling = () => {};
@@ -159,18 +183,25 @@ function Login() {
         </form>
         <button
           type="button"
-          onClick={() => LoginUser()}
-          className="btn btn-outline-success w-100 mt-3"
-        >
-          Login
-        </button>
-        <button
-          type="button"
           onClick={() => LoginDemoUser()}
           className="btn btn-outline-success w-100 mt-3"
         >
           Demo Login - no need to fill in the form.
         </button>
+        <div className="d-flex justify-content-center mt-2">
+          {GetLoginCookie() !== null ? (
+            <button className="btn btn-danger w-100">Logout</button>
+          ) : (
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                SaveToCookie(credentialResponse);
+              }}
+              onError={() => {
+                console.log("login failed!");
+              }}
+            />
+          )}
+        </div>
       </div>
     );
   };
@@ -244,10 +275,7 @@ function Login() {
 
   const CheckUserExists = () => {
     let loggedIn = false;
-    if (
-      localStorage.getItem("username") !== null ||
-      localStorage.getItem("username")
-    ) {
+    if (Cookies.get("loginCookie") !== null) {
       loggedIn = true;
     }
     return loggedIn;
@@ -279,39 +307,40 @@ function Login() {
       </div>
 
       <div className="container lg:w-50 mt-3 maxheight flex my-auto">
-        <div
-          className={
-            "d-flex text-center " + (CheckUserExists() ? "d-none" : "")
-          }
-          data-toggle
-        >
-          <button
-            type="button"
+        {GetLoginCookie() === null && (
+          <div
             className={
-              "btn btn-lg btn-block w-50 " +
-              (!loginOption ? "btn-primary" : "btn-outline-primary")
+              "d-flex text-center " + (CheckUserExists() ? "" : "d-none")
             }
-            disabled={loginOption}
-            onClick={() => setLoginOption(true)}
+            data-toggle
           >
-            Login
-          </button>
+            <button
+              type="button"
+              className={
+                "btn btn-lg btn-block w-50 " +
+                (!loginOption ? "btn-primary" : "btn-outline-primary")
+              }
+              disabled={loginOption}
+              onClick={() => setLoginOption(true)}
+            >
+              Login
+            </button>
 
-          <button
-            type="button"
-            className={
-              "btn btn-lg btn-block w-50 " +
-              (loginOption ? "btn-warning" : "btn-outline-warning")
-            }
-            disabled={!loginOption}
-            onClick={() => setLoginOption(false)}
-          >
-            Register
-          </button>
-        </div>
+            <button
+              type="button"
+              className={
+                "btn btn-lg btn-block w-50 " +
+                (loginOption ? "btn-warning" : "btn-outline-warning")
+              }
+              disabled={!loginOption}
+              onClick={() => setLoginOption(false)}
+            >
+              Register
+            </button>
+          </div>
+        )}
 
-        {localStorage.getItem("username") === null ||
-        localStorage.getItem("username") === undefined
+        {GetLoginCookie() === null
           ? loginOption
             ? LoginForm()
             : RegisterForm()
