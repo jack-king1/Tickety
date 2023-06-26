@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../CSS/BuildCanvas.css";
 import "material-icons/iconfont/material-icons.css";
+import Cookies from "js-cookie";
 import {
   SubmitTicketData,
   api,
@@ -158,6 +159,8 @@ function SidebarMenu({
       tempBuildItem.buildFontSizeStates
     );
 
+    let logincookie = JSON.parse(Cookies.get("loginCookie"));
+
     await SubmitTicketData(
       null,
       null,
@@ -166,10 +169,10 @@ function SidebarMenu({
       stringyBuildFontStates,
       stringyBuildTextAlignState,
       stringyBuildFontSizeStates,
-      localStorage.getItem("accountID")
+      logincookie.sub
     );
 
-    await GetTicketBuildList(localStorage.getItem("accountID"), setBuildList);
+    await GetTicketBuildList(logincookie.sub, setBuildList);
     incrementCount();
   };
 

@@ -8,9 +8,7 @@ import AddReview from "./AddReview";
 import Notification from "./Notification";
 function ProductPage(props) {
   const api = Axios.create({
-    baseURL:
-      process.env.REACT_APP_SERVER_URL ||
-      "https://ticketyapp-server-new.azurewebsites.net/",
+    baseURL: "https://ticketyapp-server-new.azurewebsites.net/",
   });
   const { productID } = useParams();
   //const { path } = useMatch();

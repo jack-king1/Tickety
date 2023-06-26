@@ -20,9 +20,7 @@ function Admin() {
   let lastRowProductData;
 
   const api = Axios.create({
-    baseURL:
-      process.env.REACT_APP_SERVER_URL ||
-      "https://ticketyapp-server-new.azurewebsites.net/",
+    baseURL: "https://ticketyapp-server-new.azurewebsites.net/",
   });
 
   //do something when upload images variable changes

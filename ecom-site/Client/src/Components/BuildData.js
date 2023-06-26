@@ -23,12 +23,18 @@ function BuildData({
   };
 
   const [initData, setInitData] = useState([]);
+  const [initTitle, setinitTitle] = useState("");
+  const [initDesc, setinitDesc] = useState("");
 
   const handleCellChange = (value, rowIndex, cellIndex) => {
     const updatedData = [...tableData];
     updatedData[rowIndex][cellIndex] = value;
     setInitData(updatedData);
   };
+
+  const handleInitTitleChange = (value) => {};
+
+  const handleInitDescChange = (value) => {};
 
   const SubmitInitData = async () => {
     let tempBuildOption = activeBuildOption;

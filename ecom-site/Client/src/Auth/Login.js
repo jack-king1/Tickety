@@ -163,26 +163,6 @@ function Login() {
   const LoginForm = () => {
     return (
       <div>
-        <form>
-          <div className="form-group">
-            <label>Username</label>
-            <input
-              type="name"
-              className="form-control"
-              placeholder="Enter username"
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              className="form-control"
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-        </form>
         <button
           type="button"
           onClick={() => LoginDemoUser()}

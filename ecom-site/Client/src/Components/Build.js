@@ -51,8 +51,13 @@ function Build() {
   }
 
   const fetchData = async () => {
-    let id = await localStorage.getItem("accountID");
-    const response = await GetTicketBuildList(id, setBuildList);
+    if (
+      Cookies.get("loginCookie") !== null &&
+      Cookies.get("loginCookie") !== undefined
+    ) {
+      let id = await JSON.parse(Cookies.get("loginCookie")).sub;
+      const response = await GetTicketBuildList(id, setBuildList);
+    }
   };
 
   useEffect(() => {

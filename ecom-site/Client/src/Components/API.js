@@ -2,13 +2,11 @@ import axios from "axios";
 import { Buffer } from "buffer";
 
 export const api = axios.create({
-  baseURL:
-    process.env.REACT_APP_SERVER_URL ||
-    "https://ticketyapp-server-new.azurewebsites.net/",
+  baseURL: "https://ticketyapp-server-new.azurewebsites.net/",
 });
 
-export const GetTicketBuildList = async (accountID, setBuildList) => {
-  let params = new URLSearchParams([["accountID", accountID]]);
+export const GetTicketBuildList = async (subID, setBuildList) => {
+  let params = new URLSearchParams([["subID", subID]]);
   await api.get("build/getpreviewdatalist", { params }).then((response) => {
     setBuildList(response.data);
     return response;
@@ -23,7 +21,7 @@ export const SubmitTicketData = async (
   buildFontStates,
   buildTextAlignStates,
   buildFontSizeStates,
-  accountID
+  subID
 ) => {
   //do date checks here.
   await api
@@ -35,7 +33,7 @@ export const SubmitTicketData = async (
       buildFontStates: buildFontStates,
       buildTextAlignStates: buildTextAlignStates,
       buildFontSizeStates: buildFontSizeStates,
-      accountID: accountID,
+      subID: subID,
     })
     .then((response) => {
       console.log("Register Success!", response);
