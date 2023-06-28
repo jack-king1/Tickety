@@ -57,6 +57,12 @@ function Build() {
     ) {
       let id = await JSON.parse(Cookies.get("loginCookie")).sub;
       const response = await GetTicketBuildList(id, setBuildList);
+    } else if (
+      localStorage.getItem("demoUser") !== null &&
+      localStorage.getItem("demoUser") !== undefined
+    ) {
+      let id = JSON.parse(localStorage.getItem("demoUser")).sub;
+      const response = await GetTicketBuildList(id, setBuildList);
     }
   };
 
@@ -93,9 +99,22 @@ function Build() {
     PREVIEW: 2,
   };
 
+  const isLoggedIn = () => {
+    const loginCookie = Cookies.get("loginCookie");
+    if (loginCookie !== null && loginCookie !== undefined) {
+      return true;
+    } else if (
+      localStorage.getItem("demoUser") !== null &&
+      localStorage.getItem("demoUser") !== undefined
+    ) {
+      return true;
+    }
+    return false;
+  };
+
   return (
     <div className="">
-      {Cookies.get("loginCookie") && (
+      {isLoggedIn && (
         <SidebarMenu
           buildList={buildList}
           setBuildList={setBuildList}

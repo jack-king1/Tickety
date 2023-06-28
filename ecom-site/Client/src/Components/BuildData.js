@@ -4,6 +4,7 @@ import "../CSS/Tabs.css";
 import "../CSS/BuildCanvas.css";
 import { SubmitTicketData, api, UpdateTicketData } from "./API";
 import "material-icons/iconfont/material-icons.css";
+import Cookies from "js-cookie";
 
 function BuildData({
   tableData,
@@ -100,12 +101,14 @@ function BuildData({
   };
 
   const NotifyLogin = () => {
-    return localStorage.getItem("accountID") ? (
+    let isLoggedIn =
+      Cookies.get("loginCookie") || localStorage.getItem("demoUser");
+    return isLoggedIn ? (
       <div className="display-4 text-center h-100 d-flex my-auto mx-auto d-flex">
         <span className="material-icons text-black my-auto arrowleft mr-2">
           arrow_back
         </span>
-        Select or Create a new ticket build from the menu.
+        Add+ or Open a ticket build from the menu.
       </div>
     ) : (
       <div className="display-4 text-center h-100 d-flex flex-column my-auto mx-auto">

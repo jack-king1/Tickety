@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import { Buffer } from "buffer";
+import Cookies from "js-cookie";
 
 function AddReview(props) {
   const [reviewRating, setReviewRating] = useState(5);
@@ -14,49 +15,48 @@ function AddReview(props) {
   const [username, setUsername] = useState("");
 
   const api = Axios.create({
-    baseURL: process.env.REACT_APP_SERVER_URL,
+    baseURL: "https://ticketyapp-server-new.azurewebsites.net/",
   });
 
   useEffect(() => {
     GetReviewStars(5);
     //check if user is logged in
-    setLoggedIn(CheckUserExists());
+    CheckUserExists();
     setProductID(props.productID);
-    let tempID = localStorage.getItem("accountID");
-    setAccountID(tempID);
-    let tempUsername = localStorage.getItem("username");
-    setUsername(tempUsername);
   }, []);
 
   //submit data to server
   const SubmitUserReview = () => {
     //check if user has already submitted a review before submitting.
-    if (accountID !== "") {
+    let currentUser = JSON.parse(Cookies.get("loginCookie"));
+    if (loggedIn) {
       console.log("Ready to submit data.");
       api
-        .post("createreview", {
+        .post("reviews/createreview", {
           reviewText: reviewText,
-          accountID: accountID,
+          subID: currentUser.sub,
           productID: productID,
           anonymous: anonymousReview,
           reviewRating: reviewRating,
-          username: username,
+          username: currentUser.name,
         })
         .then((response) => {
           console.log("Register Success!", response);
+          window.location.reload();
         });
     }
   };
 
-  const CheckUserExists = () => {
-    let loggedIn = false;
+  const CheckUserExists = async () => {
     if (
-      localStorage.getItem("username") !== null ||
-      localStorage.getItem("username")
+      Cookies.get("loginCookie") !== null &&
+      Cookies.get("loginCookie") !== undefined
     ) {
-      loggedIn = true;
+      console.log("USER IS LOGGED IN!");
+      setLoggedIn(true);
+      return;
     }
-    return loggedIn;
+    setLoggedIn(false);
   };
 
   const GetReviewStars = (rating) => {

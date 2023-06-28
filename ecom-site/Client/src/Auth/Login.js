@@ -8,16 +8,14 @@ import "../CSS/App.css";
 import Loading from "../Components/Loading";
 import jwt_decode from "jwt-decode";
 import Cookies from "js-cookie";
-
+import "../CSS/homepage.css";
 import { GoogleLogin, useGoogleLogin, googleLogout } from "@react-oauth/google";
 
 //https://blog.logrocket.com/guide-adding-google-login-react-app/#:~:text=Run%20either%20of%20the%20below%20commands%20to%20install,app%20can%20access%20the%20Google%20Auth%20Provider%20once.
 
 function Login() {
   const api = Axios.create({
-    baseURL:
-      process.env.REACT_APP_SERVER_URL ||
-      "https://ticketyapp-server-new.azurewebsites.net/",
+    baseURL: "https://ticketyapp-server-new.azurewebsites.net/",
   });
   const [loginOption, setLoginOption] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -57,11 +55,28 @@ function Login() {
     }
   };
 
+  const GetLoginName = () => {
+    if (
+      Cookies.get("loginCookie") !== null &&
+      Cookies.get("loginCookie") !== undefined
+    ) {
+      return JSON.parse(Cookies.get("loginCookie")).given_name;
+    } else if (
+      localStorage.getItem("demoUser") !== null &&
+      localStorage.getItem("demoUser") !== undefined
+    ) {
+      return JSON.parse(localStorage.getItem("demoUser")).firstname;
+    }
+  };
+
   const LogoutForm = () => {
     return (
-      <div className="h-100">
+      <div className="d-flex mx-auto flex-column rounded-4 px-4 pb-3 divshadow">
+        <div className="text-white display-6 text-center">
+          Welcome {GetLoginName()}
+        </div>
         <button
-          className="btn btn-danger btn-large w-100 p-4 btn-block border-0 align-bottom"
+          className="btn btn-danger btn btn-block border-0 align-bottom"
           onClick={() => Logoutuser()}
         >
           Logout
@@ -76,38 +91,16 @@ function Login() {
     window.location.reload();
   };
 
-  const LoginUser = async () => {
-    let params = new URLSearchParams([
-      ["username", username],
-      ["password", password],
-    ]);
-    setIsLoading(true);
-    await api
-      .get("account/getuserlogin", {
-        params,
-      })
-      .then((response) => {
-        if (response.data.length > 0) {
-          console.log("User login attempt: ", response.data);
-          SetSessionData(response.data[0]);
-          window.location.reload();
-        } else {
-          console.log("login failed.");
-        }
-        setIsLoading(false);
-      });
-  };
-
   const LoginDemoUser = async () => {
-    let params = new URLSearchParams([["username", "demo"]]);
+    let params = new URLSearchParams([["subID", 999]]);
     setIsLoading(true);
     await api
-      .get("account/getuserlogin", {
+      .get("account/getdemologin", {
         params,
       })
       .then((response) => {
         if (response.data.length > 0) {
-          console.log("User login attempt: ", response.data);
+          console.log("User login attempt: ", response.data[0]);
           SetSessionData(response.data[0]);
           window.location.reload();
         } else {
@@ -118,12 +111,18 @@ function Login() {
   };
 
   const SetSessionData = (data) => {
-    console.log("Session Data: ", data);
-    localStorage.setItem("username", data.username);
-    localStorage.setItem("firstname", data.firstname);
-    localStorage.setItem("lastname", data.lastname);
-    localStorage.setItem("email", data.email);
-    localStorage.setItem("accountID", data.accountID);
+    let demoUser = {
+      email: data.email,
+      accountID: data.accountID,
+      profileImgURL: data.profileImgURL,
+      sub: data.subID,
+      firstname: data.firstname,
+      lastname: data.lastname,
+    };
+    console.log("demoUser: ", demoUser);
+
+    localStorage.setItem("demoUser", JSON.stringify(demoUser));
+    // console.log("email: ", JSON.parse(localStorage.getItem("demoUser")).email);
   };
 
   //Register User
@@ -140,14 +139,19 @@ function Login() {
     window.location.reload();
   };
 
-  const GetLoginCookie = () => {
+  const isLoggedIn = () => {
     const loginCookie = Cookies.get("loginCookie");
-    if (loginCookie) {
-      const myObject = JSON.parse(loginCookie);
-      console.log(myObject); // Output: { foo: 'bar', baz: 'qux' }
-      return loginCookie;
+    if (loginCookie !== null && loginCookie !== undefined) {
+      console.log("I AM LOGGED IN WITH GOOGLE");
+      return true;
+    } else if (
+      localStorage.getItem("demoUser") !== null &&
+      localStorage.getItem("demoUser") !== undefined
+    ) {
+      console.log("I AM LOGGED IN WITH DEMO USER");
+      return true;
     }
-    return null;
+    return false;
   };
 
   const responseMessage = (response) => {
@@ -160,29 +164,27 @@ function Login() {
 
   //Form Selection
   const GetFormStyling = () => {};
+
   const LoginForm = () => {
     return (
-      <div>
+      <div className="d-flex mx-auto flex-column bg-white rounded-4 my-auto px-4 pb-3 divshadow">
+        <div className="w-100 text-black text-center display-5 py-3">Login</div>
         <button
           type="button"
           onClick={() => LoginDemoUser()}
-          className="btn btn-outline-success w-100 mt-3"
+          className="btn btn-primary w-100 "
         >
-          Demo Login - no need to fill in the form.
+          Demo Login
         </button>
         <div className="d-flex justify-content-center mt-2">
-          {GetLoginCookie() !== null ? (
-            <button className="btn btn-danger w-100">Logout</button>
-          ) : (
-            <GoogleLogin
-              onSuccess={(credentialResponse) => {
-                SaveToCookie(credentialResponse);
-              }}
-              onError={() => {
-                console.log("login failed!");
-              }}
-            />
-          )}
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              SaveToCookie(credentialResponse);
+            }}
+            onError={() => {
+              console.log("login failed!");
+            }}
+          />
         </div>
       </div>
     );
@@ -280,18 +282,11 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className="border border-primary background-review">
       {isLoading && <Loading />}
-      <div className="text-center">
-        <div className="display-2">Welcome {GetUsername()}</div>
-      </div>
 
-      <div className="container lg:w-50 mt-3 maxheight flex my-auto">
-        {GetLoginCookie() === null
-          ? loginOption
-            ? LoginForm()
-            : RegisterForm()
-          : LogoutForm()}
+      <div className="container lg:w-50 mt-3 maxheight flex my-auto ">
+        {isLoggedIn() == false ? LoginForm() : LogoutForm()}
       </div>
     </div>
   );

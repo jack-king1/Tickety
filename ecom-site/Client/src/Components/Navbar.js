@@ -23,20 +23,27 @@ function Navbar(props) {
   }, props.cartCount);
 
   const LoadData = () => {
-    console.log("props", props);
-    setLoginText(localStorage.getItem("username"));
+    if (
+      Cookies.get("loginCookie") !== null &&
+      Cookies.get("loginCookie") !== undefined
+    ) {
+      setLoginText(JSON.parse(Cookies.get("loginCookie")).given_name);
+    } else if (localStorage.getItem("demoUser")) {
+      setLoginText(localStorage.getItem("demoUser").firstName);
+    }
+
     SetMenuLoginText();
   };
 
   const SetMenuLoginText = () => {
-    console.log("Login Text: ", loginText);
     if (
-      localStorage.getItem("username") == null ||
-      localStorage.getItem("username") == undefined
+      (Cookies.get("loginCookie") !== null &&
+        Cookies.get("loginCookie") !== undefined) ||
+      localStorage.getItem("demoUser")
     ) {
-      setLoginText("Login");
-    } else {
       setLoginText("Logout");
+    } else {
+      setLoginText("Login");
     }
   };
 
@@ -47,6 +54,21 @@ function Navbar(props) {
         {value}
       </div>
     );
+  };
+
+  const GetProfileImg = () => {
+    const loginCookie = Cookies.get("loginCookie");
+    if (loginCookie !== null && loginCookie !== undefined) {
+      let googleUser = JSON.parse(Cookies.get("loginCookie"));
+      return googleUser.picture;
+    } else if (
+      localStorage.getItem("demoUser") !== null &&
+      localStorage.getItem("demoUser") !== undefined
+    ) {
+      let demoUser = JSON.parse(localStorage.getItem("demoUser"));
+
+      return demoUser.profileImgURL;
+    }
   };
 
   return (
@@ -138,7 +160,20 @@ function Navbar(props) {
               <span className="material-icons fs-2 text-white ">search</span>
             </NavLink> */}
             <NavLink className="nav-link me-3" to="/login">
-              <span className="material-icons fs-2 text-white">person</span>
+              {(Cookies.get("loginCookie") !== null &&
+                Cookies.get("loginCookie") !== undefined) ||
+              (localStorage.getItem("demoUser") !== null &&
+                localStorage.getItem("demoUser") !== undefined) ? (
+                <img
+                  className=" rounded-2"
+                  alt="not found"
+                  width={"32px"}
+                  height={"32px"}
+                  src={GetProfileImg()}
+                />
+              ) : (
+                <span className="material-icons fs-2 text-white">person</span>
+              )}
             </NavLink>
             <NavLink className="nav-link position-relativev me-3" to="/cart">
               <span className="material-icons fs-2 text-white">
@@ -146,16 +181,6 @@ function Navbar(props) {
               </span>
               {SetCartQtyIcon()}
             </NavLink>
-            {Cookies.get("loginCookie") !== null &&
-              Cookies.get("loginCookie") !== undefined && (
-                <img
-                  className=" rounded-2"
-                  alt="not found"
-                  width={"32px"}
-                  height={"32px"}
-                  src={JSON.parse(Cookies.get("loginCookie")).picture}
-                />
-              )}
           </div>
         </div>
       </div>

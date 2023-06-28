@@ -158,9 +158,18 @@ function SidebarMenu({
     let stringyBuildFontSizeStates = JSON.stringify(
       tempBuildItem.buildFontSizeStates
     );
-
-    let logincookie = JSON.parse(Cookies.get("loginCookie"));
-
+    let logincookie;
+    if (
+      Cookies.get("loginCookie") !== null &&
+      Cookies.get("loginCookie") !== undefined
+    ) {
+      logincookie = JSON.parse(Cookies.get("loginCookie"));
+    } else if (
+      localStorage.getItem("demoUser") !== null &&
+      localStorage.getItem("demoUser") !== undefined
+    ) {
+      logincookie = JSON.parse(localStorage.getItem("demoUser"));
+    }
     await SubmitTicketData(
       null,
       null,

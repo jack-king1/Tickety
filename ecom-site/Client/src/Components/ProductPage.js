@@ -6,6 +6,8 @@ import "material-icons/iconfont/material-icons.css";
 import "../CSS/App.css";
 import AddReview from "./AddReview";
 import Notification from "./Notification";
+import Cookies from "js-cookie";
+
 function ProductPage(props) {
   const api = Axios.create({
     baseURL: "https://ticketyapp-server-new.azurewebsites.net/",
@@ -24,15 +26,20 @@ function ProductPage(props) {
   const [productReviewAverageRating, setProductReviewAverageRating] =
     useState(0);
   const [completedProductReview, setCompletedProductReview] = useState(false);
-  const [accountID, setAccountID] = useState(-1);
+  const [subID, setSubID] = useState(-1);
   const [notificationOpacity, setNotificationOpacity] = useState(0);
 
   useEffect(() => {
     if (!initProduct) {
       SetupProductPage();
       setInitProduct(true);
-      let tempID = localStorage.getItem("accountID");
-      setAccountID(tempID);
+      if (
+        Cookies.get("loginCookie") !== null &&
+        Cookies.get("loginCookie") !== undefined
+      ) {
+        let tempID = JSON.parse(Cookies.get("loginCookie")).sub;
+        setSubID(tempID);
+      }
     }
   }, []);
 
@@ -58,7 +65,7 @@ function ProductPage(props) {
 
   useEffect(() => {
     for (let i = 0; i < productReviews.length; i++) {
-      if (productReviews[i].accountID == accountID) {
+      if (productReviews[i].subID == subID) {
         console.log("Has Already Reviewed!");
         setCompletedProductReview(true);
         break;
@@ -278,7 +285,7 @@ function ProductPage(props) {
   };
 
   const CheckReviewComplete = (reviewAccountID) => {
-    if (reviewAccountID == accountID) {
+    if (reviewAccountID == subID) {
       setCompletedProductReview(true);
     }
   };
