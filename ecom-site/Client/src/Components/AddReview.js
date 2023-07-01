@@ -28,22 +28,55 @@ function AddReview(props) {
   //submit data to server
   const SubmitUserReview = () => {
     //check if user has already submitted a review before submitting.
-    let currentUser = JSON.parse(Cookies.get("loginCookie"));
-    if (loggedIn) {
-      console.log("Ready to submit data.");
-      api
-        .post("reviews/createreview", {
-          reviewText: reviewText,
-          subID: currentUser.sub,
-          productID: productID,
-          anonymous: anonymousReview,
-          reviewRating: reviewRating,
-          username: currentUser.name,
-        })
-        .then((response) => {
-          console.log("Register Success!", response);
-          window.location.reload();
-        });
+    let currentUser;
+    let demoLogin = false;
+
+    if (
+      Cookies.get("loginCookie") !== null &&
+      Cookies.get("loginCookie") !== undefined
+    ) {
+      currentUser = JSON.parse(Cookies.get("loginCookie"));
+    } else if (
+      localStorage.getItem("demoUser") !== null &&
+      localStorage.getItem("demoUser") !== undefined
+    ) {
+      currentUser = localStorage.getItem("demoUser");
+      demoLogin = true;
+    }
+    if (!demoLogin) {
+      if (loggedIn) {
+        console.log("Ready to submit data.");
+        api
+          .post("reviews/createreview", {
+            reviewText: reviewText,
+            subID: currentUser.sub,
+            productID: productID,
+            anonymous: anonymousReview,
+            reviewRating: reviewRating,
+            username: currentUser.name,
+          })
+          .then((response) => {
+            console.log("Register Success!", response);
+            // window.location.reload();
+          });
+      }
+    } else {
+      if (loggedIn) {
+        console.log("Ready to submit data.", reviewText);
+        api
+          .post("reviews/createreview", {
+            reviewText: reviewText,
+            subID: currentUser.sub,
+            productID: productID,
+            anonymous: anonymousReview,
+            reviewRating: reviewRating,
+            username: currentUser.firstname + " " + currentUser.lastname,
+          })
+          .then((response) => {
+            console.log("Register Success!", response);
+            //window.location.reload();
+          });
+      }
     }
   };
 
@@ -53,6 +86,9 @@ function AddReview(props) {
       Cookies.get("loginCookie") !== undefined
     ) {
       console.log("USER IS LOGGED IN!");
+      setLoggedIn(true);
+      return;
+    } else if (localStorage.getItem("demoUser")) {
       setLoggedIn(true);
       return;
     }

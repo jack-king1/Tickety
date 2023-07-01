@@ -30,9 +30,14 @@ function Products(props) {
   useEffect(() => {
     if (!initProducts) {
       if (localStorage.getItem("allProductsData")) {
-        setProductObjectData(
-          JSON.parse(localStorage.getItem("allProductsData"))
-        );
+        if (JSON.parse(localStorage.getItem("allProductsData")).length <= 0) {
+          //errror has occured, reload from server,
+          GetProductsList();
+        } else {
+          setProductObjectData(
+            JSON.parse(localStorage.getItem("allProductsData"))
+          );
+        }
       } else {
         GetProductsList();
       }

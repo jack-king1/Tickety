@@ -134,14 +134,14 @@ function BuildData({
               <div className="w-100">Name: </div>
               <input
                 className="w-100"
-                onChange={(e) => handleCellChange(e.target.value, 0, 0)}
+                onChange={(e) => HandleTitleChange(e.target.value)}
                 placeholder="Group Name"
               ></input>
             </div>
             <div className="mt-2 w-100">
               <div className="w-100 text-left">Description: </div>
               <input
-                onChange={(e) => handleCellChange(e.target.value, 1, 0)}
+                onChange={(e) => HandleDescriptionChange(e.target.value)}
                 placeholder="A description goes here..."
                 className="w-100"
               ></input>

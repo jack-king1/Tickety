@@ -114,7 +114,7 @@ function Build() {
 
   return (
     <div className="">
-      {isLoggedIn && (
+      {isLoggedIn() && (
         <SidebarMenu
           buildList={buildList}
           setBuildList={setBuildList}
