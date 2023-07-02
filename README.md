@@ -1,7 +1,8 @@
 # Tickety
 ## What is Tickety?
 Tickety is an ECommerce website that sells business customers a solution to displaying products. For example a 
-bakery display. 
+bakery display.
+![Product Page](https://raw.githubusercontent.com/jack-king1/react-ecommerce-site/main/githubimages/products.jpg?token=GHSAT0AAAAAACCVDWP3HPIWHZHIIACEW5U4ZFBN6JQ)
 
 ## How To Access Tickety?
 Just visit the live URL: [Tickety (CTRL/CMD + Click for new window)](https://ticketyapp-client.azurewebsites.net)
@@ -17,7 +18,7 @@ Just visit the live URL: [Tickety (CTRL/CMD + Click for new window)](https://tic
 8. Google OAuth
 9. NPM
 
-The server has a seperate github repo:  [Tickety Server Github Repo (CTRL/CMD + Click for new window)](https://github.com/jack-king1/ticketyserver)
+The server API has a seperate github repo:  [Tickety Server Github Repo (CTRL/CMD + Click for new window)](https://github.com/jack-king1/ticketyserver)
 
 Current Features:
 1. Google login / Account Creation
@@ -27,3 +28,5 @@ Current Features:
 
 ## Planned Features
 1. The ability for customers to design, print and have custom tickets delivred right to the doorstep and save them printing themselves.
+
+![Build Design Page](https://raw.githubusercontent.com/jack-king1/react-ecommerce-site/main/githubimages/build.jpg?token=GHSAT0AAAAAACCVDWP356OAU3BXYDZOIT5KZFBN5UA)
