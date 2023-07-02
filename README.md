@@ -17,7 +17,7 @@ Just visit the live URL: [Tickety (CTRL/CMD + Click for new window)](https://tic
 8. Google OAuth
 9. NPM
 
-The server has a seperate github repo:  [Tickety Server Github Repo (CTRL/CMD + Click for new window)](https://github.com/jack-king1/ticketyserver
+The server has a seperate github repo:  [Tickety Server Github Repo (CTRL/CMD + Click for new window)](https://github.com/jack-king1/ticketyserver)
 
 Current Features:
 1. Google login / Account Creation
