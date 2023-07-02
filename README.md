@@ -4,7 +4,7 @@ Tickety is an ECommerce website that sells business customers a solution to disp
 bakery display. 
 
 ## How To Access Tickety?
-Just visit the live URL: [Open In New Window](https://ticketyapp-client.azurewebsites.net)
+Just visit the live URL: [Tickety (CTRL + Click for new window)](https://ticketyapp-client.azurewebsites.net)
 
 ## Technologies
 1. React
@@ -14,7 +14,7 @@ Just visit the live URL: [Open In New Window](https://ticketyapp-client.azureweb
 5. Express
 6. AWS
 
-The server has a seperate github repo: https://github.com/jack-king1/ticketyserver
+The server has a seperate github repo:  [Tickety Server Github Repo (CTRL + Click for new window)](https://github.com/jack-king1/ticketyserver)
 
 ## Planned Features
 1. The ability for customers to design, print and have custom tickets delivred right to the doorstep and save them printing themselves.
