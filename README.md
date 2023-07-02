@@ -15,6 +15,7 @@ Just visit the live URL: [Tickety (CTRL/CMD + Click for new window)](https://tic
 6. AWS
 7. Stripe API
 8. Google OAuth
+9. NPM
 
 The server has a seperate github repo:  [Tickety Server Github Repo (CTRL/CMD + Click for new window)](https://github.com/jack-king1/ticketyserver
 
