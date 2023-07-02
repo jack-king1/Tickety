@@ -20,7 +20,7 @@ function Home() {
               To Your
               <span className="underline-text"> Business Display Needs!</span>
               <div>
-                <button className="btn btn-large btn-warning">More Info</button>
+                {/* <button className="btn btn-large btn-warning">More Info</button> */}
               </div>
             </div>
 
