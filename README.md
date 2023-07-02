@@ -12,6 +12,9 @@ Just visit the live URL: https://ticketyapp.netlify.app/
 3. NodeJS
 4. mySQL
 5. Express
+6. AWS
 
-## Upcoming Features
+The server has a seperate github repo: https://github.com/jack-king1/ticketyserver
+
+## Planned Features
 1. The ability for customers to design, print and have custom tickets delivred right to the doorstep and save them printing themselves.
