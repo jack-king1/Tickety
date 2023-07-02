@@ -13,10 +13,11 @@ Just visit the live URL: [Tickety (CTRL/CMD + Click for new window)](https://tic
 3. NodeJS
 4. mySQL
 5. Express
-6. AWS
-7. Stripe API
-8. Google OAuth
-9. NPM
+6. Azure Mysql
+7. Azure Web Services
+8. Stripe API
+9. Google OAuth
+10. NPM
 
 The server API has a seperate github repo:  [Tickety Server Github Repo (CTRL/CMD + Click for new window)](https://github.com/jack-king1/ticketyserver)
 
