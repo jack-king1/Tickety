@@ -1,7 +1,8 @@
 # Tickety
 ## What is Tickety?
 Tickety is an ECommerce website that sells business customers a solution to displaying products. For example a 
-bakery display. 
+bakery display.
+![alt text](https://raw.githubusercontent.com/jack-king1/react-ecommerce-site/main/githubimages/products.jpg?token=GHSAT0AAAAAACCVDWP3HPIWHZHIIACEW5U4ZFBN6JQ)
 
 ## How To Access Tickety?
 Just visit the live URL: [Tickety (CTRL/CMD + Click for new window)](https://ticketyapp-client.azurewebsites.net)
