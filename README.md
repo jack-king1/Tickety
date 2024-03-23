@@ -5,7 +5,7 @@ bakery display.
 ![Product Page](https://github.com/jack-king1/react-ecommerce-site/blob/main/githubimages/products.jpg)
 
 ## How To Access Tickety?
-Just visit the live URL: [Tickety (CTRL/CMD + Click for new window)](https://ticketyapp-client.azurewebsites.net)
+Just visit the live URL: Website Currently Down - API is out of date.
 
 ## Technologies
 1. React
